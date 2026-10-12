@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#12352b">
+    <meta name="description" content="مملكة العقار المباشر DZ، منصة جزائرية للبحث عن العقارات والتواصل المباشر مع أصحابها.">
+
+    <title>مملكة العقار المباشر DZ | ابحث عن عقارك</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- رأس الموقع -->
+    <header class="site-header">
+        <div class="container header-content">
+
+            <a href="index.html" class="brand" aria-label="الصفحة الرئيسية">
+                <span class="brand-icon">⌂</span>
+
+                <span class="brand-text">
+                    <strong>مملكة العقار</strong>
+                    <small>المباشر DZ</small>
+                </span>
+            </a>
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                type="button"
+                aria-label="فتح القائمة"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+            <nav class="main-nav" id="mainNav">
+                <a href="#home">الرئيسية</a>
+                <a href="#categories">تصنيفات العقارات</a>
+                <a href="#latest">أحدث الإعلانات</a>
+                <a href="#how-it-works">كيف يعمل الموقع؟</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="login.html" class="login-link">تسجيل الدخول</a>
+                <a href="register.html" class="btn btn-primary">
+                    أضف عقارك
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- الواجهة الرئيسية -->
+        <section class="hero" id="home">
+            <div class="container hero-content">
+
+                <span class="hero-badge">
+                    منصتك العقارية في الجزائر
+                </span>
+
+                <h1>
+                    عقارك القادم<br>
+                    <span>يبدأ من هنا</span>
+                </h1>
+
+                <p class="hero-description">
+                    ابحث عن عقار للبيع أو الكراء، واكتشف الخيارات
+                    المتاحة في ولايات الجزائر، مع تسهيل التواصل
+                    المباشر مع أصحاب العقارات.
+                </p>
+
+                <!-- نموذج البحث -->
+                <form class="search-box" id="searchForm">
+
+                    <div class="search-field">
+                        <label for="operation">نوع العملية</label>
+
+                        <select id="operation" name="operation">
+                            <option value="">بيع أو كراء</option>
+                            <option value="sale">للبيع</option>
+                            <option value="rent">للكراء</option>
+                        </select>
+                    </div>
+
+                    <div class="search-field">
+                        <label for="propertyType">نوع العقار</label>
+
+                        <select id="propertyType" name="propertyType">
+                            <option value="">جميع العقارات</option>
+                            <option value="apartment">شقة</option>
+                            <option value="house">منزل</option>
+                            <option value="building_land">أرض للبناء</option>
+                            <option value="agricultural_land">أرض فلاحية</option>
+                            <option value="commercial">عقار تجاري</option>
+                        </select>
+                    </div>
+
+                    <div class="search-field">
+                        <label for="wilaya">الولاية</label>
+
+                        <select id="wilaya" name="wilaya">
+                            <option value="">جميع الولايات</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-search">
+                        ابحث عن عقار
+                    </button>
+
+                </form>
+
+                <div class="hero-notes">
+                    <span>✓ تصفح الإعلانات مجانًا</span>
+                    <span>✓ تفاصيل واضحة</span>
+                    <span>✓ تواصل مباشر</span>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- تصنيفات العقارات -->
+        <section class="section categories-section" id="categories">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">اكتشف خياراتك</span>
+                        <h2>ابحث حسب نوع العقار</h2>
+                        <p>
+                            اختر التصنيف المناسب لتبدأ البحث عن عقارك.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="categories-grid">
+
+                    <a href="#latest"
+                       class="category-card"
+                       data-category="apartment"
+                       data-operation="sale">
+
+                        <span class="category-icon">🏢</span>
+                        <h3>شقق للبيع</h3>
+                        <p>اكتشف الشقق المعروضة للبيع.</p>
+                        <span class="category-arrow">←</span>
+                    </a>
+
+                    <a href="#latest"
+                       class="category-card"
+                       data-category="apartment"
+                       data-operation="rent">
+
+                        <span class="category-icon">🏠</span>
+                        <h3>شقق للكراء</h3>
+                        <p>ابحث عن سكن يناسب احتياجاتك.</p>
+                        <span class="category-arrow">←</span>
+                    </a>
+
+                    <a href="#latest"
+                       class="category-card"
+                       data-category="house">
+
+                        <span class="category-icon">🏡</span>
+                        <h3>منازل وفلل</h3>
+                        <p>منازل وفلل للبيع أو الكراء.</p>
+                        <span class="category-arrow">←</span>
+                    </a>
+
+                    <a href="#latest"
+                       class="category-card"
+                       data-category="building_land">
+
+                        <span class="category-icon">📐</span>
+                        <h3>أراضي للبناء</h3>
+                        <p>ابحث عن قطعة الأرض المناسبة.</p>
+                        <span class="category-arrow">←</span>
+                    </a>
+
+                    <a href="#latest"
+                       class="category-card"
+                       data-category="agricultural_land">
+
+                        <span class="category-icon">🌱</span>
+                        <h3>أراضٍ فلاحية</h3>
+                        <p>خيارات للأراضي ذات الاستخدام الفلاحي.</p>
+                        <span class="category-arrow">←</span>
+                    </a>
+
+                    <a href="#latest"
+                       class="category-card"
+                       data-category="commercial">
+
+                        <span class="category-icon">🏬</span>
+                        <h3>عقارات تجارية</h3>
+                        <p>محلات ومكاتب ومستودعات.</p>
+                        <span class="category-arrow">←</span>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- أحدث الإعلانات -->
+        <section class="section latest-section" id="latest">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">فرص عقارية</span>
+                        <h2>أحدث العقارات</h2>
+                        <p>
+                            اكتشف الإعلانات المنشورة على المنصة.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="properties-grid" id="propertiesGrid">
+
+                    <div class="empty-state">
+                        <span class="empty-icon">🏘️</span>
+
+                        <h3>قريبًا ستجد عقارات هنا</h3>
+
+                        <p>
+                            نعمل على تجهيز المنصة لاستقبال الإعلانات
+                            العقارية وعرضها بطريقة منظمة.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- كيف يعمل الموقع -->
+        <section class="section how-section" id="how-it-works">
+            <div class="container">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">خطوات بسيطة</span>
+                        <h2>كيف تعمل المنصة؟</h2>
+                        <p>
+                            تجربة واضحة للبائع والباحث عن عقار.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="steps-grid">
+
+                    <article class="step-card">
+                        <span class="step-number">01</span>
+                        <h3>ابحث عن عقارك</h3>
+                        <p>
+                            اختر نوع العقار والولاية والسعر المناسب
+                            عندما تصبح خيارات البحث متاحة بالكامل.
+                        </p>
+                    </article>
+
+                    <article class="step-card">
+                        <span class="step-number">02</span>
+                        <h3>اطّلع على التفاصيل</h3>
+                        <p>
+                            شاهد الصور والمعلومات الأساسية للعقار
+                            قبل اتخاذ قرار التواصل.
+                        </p>
+                    </article>
+
+                    <article class="step-card">
+                        <span class="step-number">03</span>
+                        <h3>تواصل مباشرة</h3>
+                        <p>
+                            عند اكتمال نظام الدفع، يمكنك طلب إظهار
+                            رقم الهاتف وفق الشروط والأسعار المعلنة.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- دعوة أصحاب العقارات -->
+        <section class="owner-section">
+            <div class="container owner-content">
+
+                <div>
+                    <span class="section-kicker">هل تملك عقارًا؟</span>
+
+                    <h2>اعرض عقارك على مملكتك العقارية</h2>
+
+                    <p>
+                        أنشئ حسابًا، وأضف تفاصيل عقارك وصوره،
+                        وتابع إعلانك من مكان واحد.
+                    </p>
+                </div>
+
+                <a href="register.html" class="btn btn-light">
+                    ابدأ بإضافة عقارك
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- تذييل الموقع -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+
+            <a href="index.html" class="footer-brand">
+                مملكة العقار المباشر DZ
+            </a>
+
+            <p>
+                منصة عقارية قيد التطوير لخدمة الباحثين عن العقارات
+                وأصحابها في الجزائر.
+            </p>
+
+            <div class="footer-links">
+                <a href="#home">الرئيسية</a>
+                <a href="#categories">التصنيفات</a>
+                <a href="#how-it-works">كيف يعمل الموقع؟</a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear">2026</span>
+                    مملكة العقار المباشر DZ
+                </p>
+
+                <p>جميع الحقوق محفوظة.</p>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+  </html>
