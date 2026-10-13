@@ -13,23 +13,16 @@
     <script src="script.js?v=4" defer></script>
 
     <style>
-        /* =========================================
-           الهوية البصرية
-        ========================================= */
-
         :root {
             --home-blue: #087fa3;
             --home-blue-dark: #07566f;
             --home-gold: #d4ad57;
-
             --home-sky: #eaf7fc;
             --home-light: #f2f9fc;
             --home-card: #ffffff;
-
             --home-text: #153b4a;
             --home-muted: #647e89;
             --home-border: #dcebf1;
-
             --home-shadow: 0 8px 25px rgba(7, 86, 111, .07);
             --home-radius: 16px;
         }
@@ -46,9 +39,7 @@
             color: var(--home-text);
         }
 
-        a,
-        button,
-        select {
+        a, button, select {
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -57,9 +48,7 @@
             margin-inline: auto;
         }
 
-        /* =========================================
-           رأس الموقع
-        ========================================= */
+        /* رأس الموقع */
 
         .site-header {
             position: sticky;
@@ -198,6 +187,29 @@
             white-space: nowrap;
         }
 
+        /* زر لوحة التحكم */
+
+        .admin-dashboard-link {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 11px;
+            border: 1px solid var(--home-gold);
+            border-radius: 9px;
+            background: #fffdf7;
+            color: var(--home-blue-dark);
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background .2s, transform .2s;
+        }
+
+        .admin-dashboard-link:hover {
+            background: #f8f0d9;
+            transform: translateY(-1px);
+        }
+
         .menu-toggle {
             display: none;
             align-items: center;
@@ -212,24 +224,14 @@
             cursor: pointer;
         }
 
-        /* =========================================
-           الواجهة الرئيسية والبحث
-        ========================================= */
+        /* الواجهة الرئيسية والبحث */
 
         .hero {
             position: relative;
             overflow: hidden;
             background:
-                radial-gradient(
-                    ellipse at 85% 10%,
-                    rgba(212, 173, 87, .17),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    ellipse at 5% 90%,
-                    rgba(8, 127, 163, .10),
-                    transparent 36%
-                ),
+                radial-gradient(ellipse at 85% 10%, rgba(212, 173, 87, .17), transparent 35%),
+                radial-gradient(ellipse at 5% 90%, rgba(8, 127, 163, .10), transparent 36%),
                 linear-gradient(135deg, #e4f5fc 0%, #f2faff 60%, #f9f7ef 100%);
             padding: 52px 0 43px;
             border-bottom: 1px solid #d9ebf2;
@@ -376,9 +378,7 @@
             font-size: 12px;
         }
 
-        /* =========================================
-           الأقسام العامة
-        ========================================= */
+        /* الأقسام العامة */
 
         .section {
             padding: 48px 0;
@@ -401,7 +401,7 @@
             color: #153b4a;
             font-size: clamp(23px, 3vw, 30px);
             line-height: 1.5;
-            margin: 5px 0 5px;
+            margin: 5px 0;
         }
 
         .section-heading p,
@@ -412,9 +412,7 @@
             font-size: 13px;
         }
 
-        /* =========================================
-           تصنيفات العقارات
-        ========================================= */
+        /* تصنيفات العقارات */
 
         .categories-section {
             background: #edf8fc;
@@ -437,10 +435,7 @@
             background: linear-gradient(145deg, #fff, #f8fcfe);
             text-decoration: none;
             box-shadow: 0 4px 13px rgba(7, 86, 111, .035);
-            transition:
-                transform .2s,
-                border-color .2s,
-                box-shadow .2s;
+            transition: transform .2s, border-color .2s, box-shadow .2s;
         }
 
         .category-card:hover {
@@ -490,9 +485,7 @@
             font-weight: 900;
         }
 
-        /* =========================================
-           أحدث الإعلانات
-        ========================================= */
+        /* أحدث الإعلانات */
 
         .latest-section {
             background: #f4faff;
@@ -531,9 +524,7 @@
             font-size: 13px;
         }
 
-        /* =========================================
-           خطوات استخدام الموقع
-        ========================================= */
+        /* خطوات استخدام الموقع */
 
         .how-section {
             background: #eaf6fb;
@@ -580,18 +571,12 @@
             margin: 0;
         }
 
-        /* =========================================
-           دعوة أصحاب العقارات
-        ========================================= */
+        /* دعوة أصحاب العقارات */
 
         .owner-section {
             padding: 36px 0;
             background:
-                radial-gradient(
-                    ellipse at 15% 50%,
-                    rgba(212, 173, 87, .18),
-                    transparent 40%
-                ),
+                radial-gradient(ellipse at 15% 50%, rgba(212, 173, 87, .18), transparent 40%),
                 linear-gradient(125deg, #06485e, #087fa3);
             border-top: 3px solid var(--home-gold);
         }
@@ -638,9 +623,7 @@
             transform: translateY(-1px);
         }
 
-        /* =========================================
-           التذييل
-        ========================================= */
+        /* التذييل */
 
         .site-footer {
             background: #eaf5fa;
@@ -695,9 +678,7 @@
             margin: 0;
         }
 
-        /* =========================================
-           الشاشات المتوسطة
-        ========================================= */
+        /* الشاشات المتوسطة */
 
         @media (max-width: 1050px) {
             .header-content {
@@ -749,9 +730,7 @@
             }
         }
 
-        /* =========================================
-           الهاتف
-        ========================================= */
+        /* الهاتف */
 
         @media (max-width: 700px) {
             .container {
@@ -795,6 +774,7 @@
                 order: 3;
                 width: 100%;
                 justify-content: space-between;
+                flex-wrap: wrap;
                 gap: 7px;
                 padding-top: 4px;
             }
@@ -813,6 +793,11 @@
 
             .account-name {
                 max-width: 125px;
+                font-size: 11px;
+            }
+
+            .admin-dashboard-link {
+                padding: 9px 8px;
                 font-size: 11px;
             }
 
@@ -897,10 +882,6 @@
                 font-size: 12px;
             }
 
-            /*
-             * عمودان للتصنيفات على الهاتف:
-             * يقللان طول الصفحة ويسهلان الوصول للخيارات.
-             */
             .categories-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 10px;
@@ -936,10 +917,6 @@
                 font-size: 16px;
             }
 
-            /*
-             * تبقى بطاقات العقارات بخانة واحدة
-             * حتى تكون تفاصيل كل إعلان مقروءة.
-             */
             .properties-grid {
                 grid-template-columns: minmax(0, 1fr);
                 gap: 13px;
@@ -1043,6 +1020,7 @@
         }
 
         /* الهواتف الصغيرة جدًا */
+
         @media (max-width: 360px) {
             .container {
                 width: calc(100% - 22px);
@@ -1079,7 +1057,6 @@
             }
         }
 
-        /* احترام إعداد تقليل الحركة */
         @media (prefers-reduced-motion: reduce) {
             html {
                 scroll-behavior: auto;
@@ -1103,7 +1080,6 @@
 
             <a href="index.html" class="brand" aria-label="الصفحة الرئيسية">
                 <span class="brand-icon">⌂</span>
-
                 <span class="brand-text">
                     <strong>مملكة العقار</strong>
                     <small>المباشر DZ</small>
@@ -1136,6 +1112,16 @@
                     aria-live="polite"
                 ></span>
 
+                <!-- يظهر هذا الزر لحساب المدير بعد التحقق منه -->
+                <a
+                    href="admin.html"
+                    class="admin-dashboard-link"
+                    id="adminDashboardLink"
+                    style="display: none;"
+                >
+                    ⚙️ لوحة التحكم
+                </a>
+
                 <a href="login.html" class="login-link" id="loginLink">
                     تسجيل الدخول
                 </a>
@@ -1149,10 +1135,8 @@
                 </a>
 
             </div>
-
         </div>
     </header>
-
 
     <main>
 
@@ -1175,12 +1159,10 @@
                     المباشر مع أصحاب العقارات.
                 </p>
 
-                <!-- نموذج البحث -->
                 <form class="search-box" id="searchForm">
 
                     <div class="search-field">
                         <label for="operation">نوع العملية</label>
-
                         <select id="operation" name="operation">
                             <option value="">بيع أو كراء</option>
                             <option value="sale">للبيع</option>
@@ -1190,12 +1172,6 @@
 
                     <div class="search-field">
                         <label for="propertyType">نوع العقار</label>
-
-                        <!--
-                            مهم: name="category" متوافق مع script.js
-                            مع الاحتفاظ بـ id="propertyType"
-                            حتى لا يتغير ارتباط التسمية بالحقل.
-                        -->
                         <select id="propertyType" name="category">
                             <option value="">جميع العقارات</option>
                             <option value="apartment">شقة</option>
@@ -1208,7 +1184,6 @@
 
                     <div class="search-field">
                         <label for="wilaya">الولاية</label>
-
                         <select id="wilaya" name="wilaya">
                             <option value="">جميع الولايات</option>
                         </select>
@@ -1229,7 +1204,6 @@
             </div>
         </section>
 
-
         <!-- تصنيفات العقارات -->
         <section class="section categories-section" id="categories">
             <div class="container">
@@ -1238,76 +1212,50 @@
                     <div>
                         <span class="section-kicker">اكتشف خياراتك</span>
                         <h2>ابحث حسب نوع العقار</h2>
-                        <p>
-                            اختر التصنيف المناسب لتبدأ البحث عن عقارك.
-                        </p>
+                        <p>اختر التصنيف المناسب لتبدأ البحث عن عقارك.</p>
                     </div>
                 </div>
 
                 <div class="categories-grid">
 
-                    <a
-                        href="#latest"
-                        class="category-card"
-                        data-category="apartment"
-                        data-operation="sale"
-                    >
+                    <a href="#latest" class="category-card"
+                       data-category="apartment" data-operation="sale">
                         <span class="category-icon">🏢</span>
                         <h3>شقق للبيع</h3>
                         <p>اكتشف الشقق المعروضة للبيع.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a
-                        href="#latest"
-                        class="category-card"
-                        data-category="apartment"
-                        data-operation="rent"
-                    >
+                    <a href="#latest" class="category-card"
+                       data-category="apartment" data-operation="rent">
                         <span class="category-icon">🏠</span>
                         <h3>شقق للكراء</h3>
                         <p>ابحث عن سكن يناسب احتياجاتك.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a
-                        href="#latest"
-                        class="category-card"
-                        data-category="house"
-                    >
+                    <a href="#latest" class="category-card" data-category="house">
                         <span class="category-icon">🏡</span>
                         <h3>منازل وفلل</h3>
                         <p>منازل وفلل للبيع أو الكراء.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a
-                        href="#latest"
-                        class="category-card"
-                        data-category="land"
-                    >
+                    <a href="#latest" class="category-card" data-category="land">
                         <span class="category-icon">📐</span>
                         <h3>أراضٍ للبناء</h3>
                         <p>ابحث عن قطعة الأرض المناسبة.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a
-                        href="#latest"
-                        class="category-card"
-                        data-category="farm"
-                    >
+                    <a href="#latest" class="category-card" data-category="farm">
                         <span class="category-icon">🌱</span>
                         <h3>أراضٍ فلاحية</h3>
                         <p>خيارات للأراضي ذات الاستخدام الفلاحي.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a
-                        href="#latest"
-                        class="category-card"
-                        data-category="commercial"
-                    >
+                    <a href="#latest" class="category-card" data-category="commercial">
                         <span class="category-icon">🏬</span>
                         <h3>عقارات تجارية</h3>
                         <p>محلات ومكاتب ومستودعات.</p>
@@ -1315,10 +1263,8 @@
                     </a>
 
                 </div>
-
             </div>
         </section>
-
 
         <!-- أحدث الإعلانات -->
         <section class="section latest-section" id="latest">
@@ -1328,30 +1274,23 @@
                     <div>
                         <span class="section-kicker">فرص عقارية</span>
                         <h2>أحدث العقارات</h2>
-                        <p>
-                            اكتشف الإعلانات المنشورة على المنصة.
-                        </p>
+                        <p>اكتشف الإعلانات المنشورة على المنصة.</p>
                     </div>
                 </div>
 
                 <div class="properties-grid" id="propertiesGrid">
-
                     <div class="empty-state">
                         <span class="empty-icon">🏘️</span>
-
                         <h3>جارٍ البحث عن العقارات</h3>
-
                         <p>
                             نعرض هنا الإعلانات المنشورة بعد تحميلها
                             من قاعدة البيانات.
                         </p>
                     </div>
-
                 </div>
 
             </div>
         </section>
-
 
         <!-- كيف يعمل الموقع -->
         <section class="section how-section" id="how-it-works">
@@ -1361,9 +1300,7 @@
                     <div>
                         <span class="section-kicker">خطوات بسيطة</span>
                         <h2>كيف تعمل المنصة؟</h2>
-                        <p>
-                            تجربة واضحة للبائع والباحث عن عقار.
-                        </p>
+                        <p>تجربة واضحة للبائع والباحث عن عقار.</p>
                     </div>
                 </div>
 
@@ -1397,10 +1334,8 @@
                     </article>
 
                 </div>
-
             </div>
         </section>
-
 
         <!-- دعوة أصحاب العقارات -->
         <section class="owner-section">
@@ -1408,20 +1343,16 @@
 
                 <div>
                     <span class="section-kicker">هل تملك عقارًا؟</span>
-
                     <h2>اعرض عقارك على مملكتك العقارية</h2>
-
                     <p>
                         أنشئ حسابًا، وأضف تفاصيل عقارك وصوره،
                         وتابع إعلانك من مكان واحد.
                     </p>
                 </div>
 
-                <a
-                    href="register.html"
-                    class="btn-light"
-                    id="ownerAddPropertyLink"
-                >
+                <a href="register.html"
+                   class="btn-light"
+                   id="ownerAddPropertyLink">
                     ＋ ابدأ بإضافة عقارك
                 </a>
 
@@ -1429,7 +1360,6 @@
         </section>
 
     </main>
-
 
     <!-- تذييل الموقع -->
     <footer class="site-footer">
@@ -1456,17 +1386,15 @@
                     © <span id="currentYear">2026</span>
                     مملكة العقار المباشر DZ
                 </p>
-
                 <p>جميع الحقوق محفوظة.</p>
             </div>
 
         </div>
     </footer>
 
-
-    <!-- مزامنة أزرار الحساب مع جلسة Supabase -->
+    <!-- مزامنة الحساب والتحقق من وجود حساب المدير -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", async function () {
             "use strict";
 
             const loginLink = document.getElementById("loginLink");
@@ -1474,6 +1402,36 @@
             const ownerAddPropertyLink =
                 document.getElementById("ownerAddPropertyLink");
             const accountName = document.getElementById("accountName");
+            const adminDashboardLink =
+                document.getElementById("adminDashboardLink");
+
+            const yearElement = document.getElementById("currentYear");
+
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+
+            // القائمة المتنقلة للهاتف
+            const menuToggle = document.getElementById("menuToggle");
+            const mainNav = document.getElementById("mainNav");
+
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener("click", function () {
+                    const isOpen = mainNav.classList.toggle("open");
+                    menuToggle.setAttribute("aria-expanded", String(isOpen));
+                    menuToggle.setAttribute(
+                        "aria-label",
+                        isOpen ? "إغلاق القائمة" : "فتح القائمة"
+                    );
+                });
+
+                mainNav.querySelectorAll("a").forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        mainNav.classList.remove("open");
+                        menuToggle.setAttribute("aria-expanded", "false");
+                    });
+                });
+            }
 
             let session = null;
 
@@ -1495,6 +1453,9 @@
                 )
             );
 
+            // إخفاء زر الإدارة افتراضيًا إلى أن يثبت أن الحساب مدير
+            adminDashboardLink.style.display = "none";
+
             if (loggedIn) {
                 const user = session.user;
                 const metadata = user.user_metadata || {};
@@ -1515,23 +1476,11 @@
 
                 addPropertyLink.href = "add-property.html";
                 ownerAddPropertyLink.href = "add-property.html";
-            } else {
-                accountName.style.display = "none";
 
-                loginLink.textContent = "تسجيل الدخول";
-                loginLink.href = "login.html";
-
-                addPropertyLink.href = "register.html";
-                ownerAddPropertyLink.href = "register.html";
-            }
-
-            const yearElement = document.getElementById("currentYear");
-
-            if (yearElement) {
-                yearElement.textContent = new Date().getFullYear();
-            }
-        });
-    </script>
-
-</body>
-</html>
+                /*
+                 * التحقق من وجود حساب المستخدم في admin_users.
+                 * إذا تعذر التحقق، يبقى زر لوحة التحكم مخفيًا.
+                 */
+                try {
+                    const projectUrl =
+                        "https://fppzejxdggnlsc
