@@ -10,44 +10,73 @@
     <title>مملكة العقار المباشر DZ | ابحث عن عقارك</title>
 
     <link rel="stylesheet" href="style.css?v=4">
-
     <script src="script.js?v=4" defer></script>
 
     <style>
-        /* تحسينات الصفحة الرئيسية */
+        /* =========================================
+           الهوية البصرية
+        ========================================= */
+
         :root {
             --home-blue: #087fa3;
             --home-blue-dark: #07566f;
             --home-gold: #d4ad57;
-            --home-light: #f3f8fa;
+
+            --home-sky: #eaf7fc;
+            --home-light: #f2f9fc;
+            --home-card: #ffffff;
+
+            --home-text: #153b4a;
+            --home-muted: #647e89;
+            --home-border: #dcebf1;
+
+            --home-shadow: 0 8px 25px rgba(7, 86, 111, .07);
+            --home-radius: 16px;
         }
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 90px;
+            scroll-padding-top: 95px;
         }
 
         body {
             margin: 0;
             overflow-x: hidden;
+            background: var(--home-sky);
+            color: var(--home-text);
         }
+
+        a,
+        button,
+        select {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: min(1180px, calc(100% - 36px));
+            margin-inline: auto;
+        }
+
+        /* =========================================
+           رأس الموقع
+        ========================================= */
 
         .site-header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.97);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid #e0ebef;
-            box-shadow: 0 4px 20px rgba(7, 86, 111, 0.06);
+            background: rgba(246, 252, 255, .96);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--home-border);
+            box-shadow: 0 3px 16px rgba(7, 86, 111, .05);
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 18px;
-            min-height: 82px;
+            gap: 16px;
+            min-height: 76px;
         }
 
         .brand {
@@ -62,29 +91,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 46px;
-            height: 46px;
+            width: 45px;
+            height: 45px;
+            flex-shrink: 0;
             border-radius: 14px;
             background: linear-gradient(135deg, #07566f, #087fa3);
             color: white;
-            border: 1px solid rgba(212, 173, 87, 0.8);
-            font-size: 29px;
-            box-shadow: 0 5px 14px rgba(7, 86, 111, 0.16);
+            border: 1px solid rgba(212, 173, 87, .9);
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(7, 86, 111, .14);
         }
 
         .brand-text {
             display: flex;
             flex-direction: column;
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
         .brand-text strong {
             color: var(--home-blue-dark);
-            font-size: 17px;
+            font-size: 16px;
         }
 
         .brand-text small {
-            color: #9a7a32;
+            color: #98772e;
             font-size: 12px;
         }
 
@@ -92,16 +122,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 17px;
+            gap: 16px;
         }
 
         .main-nav a {
-            color: #405963;
+            color: #405e6b;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
             white-space: nowrap;
-            transition: color .2s;
+            transition: color .2s, background .2s;
         }
 
         .main-nav a:hover {
@@ -112,22 +142,22 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 9px;
+            gap: 8px;
             flex-shrink: 0;
         }
 
         .login-link {
             color: var(--home-blue-dark);
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
             font-size: 13px;
-            padding: 10px 12px;
+            padding: 10px 11px;
             border-radius: 9px;
             white-space: nowrap;
         }
 
         .login-link:hover {
-            background: #edf7fa;
+            background: #e5f4fa;
         }
 
         .header-add-button {
@@ -139,9 +169,9 @@
             color: #fff !important;
             border: 1px solid var(--home-gold);
             border-radius: 10px;
-            padding: 11px 14px;
+            padding: 11px 13px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
             white-space: nowrap;
             box-shadow: 0 4px 12px rgba(7, 86, 111, .12);
@@ -150,19 +180,19 @@
 
         .header-add-button:hover {
             transform: translateY(-1px);
-            box-shadow: 0 7px 17px rgba(7, 86, 111, .2);
+            box-shadow: 0 7px 17px rgba(7, 86, 111, .18);
         }
 
         .account-name {
             display: none;
-            max-width: 155px;
-            padding: 7px 10px;
+            max-width: 145px;
+            padding: 7px 9px;
             border: 1px solid #ead8a7;
             border-radius: 9px;
             background: #fffdf7;
-            color: #07566f;
+            color: var(--home-blue-dark);
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -170,35 +200,62 @@
 
         .menu-toggle {
             display: none;
-            background: #eef7fa;
-            border: 1px solid #d8e9ef;
+            align-items: center;
+            justify-content: center;
+            background: #e8f6fb;
+            border: 1px solid #d4e9f1;
             color: var(--home-blue-dark);
-            border-radius: 9px;
+            border-radius: 10px;
             width: 42px;
             height: 42px;
             font-size: 22px;
             cursor: pointer;
         }
 
+        /* =========================================
+           الواجهة الرئيسية والبحث
+        ========================================= */
+
         .hero {
             position: relative;
             overflow: hidden;
             background:
-                radial-gradient(ellipse at 85% 10%, rgba(212, 173, 87, .16), transparent 36%),
-                linear-gradient(135deg, #edf7fa 0%, #ffffff 52%, #f9f5e9 100%);
-            padding: 76px 0 68px;
-            border-bottom: 1px solid #e3edf0;
+                radial-gradient(
+                    ellipse at 85% 10%,
+                    rgba(212, 173, 87, .17),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    ellipse at 5% 90%,
+                    rgba(8, 127, 163, .10),
+                    transparent 36%
+                ),
+                linear-gradient(135deg, #e4f5fc 0%, #f2faff 60%, #f9f7ef 100%);
+            padding: 52px 0 43px;
+            border-bottom: 1px solid #d9ebf2;
         }
 
         .hero::before {
             content: "";
             position: absolute;
-            width: 330px;
-            height: 330px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
-            border: 1px solid rgba(8, 127, 163, .10);
-            top: -175px;
-            left: -90px;
+            border: 1px solid rgba(8, 127, 163, .12);
+            top: -170px;
+            left: -80px;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .24);
+            bottom: -110px;
+            right: 15%;
             pointer-events: none;
         }
 
@@ -211,29 +268,30 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 14px;
-            border: 1px solid #d6eaf0;
+            padding: 7px 13px;
+            border: 1px solid #d1e7ef;
             border-radius: 30px;
-            background: rgba(255, 255, 255, .82);
+            background: rgba(255, 255, 255, .78);
             color: var(--home-blue-dark);
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 800;
         }
 
         .hero-badge::before {
             content: "";
             width: 8px;
             height: 8px;
+            flex-shrink: 0;
             border-radius: 50%;
             background: var(--home-gold);
         }
 
         .hero h1 {
             color: #153b4a;
-            font-size: clamp(36px, 5vw, 58px);
-            line-height: 1.35;
-            margin: 23px 0 15px;
-            letter-spacing: -1px;
+            font-size: clamp(34px, 4.5vw, 52px);
+            line-height: 1.3;
+            margin: 17px 0 10px;
+            letter-spacing: -.7px;
         }
 
         .hero h1 span {
@@ -241,23 +299,23 @@
         }
 
         .hero-description {
-            max-width: 660px;
-            color: #607780;
-            line-height: 2;
-            font-size: 16px;
-            margin-bottom: 27px;
+            max-width: 650px;
+            color: #5e7884;
+            line-height: 1.9;
+            font-size: 15px;
+            margin: 0 0 22px;
         }
 
         .search-box {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
             align-items: end;
-            gap: 13px;
-            padding: 19px;
-            background: #fff;
-            border: 1px solid #e0e9ed;
-            border-radius: 17px;
-            box-shadow: 0 13px 38px rgba(7, 86, 111, .09);
+            gap: 12px;
+            padding: 16px;
+            background: rgba(255, 255, 255, .95);
+            border: 1px solid #dbeaf0;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(7, 86, 111, .09);
         }
 
         .search-field {
@@ -266,20 +324,20 @@
 
         .search-field label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 7px;
             color: #385762;
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 12px;
+            font-weight: 800;
         }
 
         .search-field select {
             width: 100%;
             min-width: 0;
-            height: 47px;
-            padding: 0 12px;
-            border: 1px solid #dbe6eb;
+            height: 45px;
+            padding: 0 11px;
+            border: 1px solid #d6e5eb;
             border-radius: 9px;
-            background: #fbfdfe;
+            background: #f8fcfe;
             color: #284651;
             font: inherit;
             font-size: 13px;
@@ -291,146 +349,178 @@
         }
 
         .btn-search {
-            min-height: 47px;
-            padding: 0 20px;
+            min-height: 45px;
+            padding: 0 18px;
             border: 1px solid var(--home-gold);
             border-radius: 9px;
             background: linear-gradient(120deg, #07566f, #087fa3);
             color: #fff;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 13px;
             cursor: pointer;
             white-space: nowrap;
+            transition: filter .2s, transform .2s;
+        }
+
+        .btn-search:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
         }
 
         .hero-notes {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-top: 20px;
+            gap: 10px 19px;
+            margin-top: 16px;
             color: #56717c;
-            font-size: 13px;
+            font-size: 12px;
         }
 
-        .hero-notes span::first-letter {
-            color: var(--home-blue);
-        }
+        /* =========================================
+           الأقسام العامة
+        ========================================= */
 
         .section {
-            padding: 66px 0;
+            padding: 48px 0;
         }
 
         .section-heading {
-            margin-bottom: 28px;
+            margin-bottom: 23px;
         }
 
         .section-kicker {
-            color: #9a7a32;
+            display: inline-block;
+            color: #95752d;
             font-size: 12px;
-            font-weight: 800;
-            letter-spacing: .3px;
+            font-weight: 900;
+            letter-spacing: .2px;
         }
 
         .section-heading h2,
         .owner-content h2 {
             color: #153b4a;
-            font-size: clamp(24px, 3vw, 32px);
-            margin: 7px 0 8px;
+            font-size: clamp(23px, 3vw, 30px);
+            line-height: 1.5;
+            margin: 5px 0 5px;
         }
 
         .section-heading p,
         .owner-content p {
-            color: #71858d;
-            line-height: 1.9;
+            color: var(--home-muted);
+            line-height: 1.8;
             margin: 0;
-            font-size: 14px;
+            font-size: 13px;
         }
 
+        /* =========================================
+           تصنيفات العقارات
+        ========================================= */
+
         .categories-section {
-            background: #fff;
+            background: #edf8fc;
         }
 
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
+            gap: 14px;
         }
 
         .category-card {
             position: relative;
+            display: flex;
+            flex-direction: column;
             min-width: 0;
-            padding: 24px;
-            border: 1px solid #e0e9ed;
-            border-radius: 15px;
-            background: linear-gradient(145deg, #fff, #f9fcfd);
+            padding: 19px;
+            border: 1px solid #dcebf1;
+            border-radius: var(--home-radius);
+            background: linear-gradient(145deg, #fff, #f8fcfe);
             text-decoration: none;
-            transition: transform .2s, border-color .2s, box-shadow .2s;
+            box-shadow: 0 4px 13px rgba(7, 86, 111, .035);
+            transition:
+                transform .2s,
+                border-color .2s,
+                box-shadow .2s;
         }
 
         .category-card:hover {
-            transform: translateY(-4px);
-            border-color: #c8dfe7;
-            box-shadow: 0 12px 26px rgba(7, 86, 111, .08);
+            transform: translateY(-3px);
+            border-color: #a9d4e2;
+            box-shadow: 0 10px 23px rgba(7, 86, 111, .09);
         }
 
         .category-icon {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 53px;
-            height: 53px;
-            border-radius: 14px;
-            background: #edf7fa;
-            border: 1px solid #d9eaf0;
-            font-size: 26px;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            border-radius: 13px;
+            background: #e9f6fb;
+            border: 1px solid #d5eaf2;
+            font-size: 24px;
         }
 
         .category-card h3 {
             color: #174454;
-            margin: 16px 0 8px;
-            font-size: 17px;
+            margin: 12px 0 5px;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         .category-card p {
             color: #73868e;
-            font-size: 13px;
-            line-height: 1.9;
-            margin: 0 0 16px;
+            font-size: 12px;
+            line-height: 1.8;
+            margin: 0 0 10px;
         }
 
         .category-arrow {
-            display: inline-block;
-            color: #9a7a32;
-            font-size: 19px;
-            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            margin-top: auto;
+            border-radius: 8px;
+            background: #f8f2e4;
+            color: #95752d;
+            font-size: 18px;
+            font-weight: 900;
         }
 
+        /* =========================================
+           أحدث الإعلانات
+        ========================================= */
+
         .latest-section {
-            background: #f5f9fb;
+            background: #f4faff;
         }
 
         .properties-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
+            gap: 18px;
         }
 
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
-            background: white;
-            border: 1px dashed #d4e2e8;
+            background: rgba(255, 255, 255, .9);
+            border: 1px dashed #cbdfe8;
             border-radius: 16px;
-            padding: 42px 18px;
+            padding: 32px 18px;
         }
 
         .empty-icon {
-            font-size: 42px;
+            font-size: 40px;
         }
 
         .empty-state h3 {
             color: #174454;
-            margin: 12px 0 8px;
+            margin: 10px 0 6px;
+            font-size: 18px;
         }
 
         .empty-state p {
@@ -438,57 +528,70 @@
             margin: auto;
             color: #71858d;
             line-height: 1.9;
-            font-size: 14px;
+            font-size: 13px;
         }
 
+        /* =========================================
+           خطوات استخدام الموقع
+        ========================================= */
+
         .how-section {
-            background: #fff;
+            background: #eaf6fb;
         }
 
         .steps-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
+            gap: 16px;
         }
 
         .step-card {
-            padding: 25px;
-            border: 1px solid #e1eaee;
-            border-radius: 15px;
-            background: #fff;
+            padding: 21px;
+            border: 1px solid #d7e8ef;
+            border-radius: var(--home-radius);
+            background: rgba(255, 255, 255, .9);
+            box-shadow: 0 4px 13px rgba(7, 86, 111, .035);
         }
 
         .step-number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
-            background: #edf7fa;
-            border: 1px solid #d6e8ef;
+            background: #e8f5fa;
+            border: 1px solid #d1e7ef;
             color: var(--home-blue-dark);
-            font-size: 16px;
-            font-weight: 800;
+            font-size: 15px;
+            font-weight: 900;
         }
 
         .step-card h3 {
             color: #174454;
-            margin: 16px 0 8px;
-            font-size: 17px;
+            margin: 12px 0 6px;
+            font-size: 16px;
         }
 
         .step-card p {
             color: #71858d;
-            line-height: 1.95;
+            line-height: 1.9;
             font-size: 13px;
             margin: 0;
         }
 
+        /* =========================================
+           دعوة أصحاب العقارات
+        ========================================= */
+
         .owner-section {
-            padding: 45px 0;
+            padding: 36px 0;
             background:
-                radial-gradient(ellipse at 15% 50%, rgba(212, 173, 87, .16), transparent 40%),
+                radial-gradient(
+                    ellipse at 15% 50%,
+                    rgba(212, 173, 87, .18),
+                    transparent 40%
+                ),
                 linear-gradient(125deg, #06485e, #087fa3);
             border-top: 3px solid var(--home-gold);
         }
@@ -506,6 +609,7 @@
 
         .owner-content h2 {
             color: #fff;
+            font-size: clamp(22px, 3vw, 28px);
         }
 
         .owner-content p {
@@ -517,51 +621,58 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 13px 21px;
+            padding: 13px 20px;
             border: 1px solid var(--home-gold);
             border-radius: 10px;
             background: #fff;
             color: var(--home-blue-dark);
-            font-weight: 800;
+            font-weight: 900;
             font-size: 13px;
             text-decoration: none;
             white-space: nowrap;
+            transition: background .2s, transform .2s;
         }
 
         .btn-light:hover {
             background: #fff9e9;
+            transform: translateY(-1px);
         }
 
+        /* =========================================
+           التذييل
+        ========================================= */
+
         .site-footer {
-            background: #f8fbfc;
-            border-top: 1px solid #e0eaee;
-            padding: 35px 0 20px;
+            background: #eaf5fa;
+            border-top: 1px solid #d8e8ef;
+            padding: 29px 0 17px;
         }
 
         .footer-brand {
             display: inline-block;
             color: #07566f;
-            font-size: 18px;
-            font-weight: 800;
+            font-size: 17px;
+            font-weight: 900;
             text-decoration: none;
         }
 
         .footer-content > p {
             color: #71858d;
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.9;
         }
 
         .footer-links {
             display: flex;
             flex-wrap: wrap;
-            gap: 18px;
-            margin: 20px 0;
+            gap: 10px 18px;
+            margin: 16px 0;
         }
 
         .footer-links a {
             color: #45636e;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 700;
             text-decoration: none;
         }
 
@@ -574,21 +685,25 @@
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            padding-top: 15px;
-            border-top: 1px solid #e1eaee;
-            color: #7b8d94;
-            font-size: 12px;
+            padding-top: 13px;
+            border-top: 1px solid #d8e8ef;
+            color: #71858d;
+            font-size: 11px;
         }
 
         .footer-bottom p {
             margin: 0;
         }
 
+        /* =========================================
+           الشاشات المتوسطة
+        ========================================= */
+
         @media (max-width: 1050px) {
             .header-content {
                 flex-wrap: wrap;
-                padding-top: 12px;
-                padding-bottom: 12px;
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
 
             .main-nav {
@@ -596,8 +711,8 @@
                 width: 100%;
                 justify-content: center;
                 flex-wrap: wrap;
-                gap: 15px 22px;
-                padding: 8px 0 3px;
+                gap: 12px 20px;
+                padding: 5px 0 2px;
             }
 
             .search-box {
@@ -607,24 +722,72 @@
             .btn-search {
                 width: 100%;
             }
+
+            .hero {
+                padding-top: 43px;
+                padding-bottom: 36px;
+            }
         }
 
+        @media (min-width: 701px) and (max-width: 900px) {
+            .categories-grid,
+            .properties-grid,
+            .steps-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .category-card {
+                padding: 18px;
+            }
+
+            .header-content {
+                gap: 12px;
+            }
+
+            .main-nav {
+                gap: 12px 17px;
+            }
+        }
+
+        /* =========================================
+           الهاتف
+        ========================================= */
+
         @media (max-width: 700px) {
+            .container {
+                width: calc(100% - 28px);
+            }
+
             .header-content {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 10px;
+                gap: 9px;
                 min-height: auto;
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
 
             .brand {
                 margin-left: auto;
             }
 
+            .brand-icon {
+                width: 41px;
+                height: 41px;
+                border-radius: 12px;
+                font-size: 25px;
+            }
+
+            .brand-text strong {
+                font-size: 15px;
+            }
+
+            .brand-text small {
+                font-size: 11px;
+            }
+
             .menu-toggle {
                 display: inline-flex;
-                align-items: center;
-                justify-content: center;
                 order: 2;
             }
 
@@ -632,21 +795,25 @@
                 order: 3;
                 width: 100%;
                 justify-content: space-between;
-                gap: 8px;
-                padding-top: 5px;
+                gap: 7px;
+                padding-top: 4px;
             }
 
             .header-actions .login-link {
-                padding: 10px;
+                padding: 10px 8px;
+                font-size: 12px;
             }
 
             .header-add-button {
                 flex: 1;
                 max-width: 220px;
+                padding: 10px 9px;
+                font-size: 12px;
             }
 
             .account-name {
-                max-width: 130px;
+                max-width: 125px;
+                font-size: 11px;
             }
 
             .main-nav {
@@ -656,8 +823,8 @@
                 align-items: stretch;
                 flex-direction: column;
                 gap: 0;
-                padding: 8px 0;
-                border-top: 1px solid #e3edf0;
+                padding: 7px 0;
+                border-top: 1px solid #dcebf1;
             }
 
             .main-nav.open {
@@ -666,78 +833,263 @@
 
             .main-nav a {
                 display: block;
-                padding: 12px 8px;
+                padding: 11px 9px;
                 border-radius: 8px;
+                font-size: 13px;
             }
 
             .main-nav a:hover {
-                background: #eef7fa;
+                background: #e8f6fb;
             }
 
             .hero {
-                padding: 45px 0 40px;
+                padding: 32px 0 27px;
             }
 
             .hero h1 {
-                font-size: 38px;
+                font-size: clamp(31px, 8vw, 38px);
+                margin-top: 14px;
             }
 
             .hero-description {
-                font-size: 14px;
+                font-size: 13px;
+                line-height: 1.9;
+                margin-bottom: 17px;
+            }
+
+            .hero-badge {
+                font-size: 11px;
+                padding: 7px 11px;
             }
 
             .search-box {
-                grid-template-columns: 1fr;
-                padding: 14px;
-                gap: 13px;
+                grid-template-columns: minmax(0, 1fr);
+                padding: 13px;
+                gap: 11px;
+                border-radius: 13px;
             }
 
             .search-field select,
             .btn-search {
-                height: 48px;
+                height: 45px;
+                min-height: 45px;
             }
 
             .hero-notes {
-                gap: 10px 16px;
-                font-size: 12px;
+                gap: 8px 13px;
+                font-size: 11px;
+                line-height: 1.7;
             }
 
             .section {
-                padding: 44px 0;
+                padding: 30px 0;
             }
 
-            .categories-grid,
-            .properties-grid,
-            .steps-grid {
-                grid-template-columns: 1fr;
+            .section-heading {
+                margin-bottom: 17px;
+            }
+
+            .section-heading h2 {
+                font-size: 23px;
+            }
+
+            .section-heading p {
+                font-size: 12px;
+            }
+
+            /*
+             * عمودان للتصنيفات على الهاتف:
+             * يقللان طول الصفحة ويسهلان الوصول للخيارات.
+             */
+            .categories-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
             }
 
             .category-card {
-                padding: 19px;
+                padding: 13px 12px;
+                border-radius: 13px;
+            }
+
+            .category-icon {
+                width: 41px;
+                height: 41px;
+                border-radius: 11px;
+                font-size: 21px;
+            }
+
+            .category-card h3 {
+                font-size: 13px;
+                line-height: 1.6;
+                margin: 9px 0 4px;
+            }
+
+            .category-card p {
+                font-size: 11px;
+                line-height: 1.7;
+                margin-bottom: 8px;
+            }
+
+            .category-arrow {
+                width: 25px;
+                height: 25px;
+                font-size: 16px;
+            }
+
+            /*
+             * تبقى بطاقات العقارات بخانة واحدة
+             * حتى تكون تفاصيل كل إعلان مقروءة.
+             */
+            .properties-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 13px;
+            }
+
+            .empty-state {
+                padding: 25px 13px;
+                border-radius: 13px;
+            }
+
+            .empty-icon {
+                font-size: 35px;
+            }
+
+            .empty-state h3 {
+                font-size: 16px;
+            }
+
+            .empty-state p {
+                font-size: 12px;
+            }
+
+            .steps-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 10px;
+            }
+
+            .step-card {
+                padding: 16px;
+                border-radius: 13px;
+            }
+
+            .step-number {
+                width: 37px;
+                height: 37px;
+                border-radius: 10px;
+                font-size: 13px;
+            }
+
+            .step-card h3 {
+                margin: 9px 0 5px;
+                font-size: 15px;
+            }
+
+            .step-card p {
+                font-size: 12px;
+            }
+
+            .owner-section {
+                padding: 27px 0;
             }
 
             .owner-content {
                 align-items: stretch;
                 flex-direction: column;
-                gap: 20px;
+                gap: 15px;
+            }
+
+            .owner-content h2 {
+                font-size: 22px;
+                line-height: 1.5;
+            }
+
+            .owner-content p {
+                font-size: 12px;
             }
 
             .btn-light {
                 width: 100%;
+                box-sizing: border-box;
+                padding: 12px 15px;
+            }
+
+            .site-footer {
+                padding-top: 23px;
+            }
+
+            .footer-brand {
+                font-size: 15px;
+            }
+
+            .footer-content > p {
+                font-size: 11px;
+            }
+
+            .footer-links {
+                gap: 10px 14px;
+                margin: 13px 0;
+            }
+
+            .footer-links a {
+                font-size: 11px;
             }
 
             .footer-bottom {
                 align-items: flex-start;
                 flex-direction: column;
                 gap: 6px;
+                font-size: 10px;
             }
         }
 
-        @media (min-width: 701px) and (max-width: 900px) {
-            .categories-grid,
-            .properties-grid,
-            .steps-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* الهواتف الصغيرة جدًا */
+        @media (max-width: 360px) {
+            .container {
+                width: calc(100% - 22px);
+            }
+
+            .brand {
+                gap: 7px;
+            }
+
+            .brand-text strong {
+                font-size: 13px;
+            }
+
+            .brand-icon {
+                width: 37px;
+                height: 37px;
+                font-size: 22px;
+            }
+
+            .categories-grid {
+                gap: 8px;
+            }
+
+            .category-card {
+                padding: 11px 9px;
+            }
+
+            .category-card h3 {
+                font-size: 12px;
+            }
+
+            .category-card p {
+                font-size: 10px;
+            }
+        }
+
+        /* احترام إعداد تقليل الحركة */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
             }
         }
     </style>
@@ -839,7 +1191,12 @@
                     <div class="search-field">
                         <label for="propertyType">نوع العقار</label>
 
-                        <select id="propertyType" name="propertyType">
+                        <!--
+                            مهم: name="category" متوافق مع script.js
+                            مع الاحتفاظ بـ id="propertyType"
+                            حتى لا يتغير ارتباط التسمية بالحقل.
+                        -->
+                        <select id="propertyType" name="category">
                             <option value="">جميع العقارات</option>
                             <option value="apartment">شقة</option>
                             <option value="house">منزل</option>
@@ -889,62 +1246,68 @@
 
                 <div class="categories-grid">
 
-                    <a href="#latest"
-                       class="category-card"
-                       data-category="apartment"
-                       data-operation="sale">
-
+                    <a
+                        href="#latest"
+                        class="category-card"
+                        data-category="apartment"
+                        data-operation="sale"
+                    >
                         <span class="category-icon">🏢</span>
                         <h3>شقق للبيع</h3>
                         <p>اكتشف الشقق المعروضة للبيع.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a href="#latest"
-                       class="category-card"
-                       data-category="apartment"
-                       data-operation="rent">
-
+                    <a
+                        href="#latest"
+                        class="category-card"
+                        data-category="apartment"
+                        data-operation="rent"
+                    >
                         <span class="category-icon">🏠</span>
                         <h3>شقق للكراء</h3>
                         <p>ابحث عن سكن يناسب احتياجاتك.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a href="#latest"
-                       class="category-card"
-                       data-category="house">
-
+                    <a
+                        href="#latest"
+                        class="category-card"
+                        data-category="house"
+                    >
                         <span class="category-icon">🏡</span>
                         <h3>منازل وفلل</h3>
                         <p>منازل وفلل للبيع أو الكراء.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a href="#latest"
-                       class="category-card"
-                       data-category="land">
-
+                    <a
+                        href="#latest"
+                        class="category-card"
+                        data-category="land"
+                    >
                         <span class="category-icon">📐</span>
                         <h3>أراضٍ للبناء</h3>
                         <p>ابحث عن قطعة الأرض المناسبة.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a href="#latest"
-                       class="category-card"
-                       data-category="farm">
-
+                    <a
+                        href="#latest"
+                        class="category-card"
+                        data-category="farm"
+                    >
                         <span class="category-icon">🌱</span>
                         <h3>أراضٍ فلاحية</h3>
                         <p>خيارات للأراضي ذات الاستخدام الفلاحي.</p>
                         <span class="category-arrow">←</span>
                     </a>
 
-                    <a href="#latest"
-                       class="category-card"
-                       data-category="commercial">
-
+                    <a
+                        href="#latest"
+                        class="category-card"
+                        data-category="commercial"
+                    >
                         <span class="category-icon">🏬</span>
                         <h3>عقارات تجارية</h3>
                         <p>محلات ومكاتب ومستودعات.</p>
