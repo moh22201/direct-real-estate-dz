@@ -2,14 +2,11 @@
 
 /*
  * مملكة العقار المباشر DZ
- * ربط البحث بقاعدة بيانات Supabase
+ * البحث وعرض العقارات المنشورة وربطها بصفحة التفاصيل
  */
 
-// ======================================
-// 1. إعدادات الاتصال
-// ======================================
-
-const SUPABASE_URL = "https://fppzejxdggnlscjcqmgk.supabase.co";
+const SUPABASE_URL =
+    "https://fppzejxdggnlscjcqmgk.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
@@ -19,84 +16,33 @@ const PROPERTIES_ENDPOINT =
 
 
 // ======================================
-// 2. الولايات الجزائرية الـ 69
+// الولايات الجزائرية
 // ======================================
 
 const wilayas = [
-    "أدرار",
-    "الشلف",
-    "الأغواط",
-    "أم البواقي",
-    "باتنة",
-    "بجاية",
-    "بسكرة",
-    "بشار",
-    "البليدة",
-    "البويرة",
-    "تمنراست",
-    "تبسة",
-    "تلمسان",
-    "تيارت",
-    "تيزي وزو",
-    "الجزائر",
-    "الجلفة",
-    "جيجل",
-    "سطيف",
-    "سعيدة",
-    "سكيكدة",
-    "سيدي بلعباس",
-    "عنابة",
-    "قالمة",
-    "قسنطينة",
-    "المدية",
-    "مستغانم",
-    "المسيلة",
-    "معسكر",
-    "ورقلة",
-    "وهران",
-    "البيض",
-    "إليزي",
-    "برج بوعريريج",
-    "بومرداس",
-    "الطارف",
-    "تندوف",
-    "تيسمسيلت",
-    "الوادي",
-    "خنشلة",
-    "سوق أهراس",
-    "تيبازة",
-    "ميلة",
-    "عين الدفلى",
-    "النعامة",
-    "عين تموشنت",
-    "غرداية",
-    "غليزان",
-    "تيميمون",
-    "برج باجي مختار",
-    "أولاد جلال",
-    "بني عباس",
-    "عين صالح",
-    "عين قزام",
-    "تقرت",
-    "جانت",
-    "المغير",
-    "المنيعة",
-    "أفلو",
-    "بريكة",
-    "القنطرة",
-    "بئر العاتر",
-    "العريشة",
-    "قصر الشلالة",
-    "عين وسارة",
-    "مسعد",
-    "قصر البخاري",
-    "بوسعادة",
-    "الأبيض سيدي الشيخ"
+    "أدرار", "الشلف", "الأغواط", "أم البواقي",
+    "باتنة", "بجاية", "بسكرة", "بشار",
+    "البليدة", "البويرة", "تمنراست", "تبسة",
+    "تلمسان", "تيارت", "تيزي وزو", "الجزائر",
+    "الجلفة", "جيجل", "سطيف", "سعيدة",
+    "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة",
+    "قسنطينة", "المدية", "مستغانم", "المسيلة",
+    "معسكر", "ورقلة", "وهران", "البيض",
+    "إليزي", "برج بوعريريج", "بومرداس", "الطارف",
+    "تندوف", "تيسمسيلت", "الوادي", "خنشلة",
+    "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى",
+    "النعامة", "عين تموشنت", "غرداية", "غليزان",
+    "تيميمون", "برج باجي مختار", "أولاد جلال",
+    "بني عباس", "عين صالح", "عين قزام", "تقرت",
+    "جانت", "المغير", "المنيعة", "أفلو",
+    "بريكة", "القنطرة", "بئر العاتر", "العريشة",
+    "قصر الشلالة", "عين وسارة", "مسعد",
+    "قصر البخاري", "بوسعادة", "الأبيض سيدي الشيخ"
 ];
 
 
 // ======================================
-// 3. ترجمة أنواع العقارات
+// ترجمة أنواع العقارات والعمليات
 // ======================================
 
 const categoryLabels = {
@@ -113,12 +59,7 @@ const operationLabels = {
 };
 
 
-// ======================================
-// 4. تحويل خيارات الواجهة إلى قاعدة البيانات
-// ======================================
-
 function normalizeCategory(category) {
-
     const categories = {
         apartment: "apartment",
         house: "house",
@@ -132,15 +73,13 @@ function normalizeCategory(category) {
 
 
 // ======================================
-// 5. حماية النصوص عند عرض الإعلانات
+// حماية النصوص
 // ======================================
 
 function escapeHTML(value) {
-
     return String(value ?? "").replace(
         /[&<>"']/g,
         function (character) {
-
             const entities = {
                 "&": "&amp;",
                 "<": "&lt;",
@@ -156,11 +95,10 @@ function escapeHTML(value) {
 
 
 // ======================================
-// 6. تنسيق السعر بالدينار الجزائري
+// تنسيق السعر
 // ======================================
 
 function formatPrice(price) {
-
     if (price === null || price === undefined || price === "") {
         return "السعر عند الاتصال";
     }
@@ -178,11 +116,10 @@ function formatPrice(price) {
 
 
 // ======================================
-// 7. حالات العرض والرسائل
+// رسائل الصفحة
 // ======================================
 
 function showMessage(grid, title, message) {
-
     grid.innerHTML = `
         <div class="empty-state">
             <span class="empty-icon">🏘️</span>
@@ -194,18 +131,15 @@ function showMessage(grid, title, message) {
 
 
 // ======================================
-// 8. تنسيق بطاقات العقارات
-// دون تعديل ملف CSS
+// تنسيق البطاقات
 // ======================================
 
 function installPropertyStyles() {
-
     if (document.getElementById("propertyDynamicStyles")) {
         return;
     }
 
     const style = document.createElement("style");
-
     style.id = "propertyDynamicStyles";
 
     style.textContent = `
@@ -214,7 +148,7 @@ function installPropertyStyles() {
             border: 1px solid #e3e9e5;
             border-radius: 14px;
             padding: 20px;
-            margin-bottom: 4px;
+            margin-bottom: 16px;
             box-shadow: 0 4px 16px rgba(18, 53, 43, 0.06);
             overflow-wrap: anywhere;
         }
@@ -274,9 +208,20 @@ function installPropertyStyles() {
             margin-top: 12px;
         }
 
-        .property-results-count {
-            margin-bottom: 16px;
-            color: #52645b;
+        .property-details-link {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            background: #123b32;
+            color: #ffffff !important;
+            padding: 11px 15px;
+            border-radius: 9px;
+            margin-top: 16px;
+            font-weight: bold;
+        }
+
+        .property-details-link:hover {
+            background: #1a5948;
         }
     `;
 
@@ -285,13 +230,11 @@ function installPropertyStyles() {
 
 
 // ======================================
-// 9. عرض العقارات في الصفحة
+// عرض الإعلانات وربطها بالتفاصيل
 // ======================================
 
 function renderProperties(grid, properties) {
-
     if (!properties || properties.length === 0) {
-
         showMessage(
             grid,
             "لا توجد إعلانات مطابقة",
@@ -304,7 +247,6 @@ function renderProperties(grid, properties) {
     grid.innerHTML = "";
 
     properties.forEach(function (property) {
-
         const category =
             categoryLabels[property.category] || "عقار";
 
@@ -320,30 +262,30 @@ function renderProperties(grid, properties) {
 
         if (property.area_m2 !== null &&
             property.area_m2 !== undefined) {
-
             details.push(
-                "المساحة: " + escapeHTML(property.area_m2) + " م²"
+                "المساحة: " +
+                escapeHTML(property.area_m2) +
+                " م²"
             );
         }
 
         if (property.bedrooms !== null &&
             property.bedrooms !== undefined) {
-
             details.push(
-                "الغرف: " + escapeHTML(property.bedrooms)
+                "غرف النوم: " +
+                escapeHTML(property.bedrooms)
             );
         }
 
         if (property.bathrooms !== null &&
             property.bathrooms !== undefined) {
-
             details.push(
-                "الحمامات: " + escapeHTML(property.bathrooms)
+                "الحمامات: " +
+                escapeHTML(property.bathrooms)
             );
         }
 
         const card = document.createElement("article");
-
         card.className = "property-card";
 
         card.innerHTML = `
@@ -393,9 +335,15 @@ function renderProperties(grid, properties) {
             }
 
             <p class="property-contact-note">
-                تصفح التفاصيل مجانًا. ستُفعّل خيارات التواصل
-                عند اكتمال نظام الاتصال والدفع.
+                تصفح تفاصيل العقار ومواصفاته.
             </p>
+
+            <a
+                class="property-details-link"
+                href="property-details.html?id=${encodeURIComponent(property.id)}"
+            >
+                عرض تفاصيل العقار ←
+            </a>
         `;
 
         grid.appendChild(card);
@@ -404,11 +352,10 @@ function renderProperties(grid, properties) {
 
 
 // ======================================
-// 10. تحميل الإعلانات المنشورة والبحث
+// تحميل الإعلانات والبحث
 // ======================================
 
 async function loadProperties() {
-
     const grid = document.getElementById("propertiesGrid");
 
     if (!grid) {
@@ -428,18 +375,23 @@ async function loadProperties() {
         "id,title,description,category,operation,wilaya,commune,price,area_m2,bedrooms,bathrooms,created_at"
     );
 
-    // لا نعرض إلا الإعلانات المنشورة
+    // عرض الإعلانات المنشورة فقط
     params.set("status", "eq.published");
 
     // الأحدث أولًا
     params.set("order", "created_at.desc");
 
-    // حد أقصى 30 إعلانًا في هذه المرحلة
+    // الحد الأقصى الحالي
     params.set("limit", "30");
 
-    const operationElement = document.getElementById("operation");
-    const categoryElement = document.getElementById("propertyType");
-    const wilayaElement = document.getElementById("wilaya");
+    const operationElement =
+        document.getElementById("operation");
+
+    const categoryElement =
+        document.getElementById("propertyType");
+
+    const wilayaElement =
+        document.getElementById("wilaya");
 
     const operation = operationElement
         ? operationElement.value
@@ -458,13 +410,9 @@ async function loadProperties() {
     }
 
     if (selectedCategory) {
-
-        const databaseCategory =
-            normalizeCategory(selectedCategory);
-
         params.set(
             "category",
-            "eq." + databaseCategory
+            "eq." + normalizeCategory(selectedCategory)
         );
     }
 
@@ -476,20 +424,14 @@ async function loadProperties() {
         PROPERTIES_ENDPOINT + "?" + params.toString();
 
     try {
-
         const response = await fetch(requestURL, {
-
             method: "GET",
-
             headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization": "Bearer " + SUPABASE_KEY
+                "apikey": SUPABASE_KEY
             }
-
         });
 
         if (!response.ok) {
-
             const errorText = await response.text();
 
             console.error(
@@ -501,7 +443,7 @@ async function loadProperties() {
             showMessage(
                 grid,
                 "تعذر تحميل الإعلانات",
-                "حدث خطأ في الاتصال بقاعدة البيانات. سنحتاج إلى التحقق من إعدادات الوصول إلى جدول العقارات."
+                "حدث خطأ في الاتصال بقاعدة البيانات."
             );
 
             return;
@@ -512,11 +454,7 @@ async function loadProperties() {
         renderProperties(grid, properties);
 
     } catch (error) {
-
-        console.error(
-            "Connection error:",
-            error
-        );
+        console.error("Connection error:", error);
 
         showMessage(
             grid,
@@ -528,41 +466,42 @@ async function loadProperties() {
 
 
 // ======================================
-// 11. تشغيل الموقع
+// تشغيل وظائف الموقع
 // ======================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // السنة الحالية
-    const currentYear = document.getElementById("currentYear");
+    const currentYear =
+        document.getElementById("currentYear");
 
     if (currentYear) {
-        currentYear.textContent = new Date().getFullYear();
+        currentYear.textContent =
+            new Date().getFullYear();
     }
 
+    // قائمة الهاتف
+    const menuToggle =
+        document.getElementById("menuToggle");
 
-    // قائمة التنقل على الهاتف
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("mainNav");
+    const mainNav =
+        document.getElementById("mainNav");
 
     if (menuToggle && mainNav) {
-
         menuToggle.addEventListener("click", function () {
-
-            const isOpen = mainNav.classList.toggle("open");
+            const isOpen =
+                mainNav.classList.toggle("open");
 
             menuToggle.setAttribute(
                 "aria-expanded",
                 String(isOpen)
             );
 
-            menuToggle.textContent = isOpen ? "✕" : "☰";
+            menuToggle.textContent =
+                isOpen ? "✕" : "☰";
         });
 
         mainNav.querySelectorAll("a").forEach(function (link) {
-
             link.addEventListener("click", function () {
-
                 mainNav.classList.remove("open");
 
                 menuToggle.setAttribute(
@@ -575,14 +514,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
     // تعبئة قائمة الولايات
-    const wilayaSelect = document.getElementById("wilaya");
+    const wilayaSelect =
+        document.getElementById("wilaya");
 
     if (wilayaSelect) {
-
         wilayas.forEach(function (wilaya) {
-
             const option = document.createElement("option");
 
             option.value = wilaya;
@@ -592,24 +529,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
-    // تحميل أحدث العقارات عند فتح الصفحة
+    // تحميل العقارات
     installPropertyStyles();
     loadProperties();
 
-
-    // البحث عند إرسال النموذج
-    const searchForm = document.getElementById("searchForm");
+    // البحث
+    const searchForm =
+        document.getElementById("searchForm");
 
     if (searchForm) {
-
         searchForm.addEventListener("submit", function (event) {
-
             event.preventDefault();
 
             loadProperties();
 
-            const latestSection = document.getElementById("latest");
+            const latestSection =
+                document.getElementById("latest");
 
             if (latestSection) {
                 latestSection.scrollIntoView({
@@ -620,15 +555,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
-    // الضغط على تصنيف من الصفحة الرئيسية
+    // تصنيفات الصفحة الرئيسية
     document.querySelectorAll(".category-card").forEach(
         function (card) {
-
             card.addEventListener("click", function () {
+                const category =
+                    card.dataset.category || "";
 
-                const category = card.dataset.category || "";
-                const operation = card.dataset.operation || "";
+                const operation =
+                    card.dataset.operation || "";
 
                 const categorySelect =
                     document.getElementById("propertyType");
@@ -644,10 +579,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     operationSelect.value = operation;
                 }
 
-                // نترك رابط البطاقة ينقل المستخدم إلى قسم الإعلانات
                 loadProperties();
             });
         }
     );
-
 });
