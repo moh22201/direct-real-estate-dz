@@ -817,12 +817,12 @@ function setupAuthenticationLinks() {
 
       if (type === "login" && loggedIn) {
         link.textContent = "حسابي";
-        link.href = "my-properties.html";
+        link.href = "add-property.html";
       }
 
       if (type === "register" && loggedIn) {
         link.textContent = "إعلاناتي";
-        link.href = "my-properties.html";
+        link.href = "add-property.html";
       }
 
       if (type === "my-properties") {
@@ -839,7 +839,7 @@ function setupAuthenticationLinks() {
 
   if (loginLink && loggedIn) {
     loginLink.textContent = "حسابي";
-    loginLink.href = "my-properties.html";
+    loginLink.href = "add-property.html";
   }
 
   const accountName = document.getElementById("accountName");
