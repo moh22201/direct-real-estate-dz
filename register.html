@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#12352b">
+
+    <title>إنشاء حساب | مملكة العقار المباشر DZ</title>
+
+    <link rel="stylesheet" href="style.css?v=3">
+
+    <style>
+        .auth-section {
+            min-height: 75vh;
+            padding: 55px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f8f5;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 460px;
+            padding: 30px 24px;
+            background: #fff;
+            border: 1px solid #e3e9e5;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px rgba(18, 53, 43, 0.08);
+        }
+
+        .auth-card h1 {
+            color: #12352b;
+            margin-bottom: 10px;
+            font-size: 1.7rem;
+        }
+
+        .auth-intro {
+            color: #65736b;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .auth-form label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: 600;
+            color: #12352b;
+        }
+
+        .auth-form input {
+            display: block;
+            width: 100%;
+            min-height: 48px;
+            padding: 12px;
+            border: 1px solid #ccd8cf;
+            border-radius: 9px;
+            font: inherit;
+            background: #fff;
+        }
+
+        .auth-form input:focus {
+            outline: 2px solid #176b4b;
+            outline-offset: 2px;
+        }
+
+        .auth-submit {
+            width: 100%;
+            margin-top: 24px;
+            min-height: 48px;
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .auth-message {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            line-height: 1.8;
+            overflow-wrap: anywhere;
+            display: none;
+        }
+
+        .auth-message.visible {
+            display: block;
+        }
+
+        .auth-message.error {
+            background: #fff0f0;
+            color: #9c2222;
+        }
+
+        .auth-message.success {
+            background: #edf8f0;
+            color: #176b4b;
+        }
+
+        .auth-footer {
+            margin-top: 22px;
+            text-align: center;
+            line-height: 2;
+        }
+
+        .auth-footer a {
+            color: #176b4b;
+            font-weight: 700;
+        }
+
+        .auth-home {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #176b4b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container header-content">
+
+            <a href="index.html" class="brand">
+                <span class="brand-icon">⌂</span>
+                <span class="brand-text">
+                    <strong>مملكة العقار</strong>
+                    <small>المباشر DZ</small>
+                </span>
+            </a>
+
+        </div>
+    </header>
+
+    <main>
+        <section class="auth-section">
+            <div class="auth-card">
+
+                <h1>إنشاء حساب جديد</h1>
+
+                <p class="auth-intro">
+                    انضم إلى مملكة العقار المباشر DZ،
+                    وتابع رحلتك في بيع العقارات أو البحث عنها.
+                </p>
+
+                <form id="registerForm" class="auth-form">
+
+                    <label for="fullName">الاسم الكامل</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        autocomplete="name"
+                        required
+                        maxlength="100"
+                    >
+
+                    <label for="email">البريد الإلكتروني</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <label for="password">كلمة المرور</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+
+                    <label for="confirmPassword">تأكيد كلمة المرور</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        id="registerButton"
+                        class="btn btn-primary auth-submit"
+                    >
+                        إنشاء الحساب
+                    </button>
+
+                    <div
+                        id="registerMessage"
+                        class="auth-message"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                </form>
+
+                <div class="auth-footer">
+                    لديك حساب بالفعل؟
+                    <a href="login.html">تسجيل الدخول</a>
+                </div>
+
+                <a href="index.html" class="auth-home">
+                    العودة إلى الصفحة الرئيسية
+                </a>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        "use strict";
+
+        const SUPABASE_URL =
+            "https://fppzejxdggnlscjcqmgk.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+
+        const form = document.getElementById("registerForm");
+        const message = document.getElementById("registerMessage");
+        const button = document.getElementById("registerButton");
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = "auth-message visible " + type;
+        }
+
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            const fullName =
+                document.getElementById("fullName").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (password.length < 8) {
+                showMessage(
+                    "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+                    "error"
+                );
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage(
+                    "كلمتا المرور غير متطابقتين.",
+                    "error"
+                );
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = "جارٍ إنشاء الحساب...";
+            message.className = "auth-message";
+
+            try {
+
+                const response = await fetch(
+                    SUPABASE_URL + "/auth/v1/signup",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "apikey": SUPABASE_KEY
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password,
+                            data: {
+                                full_name: fullName
+                            }
+                        })
+                    }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.msg ||
+                        result.message ||
+                        result.error_description ||
+                        result.error ||
+                        "تعذر إنشاء الحساب."
+                    );
+                }
+
+                if (result.session) {
+
+                    showMessage(
+                        "تم إنشاء الحساب بنجاح. سنجهز الآن صفحة الدخول إلى حسابك.",
+                        "success"
+                    );
+
+                } else {
+
+                    showMessage(
+                        "تم إرسال طلب إنشاء الحساب. إذا كان تأكيد البريد الإلكتروني مفعّلًا، افتح بريدك واتبع رابط التأكيد قبل تسجيل الدخول.",
+                        "success"
+                    );
+                }
+
+                form.reset();
+
+            } catch (error) {
+
+                console.error("Registration error:", error);
+
+                showMessage(
+                    error.message ||
+                    "حدث خطأ أثناء التسجيل. حاول مرة أخرى.",
+                    "error"
+                );
+
+            } finally {
+
+                button.disabled = false;
+                button.textContent = "إنشاء الحساب";
+
+            }
+        });
+    </script>
+
+</body>
+</html>
