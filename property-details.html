@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b32">
+
+  <title>تفاصيل العقار | مملكة العقار المباشر DZ</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7f5;
+      color: #24352f;
+      line-height: 1.8;
+    }
+
+    header {
+      background: #123b32;
+      color: white;
+      padding: 18px 15px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #d8e8df;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      margin: 25px auto;
+      padding: 0 14px;
+    }
+
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 3px 15px #0000000b;
+    }
+
+    .status {
+      color: #52665c;
+      text-align: center;
+      padding: 25px 10px;
+    }
+
+    h2 {
+      color: #123b32;
+      margin-top: 0;
+      font-size: 25px;
+    }
+
+    .price {
+      font-size: 25px;
+      font-weight: bold;
+      color: #168052;
+      margin: 12px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e6f3eb;
+      color: #17633e;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .detail {
+      background: #f4f7f4;
+      padding: 12px;
+      border-radius: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .detail strong {
+      display: block;
+      color: #65756c;
+      font-size: 13px;
+    }
+
+    .detail span {
+      font-weight: bold;
+    }
+
+    .description {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      padding-top: 10px;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #123b32;
+      color: white;
+      padding: 12px;
+      border-radius: 9px;
+      margin-top: 22px;
+    }
+
+    footer {
+      text-align: center;
+      color: #65756c;
+      font-size: 13px;
+      padding: 20px 10px;
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        padding: 16px;
+      }
+
+      h2 {
+        font-size: 21px;
+      }
+
+      .price {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>مملكة العقار المباشر DZ</h1>
+    <p>تفاصيل العقار</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+
+      <div id="loading" class="status">
+        جارٍ تحميل تفاصيل العقار...
+      </div>
+
+      <div id="error" class="status" hidden>
+        <p id="errorMessage">
+          تعذر العثور على العقار.
+        </p>
+      </div>
+
+      <article id="property" hidden>
+
+        <span id="operation" class="badge"></span>
+
+        <h2 id="title"></h2>
+
+        <div id="price" class="price"></div>
+
+        <div class="details">
+
+          <div class="detail">
+            <strong>الولاية</strong>
+            <span id="wilaya"></span>
+          </div>
+
+          <div class="detail">
+            <strong>البلدية</strong>
+            <span id="commune"></span>
+          </div>
+
+          <div class="detail">
+            <strong>نوع العقار</strong>
+            <span id="category"></span>
+          </div>
+
+          <div class="detail">
+            <strong>المساحة</strong>
+            <span id="area"></span>
+          </div>
+
+          <div class="detail">
+            <strong>غرف النوم</strong>
+            <span id="bedrooms"></span>
+          </div>
+
+          <div class="detail">
+            <strong>الحمامات</strong>
+            <span id="bathrooms"></span>
+          </div>
+
+        </div>
+
+        <h3>وصف العقار</h3>
+        <div id="description" class="description"></div>
+
+      </article>
+
+      <a class="back" href="index.html">
+        العودة إلى الصفحة الرئيسية
+      </a>
+
+    </section>
+  </main>
+
+  <footer>
+    مملكة العقار المباشر DZ — العقار مباشرة من صاحبه
+  </footer>
+
+  <script>
+    const SUPABASE_URL =
+      "https://fppzejxdggnlscjcqmgk.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+
+    const loading = document.getElementById("loading");
+    const errorBox = document.getElementById("error");
+    const errorMessage = document.getElementById("errorMessage");
+    const propertyBox = document.getElementById("property");
+
+    function showError(message) {
+      loading.hidden = true;
+      propertyBox.hidden = true;
+      errorBox.hidden = false;
+      errorMessage.textContent = message;
+    }
+
+    function setText(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function displayValue(value) {
+      return value === null || value === undefined || value === ""
+        ? "غير محدد"
+        : String(value);
+    }
+
+    function formatPrice(value) {
+      if (value === null || value === undefined || value === "") {
+        return "السعر غير محدد";
+      }
+
+      const number = Number(value);
+
+      if (!Number.isFinite(number)) {
+        return "السعر غير محدد";
+      }
+
+      return number.toLocaleString("fr-DZ") + " دج";
+    }
+
+    const categories = {
+      apartment: "شقة",
+      house: "منزل",
+      land: "أرض للبناء",
+      farm: "أرض فلاحية",
+      commercial: "عقار تجاري"
+    };
+
+    async function loadProperty() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+      if (!id) {
+        showError("لم يتم تحديد العقار المطلوب.");
+        return;
+      }
+
+      const fields = [
+        "id",
+        "title",
+        "description",
+        "category",
+        "operation",
+        "wilaya",
+        "commune",
+        "price",
+        "area_m2",
+        "bedrooms",
+        "bathrooms",
+        "created_at"
+      ].join(",");
+
+      const url =
+        SUPABASE_URL +
+        "/rest/v1/properties?id=eq." +
+        encodeURIComponent(id) +
+        "&status=eq.published" +
+        "&select=" + fields +
+        "&limit=1";
+
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            "apikey": SUPABASE_KEY
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("تعذر الاتصال بقاعدة البيانات.");
+        }
+
+        const rows = await response.json();
+
+        if (!Array.isArray(rows) || rows.length === 0) {
+          showError(
+            "العقار غير موجود أو لم يتم نشره بعد."
+          );
+          return;
+        }
+
+        const p = rows[0];
+
+        setText("title", displayValue(p.title));
+
+        setText(
+          "operation",
+          p.operation === "sale" ? "للبيع" :
+          p.operation === "rent" ? "للكراء" :
+          "عقار"
+        );
+
+        setText("price", formatPrice(p.price));
+        setText("wilaya", displayValue(p.wilaya));
+        setText("commune", displayValue(p.commune));
+
+        setText(
+          "category",
+          categories[p.category] || displayValue(p.category)
+        );
+
+        setText(
+          "area",
+          p.area_m2 == null
+            ? "غير محددة"
+            : displayValue(p.area_m2) + " م²"
+        );
+
+        setText("bedrooms", displayValue(p.bedrooms));
+        setText("bathrooms", displayValue(p.bathrooms));
+
+        setText(
+          "description",
+          displayValue(p.description)
+        );
+
+        document.title =
+          (p.title || "تفاصيل العقار") +
+          " | مملكة العقار المباشر DZ";
+
+        loading.hidden = true;
+        errorBox.hidden = true;
+        propertyBox.hidden = false;
+
+      } catch (error) {
+        showError(
+          "حدث خطأ أثناء تحميل العقار. تحقق من اتصال الإنترنت وحاول مجدداً."
+        );
+      }
+    }
+
+    loadProperty();
+  </script>
+
+</body>
+</html>
