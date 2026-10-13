@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إضافة إعلان عقاري | مملكة العقار المباشر DZ</title>
+  <link rel="stylesheet" href="style.css?v=3">
+
+  <style>
+    .add-property-container {
+      max-width: 700px;
+      margin: 25px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+
+    .add-property-container h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .page-description {
+      text-align: center;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .property-form label {
+      display: block;
+      margin: 16px 0 7px;
+      font-weight: bold;
+    }
+
+    .property-form input,
+    .property-form select,
+    .property-form textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font-size: 16px;
+      box-sizing: border-box;
+      background: #fff;
+      font-family: inherit;
+    }
+
+    .property-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .submit-property-button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #176b45;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .submit-property-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .property-message {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 9px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #176b45;
+    }
+
+    .required-note {
+      font-size: 13px;
+      color: #777;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .add-property-container {
+        margin: 15px 10px;
+        padding: 16px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="add-property-container">
+
+    <h1>أضف إعلانك العقاري</h1>
+
+    <p class="page-description">
+      اعرض عقارك للبيع أو الإيجار وتواصل مباشرة مع الباحثين عنه.
+      نشر الإعلان مجاني في هذه المرحلة.
+    </p>
+
+    <form id="propertyForm" class="property-form">
+
+      <label for="title">عنوان الإعلان *</label>
+      <input
+        id="title"
+        type="text"
+        maxlength="150"
+        placeholder="مثال: شقة للبيع في وسط مستغانم"
+        required
+      >
+
+      <label for="operation">نوع العملية *</label>
+      <select id="operation" required>
+        <option value="">اختر نوع العملية</option>
+        <option value="sale">للبيع</option>
+        <option value="rent">للإيجار</option>
+      </select>
+
+      <label for="category">نوع العقار *</label>
+      <select id="category" required>
+        <option value="">اختر نوع العقار</option>
+        <option value="apartment">شقة</option>
+        <option value="house">منزل</option>
+        <option value="land">أرض</option>
+        <option value="farm">مزرعة أو أرض فلاحية</option>
+        <option value="commercial">محل تجاري</option>
+      </select>
+
+      <label for="wilaya">الولاية *</label>
+      <input
+        id="wilaya"
+        type="text"
+        maxlength="100"
+        placeholder="مثال: مستغانم"
+        required
+      >
+
+      <label for="commune">البلدية</label>
+      <input
+        id="commune"
+        type="text"
+        maxlength="100"
+        placeholder="اسم البلدية"
+      >
+
+      <div class="form-row">
+        <div>
+          <label for="price">السعر بالدينار الجزائري *</label>
+          <input
+            id="price"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="مثال: 15000000"
+            required
+          >
+        </div>
+
+        <div>
+          <label for="area_m2">المساحة بالمتر المربع</label>
+          <input
+            id="area_m2"
+            type="number"
+            min="1"
+            step="0.01"
+            placeholder="مثال: 120"
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div>
+          <label for="bedrooms">عدد الغرف</label>
+          <input
+            id="bedrooms"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="مثال: 3"
+          >
+        </div>
+
+        <div>
+          <label for="bathrooms">عدد الحمامات</label>
+          <input
+            id="bathrooms"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="مثال: 1"
+          >
+        </div>
+      </div>
+
+      <label for="description">وصف العقار *</label>
+      <textarea
+        id="description"
+        maxlength="5000"
+        placeholder="اكتب تفاصيل العقار وموقعه ومميزاته..."
+        required
+      ></textarea>
+
+      <p class="required-note">الحقول التي تحمل علامة * إلزامية.</p>
+
+      <button
+        type="submit"
+        id="submitButton"
+        class="submit-property-button"
+      >
+        إرسال الإعلان للمراجعة
+      </button>
+
+    </form>
+
+    <div
+      id="propertyMessage"
+      class="property-message"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <a class="back-link" href="index.html">
+      العودة إلى الصفحة الرئيسية
+    </a>
+
+  </main>
+
+  <script>
+    const SUPABASE_URL =
+      "https://fppzejxdggnlscjcqmgk.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+
+    const form = document.getElementById("propertyForm");
+    const button = document.getElementById("submitButton");
+    const message = document.getElementById("propertyMessage");
+
+    function showMessage(text, success = false) {
+      message.style.display = "block";
+      message.style.background = success ? "#e8f7ee" : "#fff0f0";
+      message.style.color = success ? "#176b45" : "#a12626";
+      message.textContent = text;
+    }
+
+    function getSession() {
+      try {
+        return JSON.parse(
+          localStorage.getItem("supabaseSession") || "null"
+        );
+      } catch {
+        return null;
+      }
+    }
+
+    const session = getSession();
+
+    if (!session || !session.access_token || !session.user) {
+      form.style.display = "none";
+
+      showMessage(
+        "يجب تسجيل الدخول أولاً قبل إضافة إعلان.",
+        false
+      );
+
+      const loginLink = document.createElement("a");
+      loginLink.href = "login.html";
+      loginLink.textContent = "الانتقال إلى تسجيل الدخول";
+      loginLink.style.display = "block";
+      loginLink.style.marginTop = "15px";
+      loginLink.style.color = "#176b45";
+      loginLink.style.fontWeight = "bold";
+
+      message.appendChild(document.createElement("br"));
+      message.appendChild(loginLink);
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const currentSession = getSession();
+
+      if (
+        !currentSession ||
+        !currentSession.access_token ||
+        !currentSession.user ||
+        !currentSession.user.id
+      ) {
+        showMessage(
+          "انتهت جلسة الدخول أو لم يتم تسجيل الدخول. سجّل الدخول مجدداً."
+        );
+        return;
+      }
+
+      const price = Number(document.getElementById("price").value);
+      const areaValue = document.getElementById("area_m2").value;
+      const bedroomsValue = document.getElementById("bedrooms").value;
+      const bathroomsValue = document.getElementById("bathrooms").value;
+
+      if (!Number.isFinite(price) || price <= 0) {
+        showMessage("يرجى إدخال سعر صحيح.");
+        return;
+      }
+
+      const property = {
+        owner_id: currentSession.user.id,
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        category: document.getElementById("category").value,
+        operation: document.getElementById("operation").value,
+        wilaya: document.getElementById("wilaya").value.trim(),
+        commune: document.getElementById("commune").value.trim() || null,
+        price: price,
+        area_m2: areaValue ? Number(areaValue) : null,
+        bedrooms: bedroomsValue ? Number(bedroomsValue) : null,
+        bathrooms: bathroomsValue ? Number(bathroomsValue) : null,
+        status: "pending_review"
+      };
+
+      if (
+        !property.title ||
+        !property.description ||
+        !property.category ||
+        !property.operation ||
+        !property.wilaya
+      ) {
+        showMessage("يرجى إكمال جميع الحقول الإلزامية.");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "جارٍ إرسال الإعلان...";
+      message.style.display = "none";
+
+      try {
+        const response = await fetch(
+          SUPABASE_URL + "/rest/v1/properties",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": SUPABASE_KEY,
+              "Authorization": "Bearer " + currentSession.access_token,
+              "Prefer": "return=representation"
+            },
+            body: JSON.stringify(property)
+          }
+        );
+
+        if (!response.ok) {
+          let errorData = {};
+
+          try {
+            errorData = await response.json();
+          } catch {}
+
+          if (response.status === 401) {
+            showMessage(
+              "انتهت جلسة الدخول. سجّل الخروج ثم ادخل إلى حسابك مجدداً."
+            );
+          } else if (response.status === 403) {
+            showMessage(
+              "ليس لدينا إذن لحفظ الإعلان. سنحتاج إلى مراجعة صلاحيات قاعدة البيانات."
+            );
+          } else {
+            console.error("Supabase insert error:", errorData);
+
+            showMessage(
+              "تعذر حفظ الإعلان. قد تكون هناك مشكلة في صلاحيات قاعدة البيانات أو في الحقول. سنفحصها إذا ظهرت هذه الرسالة."
+            );
+          }
+
+          return;
+        }
+
+        showMessage(
+          "تم إرسال إعلانك بنجاح! سيبقى قيد المراجعة ولن يظهر للزوار قبل موافقة الإدارة.",
+          true
+        );
+
+        form.reset();
+
+      } catch (error) {
+        console.error(error);
+
+        showMessage(
+          "تعذر الاتصال بالخادم. تحقق من الإنترنت وحاول مرة أخرى."
+        );
+
+      } finally {
+        button.disabled = false;
+        button.textContent = "إرسال الإعلان للمراجعة";
+      }
+    });
+  </script>
+
+</body>
+</html>
