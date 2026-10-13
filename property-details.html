@@ -2,144 +2,338 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b32">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>تفاصيل العقار | مملكة العقار المباشر DZ</title>
 
+  <meta
+    name="description"
+    content="اكتشف تفاصيل العقارات المنشورة للبيع والكراء في الجزائر عبر مملكة العقار المباشر."
+  >
+
+  <meta name="theme-color" content="#087fa3">
+
+  <link rel="stylesheet" href="style.css?v=4">
+
   <style>
-    * {
-      box-sizing: border-box;
+    .details-page {
+      min-height: 70vh;
+      padding: 35px 0 65px;
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7f5;
-      color: #24352f;
-      line-height: 1.8;
+    .details-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 22px;
     }
 
-    header {
-      background: #123b32;
-      color: white;
-      padding: 18px 15px;
-      text-align: center;
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-dark);
+      font-weight: 800;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 23px;
-    }
-
-    header p {
-      margin: 5px 0 0;
-      font-size: 14px;
-      color: #d8e8df;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 850px;
-      margin: 25px auto;
-      padding: 0 14px;
-    }
-
-    .card {
-      background: white;
-      padding: 22px;
-      border-radius: 14px;
-      box-shadow: 0 3px 15px #0000000b;
-    }
-
-    .status {
-      color: #52665c;
-      text-align: center;
-      padding: 25px 10px;
-    }
-
-    h2 {
-      color: #123b32;
-      margin-top: 0;
-      font-size: 25px;
-    }
-
-    .price {
-      font-size: 25px;
-      font-weight: bold;
-      color: #168052;
-      margin: 12px 0;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #e6f3eb;
-      color: #17633e;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-
-    .details {
+    .details-layout {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .details-main,
+    .details-sidebar {
+      min-width: 0;
+    }
+
+    .details-card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .details-cover {
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--primary-dark);
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(18,163,200,.15),
+          transparent 35%
+        ),
+        linear-gradient(135deg,#e6f5fa,#fff9eb);
+    }
+
+    .details-cover-icon {
+      font-size: 66px;
+      line-height: 1.4;
+    }
+
+    .details-cover p {
+      margin: 8px 0 0;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .details-cover img,
+    .details-cover video {
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      background: #f0f6fa;
+    }
+
+    .details-cover.has-media {
+      display: block;
+      padding: 0;
+    }
+
+    .details-body {
+      padding: 26px;
+    }
+
+    .details-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 15px;
+    }
+
+    .details-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .details-badge.gold {
+      background: #fff6df;
+      color: #8a651c;
+      border: 1px solid #f0dfb4;
+    }
+
+    .details-title {
+      margin: 0 0 12px;
+      color: var(--primary-dark);
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: 1.6;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .details-location {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+      line-height: 1.9;
+    }
+
+    .details-price {
+      margin: 20px 0;
+      padding: 20px;
+      background: linear-gradient(135deg,#edf9fd,#fffaf0);
+      border: 1px solid #dcebf0;
+      border-right: 4px solid var(--gold);
+      border-radius: 13px;
+    }
+
+    .details-price-label {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .details-price-value {
+      color: var(--primary-dark);
+      font-size: clamp(25px, 4vw, 34px);
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .details-specs {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
       gap: 12px;
       margin: 22px 0;
     }
 
-    .detail {
-      background: #f4f7f4;
-      padding: 12px;
-      border-radius: 9px;
+    .details-spec {
+      padding: 15px;
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 0;
+    }
+
+    .details-spec-label {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .details-spec-value {
+      display: block;
+      color: var(--primary-dark);
+      font-size: 15px;
+      font-weight: 900;
       overflow-wrap: anywhere;
     }
 
-    .detail strong {
-      display: block;
-      color: #65756c;
-      font-size: 13px;
+    .details-section-title {
+      margin: 25px 0 12px;
+      color: var(--primary-dark);
+      font-size: 20px;
+      font-weight: 900;
     }
 
-    .detail span {
-      font-weight: bold;
-    }
-
-    .description {
+    .details-description {
+      color: #425c6a;
+      line-height: 2.1;
+      overflow-wrap: anywhere;
       white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      padding-top: 10px;
     }
 
-    .back {
-      display: block;
-      text-align: center;
-      text-decoration: none;
-      background: #123b32;
-      color: white;
-      padding: 12px;
-      border-radius: 9px;
-      margin-top: 22px;
+    .sidebar-box {
+      padding: 22px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 18px;
     }
 
-    footer {
-      text-align: center;
-      color: #65756c;
+    .sidebar-box h2 {
+      margin: 0 0 12px;
+      color: var(--primary-dark);
+      font-size: 19px;
+    }
+
+    .sidebar-box p {
+      color: var(--text-secondary);
       font-size: 13px;
-      padding: 20px 10px;
+      line-height: 2;
     }
 
-    @media (max-width: 400px) {
-      .card {
-        padding: 16px;
+    .contact-privacy {
+      padding: 13px;
+      margin: 15px 0;
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .trust-list {
+      padding: 0;
+      margin: 15px 0 0;
+      list-style: none;
+    }
+
+    .trust-list li {
+      padding: 9px 0;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .trust-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .details-message {
+      padding: 24px;
+      margin: 20px 0;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      color: var(--text-secondary);
+      line-height: 2;
+    }
+
+    .details-message h2 {
+      color: var(--primary-dark);
+    }
+
+    .details-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .details-actions .btn {
+      width: 100%;
+    }
+
+    @media (max-width: 850px) {
+      .details-layout {
+        grid-template-columns: 1fr;
       }
 
-      h2 {
-        font-size: 21px;
+      .details-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+        gap: 14px;
       }
 
-      .price {
-        font-size: 21px;
+      .sidebar-box {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .details-page {
+        padding-top: 22px;
+      }
+
+      .details-body {
+        padding: 19px 15px;
+      }
+
+      .details-cover {
+        min-height: 190px;
+      }
+
+      .details-cover-icon {
+        font-size: 52px;
+      }
+
+      .details-specs {
+        gap: 9px;
+      }
+
+      .details-spec {
+        padding: 12px 10px;
+      }
+
+      .details-sidebar {
+        grid-template-columns: 1fr;
+      }
+
+      .details-topbar .btn {
+        width: 100%;
       }
     }
   </style>
@@ -147,238 +341,94 @@
 
 <body>
 
-  <header>
-    <h1>مملكة العقار المباشر DZ</h1>
-    <p>تفاصيل العقار</p>
-  </header>
+<header>
+  <div class="navbar">
 
-  <main class="container">
-    <section class="card">
+    <a href="index.html" class="logo">
+      <span aria-hidden="true">⌂</span>
+      <span>مملكة العقار المباشر DZ</span>
+    </a>
 
-      <div id="loading" class="status">
-        جارٍ تحميل تفاصيل العقار...
-      </div>
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="فتح القائمة"
+      aria-expanded="false"
+    >☰</button>
 
-      <div id="error" class="status" hidden>
-        <p id="errorMessage">
-          تعذر العثور على العقار.
-        </p>
-      </div>
+    <nav class="nav-links">
+      <a href="index.html">الرئيسية</a>
+      <a href="index.html#propertiesSection">العقارات</a>
+      <a href="add-property.html">أضف عقارك</a>
+      <a href="login.html">تسجيل الدخول</a>
+    </nav>
 
-      <article id="property" hidden>
+  </div>
+</header>
 
-        <span id="operation" class="badge"></span>
+<main class="details-page">
+  <div class="container">
 
-        <h2 id="title"></h2>
-
-        <div id="price" class="price"></div>
-
-        <div class="details">
-
-          <div class="detail">
-            <strong>الولاية</strong>
-            <span id="wilaya"></span>
-          </div>
-
-          <div class="detail">
-            <strong>البلدية</strong>
-            <span id="commune"></span>
-          </div>
-
-          <div class="detail">
-            <strong>نوع العقار</strong>
-            <span id="category"></span>
-          </div>
-
-          <div class="detail">
-            <strong>المساحة</strong>
-            <span id="area"></span>
-          </div>
-
-          <div class="detail">
-            <strong>غرف النوم</strong>
-            <span id="bedrooms"></span>
-          </div>
-
-          <div class="detail">
-            <strong>الحمامات</strong>
-            <span id="bathrooms"></span>
-          </div>
-
-        </div>
-
-        <h3>وصف العقار</h3>
-        <div id="description" class="description"></div>
-
-      </article>
-
-      <a class="back" href="index.html">
-        العودة إلى الصفحة الرئيسية
+    <div class="details-topbar">
+      <a href="index.html" class="back-link">
+        <span aria-hidden="true">→</span>
+        العودة إلى العقارات
       </a>
 
-    </section>
-  </main>
+      <a href="add-property.html" class="btn btn-gold">
+        أضف عقارك
+      </a>
+    </div>
 
-  <footer>
-    مملكة العقار المباشر DZ — العقار مباشرة من صاحبه
-  </footer>
+    <div id="detailsMessage" class="details-message">
+      جارٍ تحميل تفاصيل العقار...
+    </div>
 
-  <script>
-    const SUPABASE_URL =
-      "https://fppzejxdggnlscjcqmgk.supabase.co";
+    <div id="propertyDetails" hidden>
 
-    const SUPABASE_KEY =
-      "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+      <div class="details-layout">
 
-    const loading = document.getElementById("loading");
-    const errorBox = document.getElementById("error");
-    const errorMessage = document.getElementById("errorMessage");
-    const propertyBox = document.getElementById("property");
+        <div class="details-main">
 
-    function showError(message) {
-      loading.hidden = true;
-      propertyBox.hidden = true;
-      errorBox.hidden = false;
-      errorMessage.textContent = message;
-    }
+          <article class="details-card">
 
-    function setText(id, value) {
-      document.getElementById(id).textContent = value;
-    }
+            <div class="details-cover" id="detailsCover">
+              <div>
+                <div class="details-cover-icon" aria-hidden="true">⌂</div>
+                <strong>مملكة العقار المباشر DZ</strong>
+                <p>منصتك للبحث عن العقارات في الجزائر</p>
+              </div>
+            </div>
 
-    function displayValue(value) {
-      return value === null || value === undefined || value === ""
-        ? "غير محدد"
-        : String(value);
-    }
+            <div class="details-body">
 
-    function formatPrice(value) {
-      if (value === null || value === undefined || value === "") {
-        return "السعر غير محدد";
-      }
+              <div class="details-badges">
+                <span class="details-badge" id="propertyOperation">
+                  العقار
+                </span>
 
-      const number = Number(value);
+                <span class="details-badge gold" id="propertyCategory">
+                  التصنيف
+                </span>
+              </div>
 
-      if (!Number.isFinite(number)) {
-        return "السعر غير محدد";
-      }
+              <h1 class="details-title" id="propertyTitle">
+                تفاصيل العقار
+              </h1>
 
-      return number.toLocaleString("fr-DZ") + " دج";
-    }
+              <div class="details-location">
+                <span aria-hidden="true">📍</span>
+                <span id="propertyLocation"></span>
+              </div>
 
-    const categories = {
-      apartment: "شقة",
-      house: "منزل",
-      land: "أرض للبناء",
-      farm: "أرض فلاحية",
-      commercial: "عقار تجاري"
-    };
+              <div class="details-price">
+                <span class="details-price-label">السعر المعلن</span>
+                <span class="details-price-value" id="propertyPrice"></span>
+              </div>
 
-    async function loadProperty() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
+              <h2 class="details-section-title">مواصفات العقار</h2>
 
-      if (!id) {
-        showError("لم يتم تحديد العقار المطلوب.");
-        return;
-      }
+              <div class="details-specs">
 
-      const fields = [
-        "id",
-        "title",
-        "description",
-        "category",
-        "operation",
-        "wilaya",
-        "commune",
-        "price",
-        "area_m2",
-        "bedrooms",
-        "bathrooms",
-        "created_at"
-      ].join(",");
-
-      const url =
-        SUPABASE_URL +
-        "/rest/v1/properties?id=eq." +
-        encodeURIComponent(id) +
-        "&status=eq.published" +
-        "&select=" + fields +
-        "&limit=1";
-
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "apikey": SUPABASE_KEY
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error("تعذر الاتصال بقاعدة البيانات.");
-        }
-
-        const rows = await response.json();
-
-        if (!Array.isArray(rows) || rows.length === 0) {
-          showError(
-            "العقار غير موجود أو لم يتم نشره بعد."
-          );
-          return;
-        }
-
-        const p = rows[0];
-
-        setText("title", displayValue(p.title));
-
-        setText(
-          "operation",
-          p.operation === "sale" ? "للبيع" :
-          p.operation === "rent" ? "للكراء" :
-          "عقار"
-        );
-
-        setText("price", formatPrice(p.price));
-        setText("wilaya", displayValue(p.wilaya));
-        setText("commune", displayValue(p.commune));
-
-        setText(
-          "category",
-          categories[p.category] || displayValue(p.category)
-        );
-
-        setText(
-          "area",
-          p.area_m2 == null
-            ? "غير محددة"
-            : displayValue(p.area_m2) + " م²"
-        );
-
-        setText("bedrooms", displayValue(p.bedrooms));
-        setText("bathrooms", displayValue(p.bathrooms));
-
-        setText(
-          "description",
-          displayValue(p.description)
-        );
-
-        document.title =
-          (p.title || "تفاصيل العقار") +
-          " | مملكة العقار المباشر DZ";
-
-        loading.hidden = true;
-        errorBox.hidden = true;
-        propertyBox.hidden = false;
-
-      } catch (error) {
-        showError(
-          "حدث خطأ أثناء تحميل العقار. تحقق من اتصال الإنترنت وحاول مجدداً."
-        );
-      }
-    }
-
-    loadProperty();
-  </script>
-
-</body>
-</html>
+                <div class="details-spec">
+                  <span class="details
