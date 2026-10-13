@@ -209,7 +209,9 @@
         showMessage("تم تسجيل الدخول بنجاح! يمكنك الآن العودة إلى الصفحة الرئيسية.", true);
 
         button.textContent = "تم تسجيل الدخول";
-
+setTimeout(() => {
+  window.location.href = "index.html";
+}, 1000);
       } catch (error) {
         showMessage("تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت وحاول مجدداً.");
       } finally {
