@@ -1,586 +1,794 @@
+/* ==========================================
+   مملكة العقار المباشر DZ
+   Main JavaScript
+   Supabase + Property Search
+   ========================================== */
+
 "use strict";
 
-/*
- * مملكة العقار المباشر DZ
- * البحث وعرض العقارات المنشورة وربطها بصفحة التفاصيل
- */
+/* ==========================================
+   SUPABASE CONFIGURATION
+   ========================================== */
 
-const SUPABASE_URL =
-    "https://fppzejxdggnlscjcqmgk.supabase.co";
+const SUPABASE_URL = "https://fppzejxdggnlscjcqmgk.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+  "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
 
-const PROPERTIES_ENDPOINT =
-    SUPABASE_URL + "/rest/v1/properties";
+const PROPERTY_FIELDS = [
+  "id",
+  "title",
+  "description",
+  "category",
+  "operation",
+  "wilaya",
+  "commune",
+  "price",
+  "area_m2",
+  "bedrooms",
+  "bathrooms",
+  "created_at"
+].join(",");
 
+/* ==========================================
+   ALGERIAN WILAYAS
+   ========================================== */
 
-// ======================================
-// الولايات الجزائرية
-// ======================================
-
-const wilayas = [
-    "أدرار", "الشلف", "الأغواط", "أم البواقي",
-    "باتنة", "بجاية", "بسكرة", "بشار",
-    "البليدة", "البويرة", "تمنراست", "تبسة",
-    "تلمسان", "تيارت", "تيزي وزو", "الجزائر",
-    "الجلفة", "جيجل", "سطيف", "سعيدة",
-    "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة",
-    "قسنطينة", "المدية", "مستغانم", "المسيلة",
-    "معسكر", "ورقلة", "وهران", "البيض",
-    "إليزي", "برج بوعريريج", "بومرداس", "الطارف",
-    "تندوف", "تيسمسيلت", "الوادي", "خنشلة",
-    "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى",
-    "النعامة", "عين تموشنت", "غرداية", "غليزان",
-    "تيميمون", "برج باجي مختار", "أولاد جلال",
-    "بني عباس", "عين صالح", "عين قزام", "تقرت",
-    "جانت", "المغير", "المنيعة", "أفلو",
-    "بريكة", "القنطرة", "بئر العاتر", "العريشة",
-    "قصر الشلالة", "عين وسارة", "مسعد",
-    "قصر البخاري", "بوسعادة", "الأبيض سيدي الشيخ"
+const WILAYAS = [
+  "أدرار",
+  "الشلف",
+  "الأغواط",
+  "أم البواقي",
+  "باتنة",
+  "بجاية",
+  "بسكرة",
+  "بشار",
+  "البليدة",
+  "البويرة",
+  "تمنراست",
+  "تبسة",
+  "تلمسان",
+  "تيارت",
+  "تيزي وزو",
+  "الجزائر",
+  "الجلفة",
+  "جيجل",
+  "سطيف",
+  "سعيدة",
+  "سكيكدة",
+  "سيدي بلعباس",
+  "عنابة",
+  "قالمة",
+  "قسنطينة",
+  "المدية",
+  "مستغانم",
+  "المسيلة",
+  "معسكر",
+  "ورقلة",
+  "وهران",
+  "البيض",
+  "إليزي",
+  "برج بوعريريج",
+  "بومرداس",
+  "الطارف",
+  "تندوف",
+  "تيسمسيلت",
+  "الوادي",
+  "خنشلة",
+  "سوق أهراس",
+  "تيبازة",
+  "ميلة",
+  "عين الدفلى",
+  "النعامة",
+  "عين تموشنت",
+  "غرداية",
+  "غليزان",
+  "تيميمون",
+  "برج باجي مختار",
+  "أولاد جلال",
+  "بني عباس",
+  "عين صالح",
+  "عين قزام",
+  "تقرت",
+  "جانت",
+  "المغير",
+  "المنيعة"
 ];
 
+/* ==========================================
+   CATEGORY LABELS
+   ========================================== */
 
-// ======================================
-// ترجمة أنواع العقارات والعمليات
-// ======================================
-
-const categoryLabels = {
-    apartment: "شقة",
-    house: "منزل",
-    land: "أرض للبناء",
-    farm: "أرض فلاحية",
-    commercial: "عقار تجاري"
+const CATEGORY_LABELS = {
+  apartment: "شقة",
+  house: "منزل",
+  land: "أرض للبناء",
+  farm: "أرض فلاحية",
+  commercial: "محل تجاري"
 };
 
-const operationLabels = {
-    sale: "للبيع",
-    rent: "للكراء"
+const OPERATION_LABELS = {
+  sale: "للبيع",
+  rent: "للكراء"
 };
 
-
-function normalizeCategory(category) {
-    const categories = {
-        apartment: "apartment",
-        house: "house",
-        building_land: "land",
-        agricultural_land: "farm",
-        commercial: "commercial"
-    };
-
-    return categories[category] || category;
-}
-
-
-// ======================================
-// حماية النصوص
-// ======================================
+/* ==========================================
+   GENERAL HELPERS
+   ========================================== */
 
 function escapeHTML(value) {
-    return String(value ?? "").replace(
-        /[&<>"']/g,
-        function (character) {
-            const entities = {
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#39;"
-            };
+  return String(value ?? "").replace(/[&<>"']/g, function (char) {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    };
 
-            return entities[character];
-        }
+    return entities[char];
+  });
+}
+
+function formatPrice(value) {
+  const number = Number(value);
+
+  if (!Number.isFinite(number)) {
+    return "السعر غير محدد";
+  }
+
+  return new Intl.NumberFormat("fr-DZ", {
+    maximumFractionDigits: 2
+  }).format(number) + " دج";
+}
+
+function formatDate(value) {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("ar-DZ", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  }).format(date);
+}
+
+function getCategoryLabel(category) {
+  return CATEGORY_LABELS[category] || "عقار";
+}
+
+function getOperationLabel(operation) {
+  return OPERATION_LABELS[operation] || "عقار";
+}
+
+function getSession() {
+  try {
+    const raw = localStorage.getItem("supabaseSession");
+
+    if (!raw) return null;
+
+    const session = JSON.parse(raw);
+
+    if (!session || !session.access_token) {
+      return null;
+    }
+
+    if (
+      session.expires_at &&
+      Number(session.expires_at) * 1000 <= Date.now()
+    ) {
+      return null;
+    }
+
+    return session;
+  } catch (error) {
+    console.warn("تعذرت قراءة جلسة المستخدم.");
+    return null;
+  }
+}
+
+function getCurrentUserId() {
+  const session = getSession();
+
+  return session?.user?.id || null;
+}
+
+function isLoggedIn() {
+  return Boolean(getCurrentUserId());
+}
+
+/* ==========================================
+   SUPABASE REST HELPERS
+   ========================================== */
+
+async function supabaseRequest(path, options = {}) {
+  const session = getSession();
+
+  const headers = {
+    apikey: SUPABASE_KEY,
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  if (session?.access_token) {
+    headers.Authorization = "Bearer " + session.access_token;
+  } else {
+    headers.Authorization = "Bearer " + SUPABASE_KEY;
+  }
+
+  const response = await fetch(
+    SUPABASE_URL + path,
+    {
+      ...options,
+      headers
+    }
+  );
+
+  const text = await response.text();
+
+  let data = null;
+
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
+
+  if (!response.ok) {
+    const message =
+      data?.message ||
+      data?.error_description ||
+      data?.error ||
+      "حدث خطأ أثناء الاتصال بالخادم.";
+
+    throw new Error(message);
+  }
+
+  return data;
+}
+
+/* ==========================================
+   NOTIFICATIONS
+   ========================================== */
+
+function showMessage(message, type = "info", containerId = null) {
+  const container = containerId
+    ? document.getElementById(containerId)
+    : null;
+
+  const target = container || document.getElementById("globalMessage");
+
+  if (!target) {
+    console.log(message);
+    return;
+  }
+
+  target.textContent = message;
+
+  target.className =
+    "alert " +
+    (
+      type === "success"
+        ? "alert-success"
+        : type === "error"
+          ? "alert-error"
+          : type === "warning"
+            ? "alert-warning"
+            : "alert-info"
     );
+
+  target.hidden = false;
 }
 
+function clearMessage(containerId) {
+  const target = document.getElementById(containerId);
 
-// ======================================
-// تنسيق السعر
-// ======================================
-
-function formatPrice(price) {
-    if (price === null || price === undefined || price === "") {
-        return "السعر عند الاتصال";
-    }
-
-    const number = Number(price);
-
-    if (!Number.isFinite(number)) {
-        return "السعر عند الاتصال";
-    }
-
-    return new Intl.NumberFormat("fr-DZ", {
-        maximumFractionDigits: 2
-    }).format(number) + " دج";
+  if (target) {
+    target.textContent = "";
+    target.hidden = true;
+  }
 }
 
+/* ==========================================
+   WILAYA SELECTS
+   ========================================== */
 
-// ======================================
-// رسائل الصفحة
-// ======================================
+function populateWilayaSelects() {
+  const selects = document.querySelectorAll(
+    'select[name="wilaya"], #wilayaFilter, #wilaya'
+  );
 
-function showMessage(grid, title, message) {
-    grid.innerHTML = `
-        <div class="empty-state">
-            <span class="empty-icon">🏘️</span>
-            <h3>${escapeHTML(title)}</h3>
-            <p>${escapeHTML(message)}</p>
-        </div>
-    `;
-}
+  selects.forEach(function (select) {
+    const currentValue = select.value;
 
+    const existingOptions = Array.from(select.options);
 
-// ======================================
-// تنسيق البطاقات
-// ======================================
+    const hasDefaultOption = existingOptions.some(function (option) {
+      return option.value === "";
+    });
 
-function installPropertyStyles() {
-    if (document.getElementById("propertyDynamicStyles")) {
-        return;
+    select.innerHTML = "";
+
+    if (hasDefaultOption) {
+      const placeholder = document.createElement("option");
+
+      placeholder.value = "";
+      placeholder.textContent =
+        select.dataset.placeholder || "كل الولايات";
+
+      select.appendChild(placeholder);
     }
 
-    const style = document.createElement("style");
-    style.id = "propertyDynamicStyles";
+    WILAYAS.forEach(function (wilaya) {
+      const option = document.createElement("option");
 
-    style.textContent = `
-        .property-card {
-            background: #ffffff;
-            border: 1px solid #e3e9e5;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 16px rgba(18, 53, 43, 0.06);
-            overflow-wrap: anywhere;
-        }
+      option.value = wilaya;
+      option.textContent = wilaya;
 
-        .property-card h3 {
-            color: #12352b;
-            margin: 10px 0;
-            font-size: 1.15rem;
-        }
+      select.appendChild(option);
+    });
 
-        .property-card .property-price {
-            color: #176b4b;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 12px 0;
-        }
-
-        .property-card .property-location {
-            color: #52645b;
-            margin: 8px 0;
-        }
-
-        .property-card .property-description {
-            color: #46564d;
-            line-height: 1.8;
-            overflow-wrap: anywhere;
-        }
-
-        .property-card .property-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 12px 0;
-        }
-
-        .property-card .property-tag {
-            background: #eef5f0;
-            color: #12352b;
-            padding: 5px 10px;
-            border-radius: 7px;
-            font-size: 0.88rem;
-        }
-
-        .property-card .property-operation {
-            display: inline-block;
-            background: #12352b;
-            color: #ffffff;
-            padding: 5px 12px;
-            border-radius: 7px;
-            font-size: 0.9rem;
-        }
-
-        .property-card .property-contact-note {
-            color: #66736b;
-            font-size: 0.9rem;
-            line-height: 1.7;
-            margin-top: 12px;
-        }
-
-        .property-details-link {
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            background: #123b32;
-            color: #ffffff !important;
-            padding: 11px 15px;
-            border-radius: 9px;
-            margin-top: 16px;
-            font-weight: bold;
-        }
-
-        .property-details-link:hover {
-            background: #1a5948;
-        }
-    `;
-
-    document.head.appendChild(style);
+    if (
+      currentValue &&
+      Array.from(select.options).some(
+        option => option.value === currentValue
+      )
+    ) {
+      select.value = currentValue;
+    }
+  });
 }
 
+/* ==========================================
+   PROPERTY QUERY
+   ========================================== */
 
-// ======================================
-// عرض الإعلانات وربطها بالتفاصيل
-// ======================================
+async function fetchPublishedProperties(filters = {}) {
+  const params = new URLSearchParams();
 
-function renderProperties(grid, properties) {
-    if (!properties || properties.length === 0) {
-        showMessage(
-            grid,
-            "لا توجد إعلانات مطابقة",
-            "لم نعثر على عقارات منشورة بهذه المواصفات. جرّب تغيير خيارات البحث."
-        );
+  params.set("select", PROPERTY_FIELDS);
+  params.set("status", "eq.published");
+  params.set("order", "created_at.desc");
+  params.set("limit", "60");
 
-        return;
+  if (filters.operation) {
+    params.set("operation", "eq." + filters.operation);
+  }
+
+  if (filters.category) {
+    params.set("category", "eq." + filters.category);
+  }
+
+  if (filters.wilaya) {
+    params.set("wilaya", "eq." + filters.wilaya);
+  }
+
+  if (filters.search) {
+    const search = filters.search.trim();
+
+    if (search) {
+      const safeSearch = search.replace(/[(),]/g, " ");
+
+      params.set(
+        "or",
+        "(title.ilike.*" +
+          safeSearch +
+          "*,commune.ilike.*" +
+          safeSearch +
+          "*,wilaya.ilike.*" +
+          safeSearch +
+          "*)"
+      );
     }
+  }
 
-    grid.innerHTML = "";
+  return await supabaseRequest(
+    "/rest/v1/properties?" + params.toString()
+  );
+}
+
+/* ==========================================
+   PROPERTY CARD
+   ========================================== */
+
+function createPropertyCard(property) {
+  const card = document.createElement("article");
+
+  card.className = "property-card";
+
+  const category = getCategoryLabel(property.category);
+  const operation = getOperationLabel(property.operation);
+
+  const location = [
+    property.commune,
+    property.wilaya
+  ].filter(Boolean).join("، ");
+
+  const area = property.area_m2
+    ? escapeHTML(property.area_m2) + " م²"
+    : "";
+
+  const bedrooms = property.bedrooms !== null &&
+    property.bedrooms !== undefined
+      ? escapeHTML(property.bedrooms) + " غرف"
+      : "";
+
+  const bathrooms = property.bathrooms !== null &&
+    property.bathrooms !== undefined
+      ? escapeHTML(property.bathrooms) + " حمامات"
+      : "";
+
+  const meta = [area, bedrooms, bathrooms]
+    .filter(Boolean)
+    .map(item => "<span>" + item + "</span>")
+    .join("");
+
+  const description = String(property.description || "");
+
+  const shortDescription = description.length > 115
+    ? description.slice(0, 115) + "…"
+    : description;
+
+  card.innerHTML = `
+    <div class="property-image">
+      <div class="property-placeholder"
+           style="
+             height:100%;
+             display:flex;
+             flex-direction:column;
+             align-items:center;
+             justify-content:center;
+             gap:8px;
+             color:#087fa3;
+             background:linear-gradient(135deg,#e6f5fa,#fff9eb);
+           ">
+        <span style="font-size:42px" aria-hidden="true">⌂</span>
+        <span style="font-size:12px">مملكة العقار المباشر</span>
+      </div>
+
+      <span
+        style="
+          position:absolute;
+          top:12px;
+          right:12px;
+          background:#087fa3;
+          color:#fff;
+          padding:5px 11px;
+          border-radius:7px;
+          font-size:12px;
+          font-weight:bold;
+        "
+      >${escapeHTML(operation)}</span>
+    </div>
+
+    <div class="property-card-content">
+      <div class="property-meta">
+        <span>${escapeHTML(category)}</span>
+      </div>
+
+      <h3 class="property-title">
+        ${escapeHTML(property.title)}
+      </h3>
+
+      <div class="property-location">
+        <span aria-hidden="true">📍</span>
+        <span>${escapeHTML(location || "الجزائر")}</span>
+      </div>
+
+      <div class="property-price">
+        ${escapeHTML(formatPrice(property.price))}
+      </div>
+
+      ${
+        meta
+          ? `<div class="property-meta">${meta}</div>`
+          : ""
+      }
+
+      ${
+        shortDescription
+          ? `<p>${escapeHTML(shortDescription)}</p>`
+          : ""
+      }
+
+      <a
+        class="btn btn-primary"
+        href="property-details.html?id=${encodeURIComponent(property.id)}"
+      >عرض تفاصيل العقار</a>
+    </div>
+  `;
+
+  return card;
+}
+
+/* ==========================================
+   EMPTY STATE
+   ========================================== */
+
+function showEmptyProperties(container, message) {
+  container.innerHTML = "";
+
+  const empty = document.createElement("div");
+
+  empty.className = "empty-state";
+  empty.style.gridColumn = "1 / -1";
+
+  const title = document.createElement("h3");
+  title.textContent = "لا توجد إعلانات لعرضها";
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = message ||
+    "لم نعثر على عقارات مطابقة للبحث. جرّب تغيير خيارات البحث.";
+
+  empty.appendChild(title);
+  empty.appendChild(paragraph);
+
+  container.appendChild(empty);
+}
+
+/* ==========================================
+   RENDER PROPERTIES
+   ========================================== */
+
+async function renderProperties(filters = {}) {
+  const container = document.getElementById("propertiesGrid");
+
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="empty-state" style="grid-column:1/-1">
+      <p>جارٍ تحميل العقارات المنشورة...</p>
+    </div>
+  `;
+
+  try {
+    const properties = await fetchPublishedProperties(filters);
+
+    container.innerHTML = "";
+
+    if (!Array.isArray(properties) || properties.length === 0) {
+      showEmptyProperties(
+        container,
+        "لا توجد إعلانات منشورة تطابق خيارات البحث حاليًا."
+      );
+
+      return;
+    }
 
     properties.forEach(function (property) {
-        const category =
-            categoryLabels[property.category] || "عقار";
-
-        const operation =
-            operationLabels[property.operation] || "";
-
-        const location = [
-            property.commune,
-            property.wilaya
-        ].filter(Boolean).join("، ");
-
-        const details = [];
-
-        if (property.area_m2 !== null &&
-            property.area_m2 !== undefined) {
-            details.push(
-                "المساحة: " +
-                escapeHTML(property.area_m2) +
-                " م²"
-            );
-        }
-
-        if (property.bedrooms !== null &&
-            property.bedrooms !== undefined) {
-            details.push(
-                "غرف النوم: " +
-                escapeHTML(property.bedrooms)
-            );
-        }
-
-        if (property.bathrooms !== null &&
-            property.bathrooms !== undefined) {
-            details.push(
-                "الحمامات: " +
-                escapeHTML(property.bathrooms)
-            );
-        }
-
-        const card = document.createElement("article");
-        card.className = "property-card";
-
-        card.innerHTML = `
-            <span class="property-operation">
-                ${escapeHTML(operation || category)}
-            </span>
-
-            <h3>${escapeHTML(property.title || "عقار معروض")}</h3>
-
-            <p class="property-location">
-                📍 ${escapeHTML(location || "الموقع غير محدد")}
-            </p>
-
-            <p>
-                نوع العقار:
-                ${escapeHTML(category)}
-            </p>
-
-            <p class="property-price">
-                ${escapeHTML(formatPrice(property.price))}
-            </p>
-
-            ${
-                details.length
-                    ? `
-                        <div class="property-tags">
-                            ${details.map(function (detail) {
-                                return `
-                                    <span class="property-tag">
-                                        ${detail}
-                                    </span>
-                                `;
-                            }).join("")}
-                        </div>
-                    `
-                    : ""
-            }
-
-            ${
-                property.description
-                    ? `
-                        <p class="property-description">
-                            ${escapeHTML(property.description)}
-                        </p>
-                    `
-                    : ""
-            }
-
-            <p class="property-contact-note">
-                تصفح تفاصيل العقار ومواصفاته.
-            </p>
-
-            <a
-                class="property-details-link"
-                href="property-details.html?id=${encodeURIComponent(property.id)}"
-            >
-                عرض تفاصيل العقار ←
-            </a>
-        `;
-
-        grid.appendChild(card);
+      container.appendChild(createPropertyCard(property));
     });
-}
+  } catch (error) {
+    console.error("تعذر تحميل العقارات:", error);
 
-
-// ======================================
-// تحميل الإعلانات والبحث
-// ======================================
-
-async function loadProperties() {
-    const grid = document.getElementById("propertiesGrid");
-
-    if (!grid) {
-        return;
-    }
-
-    showMessage(
-        grid,
-        "جارٍ تحميل العقارات...",
-        "يرجى الانتظار قليلًا."
+    showEmptyProperties(
+      container,
+      "تعذر تحميل العقارات الآن. تحقق من اتصال الإنترنت وحاول مجددًا."
     );
 
-    const params = new URLSearchParams();
+    const retry = document.createElement("button");
 
-    params.set(
-        "select",
-        "id,title,description,category,operation,wilaya,commune,price,area_m2,bedrooms,bathrooms,created_at"
-    );
+    retry.type = "button";
+    retry.className = "btn btn-outline";
+    retry.textContent = "إعادة المحاولة";
 
-    // عرض الإعلانات المنشورة فقط
-    params.set("status", "eq.published");
+    retry.addEventListener("click", function () {
+      renderProperties(filters);
+    });
 
-    // الأحدث أولًا
-    params.set("order", "created_at.desc");
-
-    // الحد الأقصى الحالي
-    params.set("limit", "30");
-
-    const operationElement =
-        document.getElementById("operation");
-
-    const categoryElement =
-        document.getElementById("propertyType");
-
-    const wilayaElement =
-        document.getElementById("wilaya");
-
-    const operation = operationElement
-        ? operationElement.value
-        : "";
-
-    const selectedCategory = categoryElement
-        ? categoryElement.value
-        : "";
-
-    const wilaya = wilayaElement
-        ? wilayaElement.value
-        : "";
-
-    if (operation) {
-        params.set("operation", "eq." + operation);
-    }
-
-    if (selectedCategory) {
-        params.set(
-            "category",
-            "eq." + normalizeCategory(selectedCategory)
-        );
-    }
-
-    if (wilaya) {
-        params.set("wilaya", "eq." + wilaya);
-    }
-
-    const requestURL =
-        PROPERTIES_ENDPOINT + "?" + params.toString();
-
-    try {
-        const response = await fetch(requestURL, {
-            method: "GET",
-            headers: {
-                "apikey": SUPABASE_KEY
-            }
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-
-            console.error(
-                "Supabase error:",
-                response.status,
-                errorText
-            );
-
-            showMessage(
-                grid,
-                "تعذر تحميل الإعلانات",
-                "حدث خطأ في الاتصال بقاعدة البيانات."
-            );
-
-            return;
-        }
-
-        const properties = await response.json();
-
-        renderProperties(grid, properties);
-
-    } catch (error) {
-        console.error("Connection error:", error);
-
-        showMessage(
-            grid,
-            "تعذر الاتصال",
-            "تحقق من اتصال الإنترنت ثم أعد تحميل الصفحة."
-        );
-    }
+    container.appendChild(retry);
+  }
 }
 
+/* ==========================================
+   SEARCH FORM
+   ========================================== */
 
-// ======================================
-// تشغيل وظائف الموقع
-// ======================================
+function setupSearchForm() {
+  const form =
+    document.getElementById("searchForm") ||
+    document.querySelector(".search-form");
+
+  if (!form) return;
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const operation =
+      form.querySelector('[name="operation"]')?.value || "";
+
+    const category =
+      form.querySelector('[name="category"]')?.value || "";
+
+    const wilaya =
+      form.querySelector('[name="wilaya"]')?.value || "";
+
+    const search =
+      form.querySelector(
+        '[name="search"], [name="keyword"], [name="query"]'
+      )?.value || "";
+
+    renderProperties({
+      operation,
+      category,
+      wilaya,
+      search
+    });
+
+    const propertiesSection =
+      document.getElementById("propertiesSection") ||
+      document.getElementById("propertiesGrid");
+
+    propertiesSection?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+}
+
+/* ==========================================
+   CATEGORY FILTERS
+   ========================================== */
+
+function setupCategoryCards() {
+  const categoryCards = document.querySelectorAll(
+    "[data-category], .category-card"
+  );
+
+  categoryCards.forEach(function (card) {
+    card.addEventListener("click", function () {
+      const category =
+        card.dataset.category ||
+        card.getAttribute("data-filter") ||
+        "";
+
+      if (!category) return;
+
+      renderProperties({
+        category
+      });
+
+      const propertiesSection =
+        document.getElementById("propertiesSection") ||
+        document.getElementById("propertiesGrid");
+
+      propertiesSection?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  });
+}
+
+/* ==========================================
+   MOBILE NAVIGATION
+   ========================================== */
+
+function setupMobileNavigation() {
+  const toggle =
+    document.querySelector(".nav-toggle") ||
+    document.querySelector(".menu-toggle") ||
+    document.querySelector(".mobile-menu-btn");
+
+  const nav =
+    document.querySelector(".nav-links") ||
+    document.querySelector(".nav-menu") ||
+    document.querySelector("header nav");
+
+  if (!toggle || !nav) return;
+
+  toggle.addEventListener("click", function () {
+    const isOpen =
+      nav.classList.toggle("active");
+
+    nav.classList.toggle("open", isOpen);
+
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  nav.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      nav.classList.remove("active", "open");
+      toggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+/* ==========================================
+   AUTHENTICATION NAVIGATION
+   ========================================== */
+
+function setupAuthenticationLinks() {
+  const session = getSession();
+
+  document.querySelectorAll("[data-auth-link]").forEach(function (link) {
+    const type = link.dataset.authLink;
+
+    if (type === "login" && session) {
+      link.textContent = "حسابي";
+      link.href = "my-properties.html";
+    }
+
+    if (type === "register" && session) {
+      link.textContent = "إعلاناتي";
+      link.href = "my-properties.html";
+    }
+
+    if (type === "my-properties") {
+      link.hidden = !session;
+    }
+
+    if (type === "logout") {
+      link.hidden = !session;
+    }
+  });
+
+  document.querySelectorAll("[data-logout]").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      localStorage.removeItem("supabaseSession");
+
+      window.location.href = "index.html";
+    });
+  });
+}
+
+/* ==========================================
+   CATEGORY VALUE NORMALIZATION
+   ========================================== */
+
+function normalizeCategory(category) {
+  const aliases = {
+    building_land: "land",
+    agricultural_land: "farm"
+  };
+
+  return aliases[category] || category;
+}
+
+/* ==========================================
+   INITIALIZATION
+   ========================================== */
 
 document.addEventListener("DOMContentLoaded", function () {
+  populateWilayaSelects();
 
-    const currentYear =
-        document.getElementById("currentYear");
+  setupSearchForm();
 
-    if (currentYear) {
-        currentYear.textContent =
-            new Date().getFullYear();
-    }
+  setupCategoryCards();
 
-    // قائمة الهاتف
-    const menuToggle =
-        document.getElementById("menuToggle");
+  setupMobileNavigation();
 
-    const mainNav =
-        document.getElementById("mainNav");
+  setupAuthenticationLinks();
 
-    if (menuToggle && mainNav) {
-        menuToggle.addEventListener("click", function () {
-            const isOpen =
-                mainNav.classList.toggle("open");
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
-
-            menuToggle.textContent =
-                isOpen ? "✕" : "☰";
-        });
-
-        mainNav.querySelectorAll("a").forEach(function (link) {
-            link.addEventListener("click", function () {
-                mainNav.classList.remove("open");
-
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-                menuToggle.textContent = "☰";
-            });
-        });
-    }
-
-    // تعبئة قائمة الولايات
-    const wilayaSelect =
-        document.getElementById("wilaya");
-
-    if (wilayaSelect) {
-        wilayas.forEach(function (wilaya) {
-            const option = document.createElement("option");
-
-            option.value = wilaya;
-            option.textContent = wilaya;
-
-            wilayaSelect.appendChild(option);
-        });
-    }
-
-    // تحميل العقارات
-    installPropertyStyles();
-    loadProperties();
-
-    // البحث
-    const searchForm =
-        document.getElementById("searchForm");
-
-    if (searchForm) {
-        searchForm.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            loadProperties();
-
-            const latestSection =
-                document.getElementById("latest");
-
-            if (latestSection) {
-                latestSection.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            }
-        });
-    }
-
-    // تصنيفات الصفحة الرئيسية
-    document.querySelectorAll(".category-card").forEach(
-        function (card) {
-            card.addEventListener("click", function () {
-                const category =
-                    card.dataset.category || "";
-
-                const operation =
-                    card.dataset.operation || "";
-
-                const categorySelect =
-                    document.getElementById("propertyType");
-
-                const operationSelect =
-                    document.getElementById("operation");
-
-                if (categorySelect) {
-                    categorySelect.value = category;
-                }
-
-                if (operationSelect && operation) {
-                    operationSelect.value = operation;
-                }
-
-                loadProperties();
-            });
-        }
-    );
+  renderProperties();
 });
+
+/* ==========================================
+   GLOBAL HELPERS
+   ========================================== */
+
+window.DZRealEstate = {
+  fetchPublishedProperties,
+  renderProperties,
+  formatPrice,
+  formatDate,
+  getCategoryLabel,
+  getOperationLabel,
+  escapeHTML,
+  getSession,
+  getCurrentUserId,
+  isLoggedIn,
+  supabaseRequest,
+  showMessage,
+  normalizeCategory,
+  WILAYAS
+};
