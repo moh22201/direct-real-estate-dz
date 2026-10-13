@@ -3,130 +3,276 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>إضافة إعلان عقاري | مملكة العقار المباشر DZ</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <meta name="description" content="أضف إعلانك العقاري إلى مملكة العقار المباشر DZ.">
+
+  <link rel="stylesheet" href="style.css?v=4">
 
   <style>
-    .add-property-container {
-      max-width: 700px;
-      margin: 25px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    :root {
+      --form-blue: #087fa3;
+      --form-blue-dark: #07566f;
+      --form-gold: #d4ad57;
+      --form-bg: #f4f8fa;
+      --form-text: #193744;
+      --form-muted: #6d818b;
+      --form-border: #dce7eb;
     }
 
-    .add-property-container h1 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .page-description {
-      text-align: center;
-      color: #666;
-      line-height: 1.8;
-      margin-bottom: 24px;
-    }
-
-    .property-form label {
-      display: block;
-      margin: 16px 0 7px;
-      font-weight: bold;
-    }
-
-    .property-form input,
-    .property-form select,
-    .property-form textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 9px;
-      font-size: 16px;
+    * {
       box-sizing: border-box;
-      background: #fff;
-      font-family: inherit;
     }
 
-    .property-form textarea {
-      min-height: 120px;
-      resize: vertical;
+    body {
+      margin: 0;
+      background: var(--form-bg);
+      color: var(--form-text);
+      font-family: Arial, Tahoma, sans-serif;
+      line-height: 1.7;
     }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .media-help {
-      color: #666;
-      font-size: 13px;
-      line-height: 1.8;
-      margin: 6px 0;
-    }
-
-    .file-input {
-      background: #f8faf9 !important;
-      cursor: pointer;
-    }
-
-    .submit-property-button {
-      width: 100%;
-      margin-top: 24px;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #176b45;
+    .add-header {
+      background: linear-gradient(125deg, #06485e, #087fa3);
       color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
+      padding: 25px 16px 34px;
+      border-bottom: 4px solid var(--form-gold);
     }
 
-    .submit-property-button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .property-message {
-      display: none;
-      margin-top: 18px;
-      padding: 13px;
-      border-radius: 9px;
-      line-height: 1.8;
-      overflow-wrap: anywhere;
+    .add-header-inner {
+      max-width: 900px;
+      margin: auto;
     }
 
     .back-link {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      color: #176b45;
-    }
-
-    .required-note {
-      font-size: 13px;
-      color: #777;
-      margin-top: 12px;
-    }
-
-    .progress-text {
-      display: none;
-      text-align: center;
-      margin-top: 12px;
-      color: #176b45;
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      margin-bottom: 15px;
       font-size: 14px;
     }
 
-    @media (max-width: 480px) {
-      .add-property-container {
-        margin: 15px 10px;
-        padding: 16px;
+    .back-link:hover {
+      color: #ffe6a7;
+    }
+
+    .add-header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 5vw, 34px);
+    }
+
+    .add-header p {
+      margin: 0;
+      color: #e3f5fa;
+      font-size: 14px;
+    }
+
+    .add-container {
+      width: min(900px, calc(100% - 24px));
+      margin: 24px auto 45px;
+    }
+
+    .notice {
+      background: #fffdf7;
+      border: 1px solid #ead8a7;
+      border-right: 4px solid var(--form-gold);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .form-card {
+      background: white;
+      border: 1px solid var(--form-border);
+      border-radius: 18px;
+      padding: clamp(16px, 4vw, 30px);
+      box-shadow: 0 10px 30px rgba(10, 68, 87, 0.06);
+    }
+
+    .section-title {
+      margin: 25px 0 17px;
+      padding-right: 12px;
+      border-right: 4px solid var(--form-gold);
+      color: var(--form-blue-dark);
+      font-size: 19px;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .required {
+      color: #b54747;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #cfdee4;
+      background: #fff;
+      color: var(--form-text);
+      padding: 12px 13px;
+      border-radius: 10px;
+      font: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--form-blue);
+      box-shadow: 0 0 0 3px rgba(8, 127, 163, .1);
+    }
+
+    .field textarea {
+      min-height: 135px;
+      resize: vertical;
+    }
+
+    .field input[type="file"] {
+      padding: 10px;
+      background: #f9fcfd;
+      font-size: 13px;
+    }
+
+    .help-text {
+      color: var(--form-muted);
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .phone-note {
+      background: #eef8fb;
+      border: 1px solid #d1eaf1;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .check-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    .check-row input {
+      margin-top: 6px;
+      accent-color: var(--form-blue);
+      flex-shrink: 0;
+    }
+
+    .submit-button {
+      width: 100%;
+      margin-top: 23px;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      background: linear-gradient(120deg, var(--form-blue-dark), var(--form-blue));
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 7px 17px rgba(8, 127, 163, .18);
+    }
+
+    .submit-button:hover {
+      filter: brightness(1.05);
+    }
+
+    .submit-button:disabled {
+      opacity: .65;
+      cursor: wait;
+    }
+
+    .form-message {
+      display: none;
+      margin-top: 18px;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .form-message.success {
+      display: block;
+      background: #edf9f0;
+      color: #205c31;
+      border: 1px solid #bce4c6;
+    }
+
+    .form-message.error {
+      display: block;
+      background: #fff0f0;
+      color: #8a2828;
+      border: 1px solid #efc3c3;
+    }
+
+    .form-message.warning {
+      display: block;
+      background: #fff9e9;
+      color: #745719;
+      border: 1px solid #ead8a7;
+    }
+
+    .form-message a {
+      color: inherit;
+      font-weight: 700;
+    }
+
+    .add-footer {
+      text-align: center;
+      color: var(--form-muted);
+      font-size: 12px;
+      padding: 20px 10px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
       }
 
-      .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
+      .field.full {
+        grid-column: auto;
+      }
+
+      .add-container {
+        width: calc(100% - 20px);
+        margin-top: 16px;
+      }
+
+      .form-card {
+        border-radius: 14px;
       }
     }
   </style>
@@ -134,539 +280,955 @@
 
 <body>
 
-  <main class="add-property-container">
+  <header class="add-header">
+    <div class="add-header-inner">
+      <a class="back-link" href="index.html">← العودة إلى الصفحة الرئيسية</a>
 
-    <h1>أضف إعلانك العقاري</h1>
+      <h1>أضف إعلانك العقاري</h1>
 
-    <p class="page-description">
-      اعرض عقارك للبيع أو الإيجار وتواصل مباشرة مع الباحثين عنه.
-      نشر الإعلان مجاني في هذه المرحلة.
-    </p>
+      <p>
+        انشر عقارك بعد المراجعة، وابدأ بالتواصل مع المهتمين.
+      </p>
+    </div>
+  </header>
 
-    <form id="propertyForm" class="property-form">
+  <main class="add-container">
 
-      <label for="title">عنوان الإعلان *</label>
-      <input
-        id="title"
-        type="text"
-        maxlength="150"
-        placeholder="مثال: شقة للبيع في وسط مستغانم"
-        required
-      >
+    <div class="notice">
+      <strong>قبل البدء:</strong>
+      سيُحفظ إعلانك في انتظار المراجعة.
+      إدخال رقم الهاتف لا يعني نشره للزوار، ولا يعني أن الدفع قد تم.
+      ستظهر تكاليف الخدمات بوضوح قبل تفعيل أي خدمة مدفوعة.
+    </div>
 
-      <label for="operation">نوع العملية *</label>
-      <select id="operation" required>
-        <option value="">اختر نوع العملية</option>
-        <option value="sale">للبيع</option>
-        <option value="rent">للإيجار</option>
-      </select>
+    <section class="form-card">
 
-      <label for="category">نوع العقار *</label>
-      <select id="category" required>
-        <option value="">اختر نوع العقار</option>
-        <option value="apartment">شقة</option>
-        <option value="house">منزل</option>
-        <option value="land">أرض</option>
-        <option value="farm">مزرعة أو أرض فلاحية</option>
-        <option value="commercial">محل تجاري</option>
-      </select>
+      <form id="addPropertyForm">
 
-      <label for="wilaya">الولاية *</label>
-      <input
-        id="wilaya"
-        type="text"
-        maxlength="100"
-        placeholder="مثال: مستغانم"
-        required
-      >
+        <h2 class="section-title">1. معلومات العقار</h2>
 
-      <label for="commune">البلدية</label>
-      <input
-        id="commune"
-        type="text"
-        maxlength="100"
-        placeholder="اسم البلدية"
-      >
+        <div class="form-grid">
 
-      <div class="form-row">
-        <div>
-          <label for="price">السعر بالدينار الجزائري *</label>
+          <div class="field full">
+            <label for="title">
+              عنوان الإعلان <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="title"
+              name="title"
+              minlength="5"
+              maxlength="150"
+              placeholder="مثال: شقة للبيع في وسط المدينة"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="operation">
+              نوع العملية <span class="required">*</span>
+            </label>
+
+            <select id="operation" name="operation" required>
+              <option value="">اختر العملية</option>
+              <option value="sale">بيع</option>
+              <option value="rent">كراء</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="category">
+              نوع العقار <span class="required">*</span>
+            </label>
+
+            <select id="category" name="category" required>
+              <option value="">اختر نوع العقار</option>
+              <option value="apartment">شقة</option>
+              <option value="house">منزل</option>
+              <option value="land">أرض للبناء</option>
+              <option value="farm">أرض فلاحية</option>
+              <option value="commercial">محل أو عقار تجاري</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="wilaya">
+              الولاية <span class="required">*</span>
+            </label>
+
+            <select id="wilaya" name="wilaya" required>
+              <option value="">اختر الولاية</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="commune">
+              البلدية <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="commune"
+              name="commune"
+              maxlength="100"
+              placeholder="اسم البلدية"
+              required
+            >
+            <div class="help-text">
+              أدخل البلدية التي يوجد فيها العقار.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="price">
+              السعر بالدينار الجزائري <span class="required">*</span>
+            </label>
+
+            <input
+              type="number"
+              id="price"
+              name="price"
+              min="1"
+              step="any"
+              placeholder="مثال: 15000000"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="area_m2">المساحة بالمتر المربع</label>
+
+            <input
+              type="number"
+              id="area_m2"
+              name="area_m2"
+              min="0.01"
+              step="any"
+              placeholder="مثال: 120"
+            >
+          </div>
+
+          <div class="field">
+            <label for="bedrooms">عدد غرف النوم</label>
+
+            <input
+              type="number"
+              id="bedrooms"
+              name="bedrooms"
+              min="0"
+              step="1"
+              placeholder="مثال: 3"
+            >
+          </div>
+
+          <div class="field">
+            <label for="bathrooms">عدد الحمامات</label>
+
+            <input
+              type="number"
+              id="bathrooms"
+              name="bathrooms"
+              min="0"
+              step="1"
+              placeholder="مثال: 2"
+            >
+          </div>
+
+          <div class="field full">
+            <label for="description">وصف العقار</label>
+
+            <textarea
+              id="description"
+              name="description"
+              maxlength="5000"
+              placeholder="اكتب تفاصيل العقار وموقعه ومميزاته..."
+            ></textarea>
+
+            <div class="help-text">
+              الحد الأقصى 5000 حرف. اذكر المعلومات الحقيقية فقط.
+            </div>
+          </div>
+
+        </div>
+
+        <h2 class="section-title">2. رقم هاتف صاحب الإعلان</h2>
+
+        <div class="form-grid">
+
+          <div class="field full">
+            <label for="phone">
+              رقم الهاتف الجزائري <span class="required">*</span>
+            </label>
+
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="0550123456"
+              required
+            >
+
+            <div class="help-text">
+              يمكنك إدخال الرقم بصيغة 05 أو 06 أو 07، أو بصيغة دولية تبدأ بـ +213.
+            </div>
+
+            <div class="phone-note">
+              🔒 رقمك يُحفظ في جدول منفصل عن معلومات الإعلان.
+              لا نعرضه علنًا ضمن بطاقة العقار.
+              تفعيل الرقم وإظهاره للمشتري خدمة منفصلة، وسيتم توضيح تكلفتها قبل الدفع عند تفعيل النظام.
+            </div>
+          </div>
+
+        </div>
+
+        <h2 class="section-title">3. صور العقار</h2>
+
+        <div class="form-grid">
+
+          <div class="field full">
+            <label for="images">اختر صور العقار</label>
+
+            <input
+              type="file"
+              id="images"
+              name="images"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+            >
+
+            <div class="help-text">
+              يمكنك اختيار 5 صور كحد أقصى.
+              الصيغ المقبولة: JPEG وPNG وWebP.
+              الحد الأقصى 8 ميغابايت للصورة الواحدة.
+            </div>
+          </div>
+
+        </div>
+
+        <h2 class="section-title">4. فيديو العقار (اختياري)</h2>
+
+        <div class="form-grid">
+
+          <div class="field full">
+            <label for="video">اختر فيديو قصيرًا للعقار</label>
+
+            <input
+              type="file"
+              id="video"
+              name="video"
+              accept="video/mp4,video/webm"
+            >
+
+            <div class="help-text">
+              فيديو واحد فقط بصيغة MP4 أو WebM، بحجم أقصى 50 ميغابايت.
+            </div>
+          </div>
+
+        </div>
+
+        <label class="check-row" for="confirmInformation">
           <input
-            id="price"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="مثال: 15000000"
+            type="checkbox"
+            id="confirmInformation"
+            name="confirmInformation"
             required
           >
-        </div>
 
-        <div>
-          <label for="area_m2">المساحة بالمتر المربع</label>
-          <input
-            id="area_m2"
-            type="number"
-            min="1"
-            step="0.01"
-            placeholder="مثال: 120"
-          >
-        </div>
-      </div>
+          <span>
+            أؤكد أن المعلومات التي أدخلتها صحيحة، وأن الصور والفيديو تخص العقار
+            أو لدي الحق في استخدامها، وأوافق على مراجعة الإعلان قبل نشره.
+          </span>
+        </label>
 
-      <div class="form-row">
-        <div>
-          <label for="bedrooms">عدد الغرف</label>
-          <input
-            id="bedrooms"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="مثال: 3"
-          >
-        </div>
+        <button type="submit" class="submit-button" id="submitButton">
+          حفظ الإعلان وإرساله للمراجعة
+        </button>
 
-        <div>
-          <label for="bathrooms">عدد الحمامات</label>
-          <input
-            id="bathrooms"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="مثال: 1"
-          >
-        </div>
-      </div>
+        <div
+          id="formMessage"
+          class="form-message"
+          role="status"
+          aria-live="polite"
+        ></div>
 
-      <label for="description">وصف العقار *</label>
-      <textarea
-        id="description"
-        maxlength="5000"
-        placeholder="اكتب تفاصيل العقار وموقعه ومميزاته..."
-        required
-      ></textarea>
+      </form>
 
-      <label for="propertyImages">صور العقار (حتى 5 صور)</label>
-      <input
-        id="propertyImages"
-        class="file-input"
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        multiple
-      >
-
-      <p class="media-help">
-        الصيغ المقبولة: JPG وPNG وWebP.
-        الحد الأقصى 5 صور، وحجم كل صورة 8 ميغابايت.
-      </p>
-
-      <label for="propertyVideo">فيديو العقار (اختياري)</label>
-      <input
-        id="propertyVideo"
-        class="file-input"
-        type="file"
-        accept="video/mp4,video/webm"
-      >
-
-      <p class="media-help">
-        أضف فيديو يوضح العقار من الداخل والخارج.
-        الصيغ المقبولة MP4 وWebM، بحد أقصى 50 ميغابايت.
-      </p>
-
-      <p class="required-note">
-        الحقول التي تحمل علامة * إلزامية.
-      </p>
-
-      <button
-        type="submit"
-        id="submitButton"
-        class="submit-property-button"
-      >
-        إرسال الإعلان للمراجعة
-      </button>
-
-      <p id="progressText" class="progress-text" aria-live="polite"></p>
-
-    </form>
-
-    <div
-      id="propertyMessage"
-      class="property-message"
-      role="status"
-      aria-live="polite"
-    ></div>
-
-    <a class="back-link" href="index.html">
-      العودة إلى الصفحة الرئيسية
-    </a>
+    </section>
 
   </main>
 
+  <footer class="add-footer">
+    مملكة العقار المباشر DZ — تصفح الإعلانات المنشورة مجانًا.
+    لا نفرض عمولة على قيمة الصفقة العقارية.
+  </footer>
+
+  <script src="script.js?v=4"></script>
+
   <script>
-    const SUPABASE_URL =
-      "https://fppzejxdggnlscjcqmgk.supabase.co";
+    (() => {
+      "use strict";
 
-    const SUPABASE_KEY =
-      "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+      const SUPABASE_URL =
+        "https://fppzejxdggnlscjcqmgk.supabase.co";
 
-    const BUCKET_NAME = "property-media";
+      const SUPABASE_KEY =
+        "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
 
-    const form = document.getElementById("propertyForm");
-    const button = document.getElementById("submitButton");
-    const message = document.getElementById("propertyMessage");
-    const imagesInput = document.getElementById("propertyImages");
-    const videoInput = document.getElementById("propertyVideo");
-    const progressText = document.getElementById("progressText");
+      const BUCKET = "property-media";
 
-    let submissionInProgress = false;
+      const form = document.getElementById("addPropertyForm");
+      const submitButton = document.getElementById("submitButton");
+      const messageBox = document.getElementById("formMessage");
 
-    function showMessage(text, success = false) {
-      message.style.display = "block";
-      message.style.background = success ? "#e8f7ee" : "#fff0f0";
-      message.style.color = success ? "#176b45" : "#a12626";
-      message.textContent = text;
-    }
+      const imagesInput = document.getElementById("images");
+      const videoInput = document.getElementById("video");
+      const phoneInput = document.getElementById("phone");
 
-    function getSession() {
-      try {
-        return JSON.parse(
-          localStorage.getItem("supabaseSession") || "null"
-        );
-      } catch {
-        return null;
-      }
-    }
+      const MAX_IMAGE_SIZE = 8 * 1024 * 1024;
+      const MAX_VIDEO_SIZE = 50 * 1024 * 1024;
+      const MAX_IMAGES = 5;
 
-    function setProgress(text) {
-      progressText.style.display = text ? "block" : "none";
-      progressText.textContent = text || "";
-    }
-
-    function getExtension(file) {
-      const allowed = {
-        "image/jpeg": "jpg",
-        "image/png": "png",
-        "image/webp": "webp",
-        "video/mp4": "mp4",
-        "video/webm": "webm"
-      };
-
-      return allowed[file.type] || null;
-    }
-
-    function validateMedia() {
-      const images = Array.from(imagesInput.files || []);
-      const video = videoInput.files && videoInput.files[0]
-        ? videoInput.files[0]
-        : null;
-
-      if (images.length > 5) {
-        return "يمكنك اختيار 5 صور فقط كحد أقصى.";
+      function showMessage(text, type) {
+        messageBox.className = "form-message " + type;
+        messageBox.textContent = text;
+        messageBox.style.display = "block";
       }
 
-      for (const file of images) {
-        if (!getExtension(file) ||
-            !file.type.startsWith("image/")) {
-          return "إحدى الصور بصيغة غير مقبولة. استخدم JPG أو PNG أو WebP.";
-        }
+      function getSession() {
+        try {
+          const raw = localStorage.getItem("supabaseSession");
 
-        if (file.size > 8 * 1024 * 1024) {
-          return "يجب ألا يتجاوز حجم كل صورة 8 ميغابايت.";
-        }
+          if (!raw) {
+            return null;
+          }
 
-        if (file.size === 0) {
-          return "إحدى الصور فارغة. اختر ملفًا آخر.";
+          const session = JSON.parse(raw);
+
+          if (!session || !session.access_token || !session.user) {
+            return null;
+          }
+
+          if (
+            session.expires_at &&
+            Number(session.expires_at) < Math.floor(Date.now() / 1000) + 30
+          ) {
+            return null;
+          }
+
+          return session;
+        } catch (error) {
+          return null;
         }
       }
 
-      if (video) {
-        if (!["video/mp4", "video/webm"].includes(video.type)) {
-          return "صيغة الفيديو غير مقبولة. استخدم MP4 أو WebM.";
+      function requireLogin() {
+        const session = getSession();
+
+        if (!session) {
+          showMessage(
+            "يجب تسجيل الدخول أولًا. سيتم نقلك إلى صفحة تسجيل الدخول.",
+            "warning"
+          );
+
+          window.setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1300);
+
+          return null;
         }
 
-        if (video.size > 50 * 1024 * 1024) {
-          return "يجب ألا يتجاوز حجم الفيديو 50 ميغابايت.";
-        }
-
-        if (video.size === 0) {
-          return "ملف الفيديو فارغ. اختر ملفًا آخر.";
-        }
+        return session;
       }
 
-      return null;
-    }
-
-    async function uploadFile(file, userId, propertyId, index, total) {
-      const extension = getExtension(file);
-
-      if (!extension) {
-        throw new Error("صيغة ملف غير مدعومة.");
+      function getHeaders(session, extraHeaders = {}) {
+        return {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + session.access_token,
+          ...extraHeaders
+        };
       }
 
-      const randomPart =
-        window.crypto && crypto.randomUUID
-          ? crypto.randomUUID()
-          : Date.now() + "-" + Math.random().toString(36).slice(2);
+      async function readResponse(response) {
+        const text = await response.text();
 
-      const fileName = randomPart + "-" + index + "." + extension;
-
-      const path = userId + "/" + propertyId + "/" + fileName;
-
-      const encodedPath = path
-        .split("/")
-        .map(part => encodeURIComponent(part))
-        .join("/");
-
-      setProgress("جارٍ رفع الملف " + index + " من " + total + "...");
-
-      const response = await fetch(
-        SUPABASE_URL +
-          "/storage/v1/object/" +
-          BUCKET_NAME +
-          "/" +
-          encodedPath,
-        {
-          method: "POST",
-          headers: {
-            "apikey": SUPABASE_KEY,
-            "Authorization": "Bearer " + getSession().access_token,
-            "Content-Type": file.type,
-            "x-upsert": "false"
-          },
-          body: file
+        if (!text) {
+          return null;
         }
-      );
-
-      if (!response.ok) {
-        let details = "";
 
         try {
-          const data = await response.json();
-          details = data.message || data.error || "";
-        } catch {}
-
-        console.error("Storage upload error:", response.status, details);
-
-        throw new Error(
-          "تعذر رفع أحد الملفات. رمز الخطأ: " + response.status +
-          (details ? " — " + details : "")
-        );
+          return JSON.parse(text);
+        } catch (error) {
+          return text;
+        }
       }
 
-      return path;
-    }
+      function getErrorMessage(data, fallback) {
+        if (data && typeof data === "object") {
+          return (
+            data.message ||
+            data.msg ||
+            data.error_description ||
+            data.error ||
+            fallback
+          );
+        }
 
-    const session = getSession();
-
-    if (!session || !session.access_token || !session.user) {
-      form.style.display = "none";
-
-      showMessage(
-        "يجب تسجيل الدخول أولاً قبل إضافة إعلان.",
-        false
-      );
-
-      const loginLink = document.createElement("a");
-      loginLink.href = "login.html";
-      loginLink.textContent = "الانتقال إلى تسجيل الدخول";
-      loginLink.style.display = "block";
-      loginLink.style.marginTop = "15px";
-      loginLink.style.color = "#176b45";
-      loginLink.style.fontWeight = "bold";
-
-      message.appendChild(document.createElement("br"));
-      message.appendChild(loginLink);
-    }
-
-    form.addEventListener("submit", async function(event) {
-      event.preventDefault();
-
-      if (submissionInProgress) {
-        return;
+        return typeof data === "string" && data
+          ? data
+          : fallback;
       }
 
-      const currentSession = getSession();
-
-      if (
-        !currentSession ||
-        !currentSession.access_token ||
-        !currentSession.user ||
-        !currentSession.user.id
-      ) {
-        showMessage(
-          "انتهت جلسة الدخول أو لم يتم تسجيل الدخول. سجّل الدخول مجددًا."
-        );
-        return;
-      }
-
-      const mediaError = validateMedia();
-
-      if (mediaError) {
-        showMessage(mediaError);
-        return;
-      }
-
-      const price = Number(document.getElementById("price").value);
-      const areaValue = document.getElementById("area_m2").value;
-      const bedroomsValue = document.getElementById("bedrooms").value;
-      const bathroomsValue = document.getElementById("bathrooms").value;
-
-      if (!Number.isFinite(price) || price <= 0) {
-        showMessage("يرجى إدخال سعر صحيح.");
-        return;
-      }
-
-      const property = {
-        owner_id: currentSession.user.id,
-        title: document.getElementById("title").value.trim(),
-        description: document.getElementById("description").value.trim(),
-        category: document.getElementById("category").value,
-        operation: document.getElementById("operation").value,
-        wilaya: document.getElementById("wilaya").value.trim(),
-        commune: document.getElementById("commune").value.trim() || null,
-        price: price,
-        area_m2: areaValue ? Number(areaValue) : null,
-        bedrooms: bedroomsValue ? Number(bedroomsValue) : null,
-        bathrooms: bathroomsValue ? Number(bathroomsValue) : null,
-        status: "pending_review"
-      };
-
-      if (
-        !property.title ||
-        !property.description ||
-        !property.category ||
-        !property.operation ||
-        !property.wilaya
-      ) {
-        showMessage("يرجى إكمال جميع الحقول الإلزامية.");
-        return;
-      }
-
-      const selectedImages = Array.from(imagesInput.files || []);
-      const selectedVideo = videoInput.files && videoInput.files[0]
-        ? videoInput.files[0]
-        : null;
-
-      const selectedFiles = selectedImages.slice();
-
-      if (selectedVideo) {
-        selectedFiles.push(selectedVideo);
-      }
-
-      submissionInProgress = true;
-      button.disabled = true;
-      button.textContent = "جارٍ إرسال الإعلان...";
-      message.style.display = "none";
-      setProgress("");
-
-      let propertyCreated = false;
-
-      try {
-        setProgress("جارٍ حفظ بيانات العقار...");
-
+      async function insertRow(table, row, session) {
         const response = await fetch(
-          SUPABASE_URL + "/rest/v1/properties?select=id",
+          SUPABASE_URL +
+            "/rest/v1/" +
+            table +
+            "?select=*",
           {
             method: "POST",
-            headers: {
+            headers: getHeaders(session, {
               "Content-Type": "application/json",
-              "apikey": SUPABASE_KEY,
-              "Authorization": "Bearer " + currentSession.access_token,
               "Prefer": "return=representation"
-            },
-            body: JSON.stringify(property)
+            }),
+            body: JSON.stringify(row)
           }
         );
+
+        const data = await readResponse(response);
 
         if (!response.ok) {
-          let errorData = {};
-
-          try {
-            errorData = await response.json();
-          } catch {}
-
-          console.error("Supabase insert error:", errorData);
-
-          if (response.status === 401) {
-            showMessage(
-              "انتهت جلسة الدخول. سجّل الدخول مجددًا ثم حاول مرة أخرى."
-            );
-          } else if (response.status === 403) {
-            showMessage(
-              "لا توجد صلاحية لحفظ الإعلان. نحتاج إلى مراجعة صلاحيات قاعدة البيانات."
-            );
-          } else {
-            showMessage(
-              "تعذر حفظ الإعلان. رمز الخطأ: " + response.status +
-              ". تحقق من اتصال الإنترنت ثم أرسل لي هذه الرسالة."
-            );
-          }
-
-          return;
-        }
-
-        const result = await response.json();
-
-        if (!Array.isArray(result) || !result[0] || !result[0].id) {
           throw new Error(
-            "تم إرسال طلب حفظ الإعلان، لكن لم يصلنا معرّف العقار."
+            getErrorMessage(
+              data,
+              "تعذر حفظ البيانات في جدول " + table
+            )
           );
         }
 
-        const propertyId = result[0].id;
-        propertyCreated = true;
+        if (!Array.isArray(data) || !data.length) {
+          throw new Error(
+            "لم يُرجع الخادم سجلًا محفوظًا من جدول " + table
+          );
+        }
 
-        if (selectedFiles.length > 0) {
-          for (let i = 0; i < selectedFiles.length; i++) {
-            await uploadFile(
-              selectedFiles[i],
-              currentSession.user.id,
-              propertyId,
-              i + 1,
-              selectedFiles.length
+        return data[0];
+      }
+
+      function normalizeAlgerianPhone(value) {
+        let phone = String(value || "").replace(/[\s().-]/g, "");
+
+        if (/^0[567]\d{8}$/.test(phone)) {
+          phone = "+213" + phone.substring(1);
+        }
+
+        if (!/^\+213[567]\d{8}$/.test(phone)) {
+          throw new Error(
+            "رقم الهاتف غير صحيح. أدخل رقمًا جزائريًا يبدأ بـ 05 أو 06 أو 07، أو بصيغة +213."
+          );
+        }
+
+        return phone;
+      }
+
+      function validateFiles() {
+        const images = Array.from(imagesInput.files || []);
+        const video = videoInput.files && videoInput.files[0]
+          ? videoInput.files[0]
+          : null;
+
+        if (images.length > MAX_IMAGES) {
+          throw new Error(
+            "يمكنك اختيار 5 صور كحد أقصى."
+          );
+        }
+
+        const allowedImages = [
+          "image/jpeg",
+          "image/png",
+          "image/webp"
+        ];
+
+        for (const file of images) {
+          if (!allowedImages.includes(file.type)) {
+            throw new Error(
+              "إحدى الصور ليست بصيغة JPEG أو PNG أو WebP."
+            );
+          }
+
+          if (file.size > MAX_IMAGE_SIZE) {
+            throw new Error(
+              "حجم الصورة " + file.name +
+              " يتجاوز 8 ميغابايت."
+            );
+          }
+
+          if (file.size === 0) {
+            throw new Error(
+              "أحد ملفات الصور فارغ."
             );
           }
         }
 
-        form.reset();
-        setProgress("");
+        if (video) {
+          if (!["video/mp4", "video/webm"].includes(video.type)) {
+            throw new Error(
+              "صيغة الفيديو يجب أن تكون MP4 أو WebM."
+            );
+          }
 
-        showMessage(
-          selectedFiles.length > 0
-            ? "تم حفظ الإعلان ورفع الصور والفيديو بنجاح. الإعلان الآن قيد المراجعة ولن يظهر للزوار قبل موافقة الإدارة."
-            : "تم حفظ الإعلان بنجاح. الإعلان الآن قيد المراجعة ولن يظهر للزوار قبل موافقة الإدارة.",
-          true
+          if (video.size > MAX_VIDEO_SIZE) {
+            throw new Error(
+              "حجم الفيديو يتجاوز 50 ميغابايت."
+            );
+          }
+
+          if (video.size === 0) {
+            throw new Error(
+              "ملف الفيديو فارغ."
+            );
+          }
+        }
+
+        return { images, video };
+      }
+
+      function randomId() {
+        if (
+          window.crypto &&
+          typeof window.crypto.randomUUID === "function"
+        ) {
+          return window.crypto.randomUUID();
+        }
+
+        return (
+          Date.now().toString(36) +
+          Math.random().toString(36).slice(2, 14)
         );
+      }
 
-      } catch (error) {
-        console.error(error);
-        setProgress("");
+      function getExtension(file) {
+        const names = {
+          "image/jpeg": "jpg",
+          "image/png": "png",
+          "image/webp": "webp",
+          "video/mp4": "mp4",
+          "video/webm": "webm"
+        };
 
-        if (propertyCreated) {
-          /*
-           * الإعلان أصبح محفوظًا بالفعل.
-           * لا نعيد إرسال النموذج تلقائيًا حتى لا ننشئ إعلانًا مكررًا.
-           */
-          form.reset();
+        return names[file.type] || "bin";
+      }
 
-          showMessage(
-            "تم حفظ الإعلان، لكن تعذر رفع جميع ملفات الوسائط. " +
-            "بقي الإعلان قيد المراجعة. لا ترسل الإعلان مرة أخرى حتى لا يتكرر. " +
-            "تفاصيل المشكلة: " + error.message,
-            false
+      function encodeStoragePath(path) {
+        return path
+          .split("/")
+          .map(part => encodeURIComponent(part))
+          .join("/");
+      }
+
+      async function uploadMedia(file, mediaType, property, session) {
+        const extension = getExtension(file);
+
+        const storagePath =
+          session.user.id +
+          "/" +
+          property.id +
+          "/" +
+          randomId() +
+          "." +
+          extension;
+
+        const uploadUrl =
+          SUPABASE_URL +
+          "/storage/v1/object/" +
+          BUCKET +
+          "/" +
+          encodeStoragePath(storagePath);
+
+        const uploadResponse = await fetch(uploadUrl, {
+          method: "POST",
+          headers: getHeaders(session, {
+            "Content-Type": file.type,
+            "x-upsert": "false"
+          }),
+          body: file
+        });
+
+        const uploadData = await readResponse(uploadResponse);
+
+        if (!uploadResponse.ok) {
+          throw new Error(
+            getErrorMessage(
+              uploadData,
+              "تعذر رفع الملف: " + file.name
+            )
           );
-        } else {
-          showMessage(
-            "تعذر إكمال العملية. تحقق من اتصال الإنترنت ثم حاول مرة أخرى. " +
+        }
+
+        try {
+          await insertRow(
+            "property_media",
+            {
+              property_id: property.id,
+              owner_id: session.user.id,
+              storage_path: storagePath,
+              media_type: mediaType
+            },
+            session
+          );
+        } catch (error) {
+          /*
+           * إذا رُفع الملف ولكن فشل حفظ بياناته،
+           * نحاول حذف الملف حتى لا تبقى وسائط يتيمة.
+           */
+          try {
+            await fetch(
+              SUPABASE_URL +
+                "/storage/v1/object/" +
+                BUCKET +
+                "/" +
+                encodeStoragePath(storagePath),
+              {
+                method: "DELETE",
+                headers: getHeaders(session)
+              }
+            );
+          } catch (cleanupError) {
+            // لا نعرض تفاصيل التنظيف للمستخدم.
+          }
+
+          throw new Error(
+            "تم رفع الملف لكن تعذر تسجيل بياناته. " +
             error.message
           );
         }
-
-      } finally {
-        submissionInProgress = false;
-        button.disabled = false;
-        button.textContent = "إرسال الإعلان للمراجعة";
       }
-    });
+
+      function getOptionalNumber(id) {
+        const value = document.getElementById(id).value.trim();
+
+        if (value === "") {
+          return null;
+        }
+
+        const number = Number(value);
+
+        if (!Number.isFinite(number)) {
+          throw new Error("تحقق من القيم الرقمية المدخلة.");
+        }
+
+        return number;
+      }
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) {
+          return;
+        }
+
+        const session = requireLogin();
+
+        if (!session) {
+          return;
+        }
+
+        let files;
+
+        try {
+          files = validateFiles();
+        } catch (error) {
+          showMessage(error.message, "error");
+          return;
+        }
+
+        let phone;
+
+        try {
+          phone = normalizeAlgerianPhone(phoneInput.value);
+        } catch (error) {
+          showMessage(error.message, "error");
+          phoneInput.focus();
+          return;
+        }
+
+        let price;
+        let area;
+        let bedrooms;
+        let bathrooms;
+
+        try {
+          price = Number(
+            document.getElementById("price").value
+          );
+
+          area = getOptionalNumber("area_m2");
+          bedrooms = getOptionalNumber("bedrooms");
+          bathrooms = getOptionalNumber("bathrooms");
+
+          if (!Number.isFinite(price) || price <= 0) {
+            throw new Error("السعر يجب أن يكون أكبر من صفر.");
+          }
+
+          if (area !== null && area <= 0) {
+            throw new Error("المساحة يجب أن تكون أكبر من صفر.");
+          }
+
+          for (const [label, value] of [
+            ["عدد غرف النوم", bedrooms],
+            ["عدد الحمامات", bathrooms]
+          ]) {
+            if (
+              value !== null &&
+              (!Number.isInteger(value) || value < 0)
+            ) {
+              throw new Error(
+                label + " يجب أن يكون عددًا صحيحًا غير سالب."
+              );
+            }
+          }
+        } catch (error) {
+          showMessage(error.message, "error");
+          return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "جارٍ حفظ الإعلان...";
+
+        showMessage(
+          "جارٍ حفظ بيانات العقار. لا تغلق الصفحة حتى تظهر النتيجة.",
+          "warning"
+        );
+
+        let property = null;
+
+        try {
+          const propertyData = {
+            owner_id: session.user.id,
+            title: document.getElementById("title").value.trim(),
+            description:
+              document.getElementById("description").value.trim() || null,
+            category: document.getElementById("category").value,
+            operation: document.getElementById("operation").value,
+            wilaya: document.getElementById("wilaya").value,
+            commune: document.getElementById("commune").value.trim(),
+            price: price,
+            area_m2: area,
+            bedrooms: bedrooms,
+            bathrooms: bathrooms,
+            status: "pending_review"
+          };
+
+          property = await insertRow(
+            "properties",
+            propertyData,
+            session
+          );
+
+          showMessage(
+            "تم حفظ الإعلان. جارٍ حفظ رقم الهاتف ورفع الوسائط...",
+            "warning"
+          );
+
+          submitButton.textContent = "جارٍ حفظ رقم الهاتف والوسائط...";
+
+          const warnings = [];
+
+          /*
+           * رقم الهاتف منفصل عن جدول properties.
+           * الحالة pending_payment لا تعني أن الدفع تم.
+           */
+          try {
+            await insertRow(
+              "property_contacts",
+              {
+                property_id: property.id,
+                owner_id: session.user.id,
+                phone_number: phone,
+                seller_registration_status: "pending_payment"
+              },
+              session
+            );
+          } catch (error) {
+            warnings.push(
+              "تعذر حفظ رقم الهاتف: " + error.message
+            );
+          }
+
+          const mediaFiles = [
+            ...files.images.map(file => ({
+              file: file,
+              type: "image"
+            }))
+          ];
+
+          if (files.video) {
+            mediaFiles.push({
+              file: files.video,
+              type: "video"
+            });
+          }
+
+          let uploadedCount = 0;
+
+          for (let i = 0; i < mediaFiles.length; i++) {
+            const item = mediaFiles[i];
+
+            submitButton.textContent =
+              "جارٍ رفع الملفات " +
+              (i + 1) +
+              " من " +
+              mediaFiles.length +
+              "...";
+
+            try {
+              await uploadMedia(
+                item.file,
+                item.type,
+                property,
+                session
+              );
+
+              uploadedCount++;
+            } catch (error) {
+              warnings.push(
+                "تعذر رفع " + item.file.name + ": " + error.message
+              );
+            }
+          }
+
+          /*
+           * لا نحذف الإعلان إذا فشل جزء من العملية.
+           * نعرض رقم الإعلان حتى لا يكرر المستخدم إنشاءه دون قصد.
+           */
+          form.reset();
+
+          const detailsLink =
+            "property-details.html?id=" +
+            encodeURIComponent(property.id);
+
+          if (warnings.length > 0) {
+            messageBox.className = "form-message warning";
+            messageBox.style.display = "block";
+
+            messageBox.replaceChildren();
+
+            const heading = document.createElement("strong");
+            heading.textContent =
+              "تم حفظ الإعلان، لكن بعض الخطوات لم تكتمل.";
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent =
+              "رقم الإعلان: " + property.id;
+
+            const mediaParagraph = document.createElement("p");
+            mediaParagraph.textContent =
+              "عدد الملفات التي رُفعت بنجاح: " +
+              uploadedCount +
+              " من " +
+              mediaFiles.length +
+              ".";
+
+            const warningList = document.createElement("ul");
+
+            warnings.forEach(warning => {
+              const item = document.createElement("li");
+              item.textContent = warning;
+              warningList.appendChild(item);
+            });
+
+            const explanation = document.createElement("p");
+            explanation.textContent =
+              "لا تعِد إرسال النموذج مباشرة حتى لا تنشئ إعلانًا مكررًا. " +
+              "تحقق من الإعلان ورقم الهاتف والوسائط أولًا.";
+
+            const link = document.createElement("a");
+            link.href = detailsLink;
+            link.textContent =
+              "فتح صفحة الإعلان (سيظهر الإعلان بعد نشره)";
+
+            messageBox.append(
+              heading,
+              paragraph,
+              mediaParagraph,
+              warningList,
+              explanation,
+              link
+            );
+          } else {
+            messageBox.className = "form-message success";
+            messageBox.style.display = "block";
+
+            messageBox.replaceChildren();
+
+            const heading = document.createElement("strong");
+            heading.textContent =
+              "تم حفظ الإعلان بنجاح وإرساله للمراجعة.";
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent =
+              "رقم الإعلان: " + property.id;
+
+            const explanation = document.createElement("p");
+            explanation.textContent =
+              "الإعلان لم يُنشر بعد. رقم الهاتف محفوظ بحالة انتظار التفعيل، " +
+              "ولا يعني ذلك إتمام أي دفع.";
+
+            const link = document.createElement("a");
+            link.href = "index.html";
+            link.textContent = "العودة إلى الصفحة الرئيسية";
+
+            messageBox.append(
+              heading,
+              paragraph,
+              explanation,
+              link
+            );
+          }
+
+          submitButton.textContent = "تم حفظ الإعلان";
+        } catch (error) {
+          if (property) {
+            showMessage(
+              "تم إنشاء الإعلان بالفعل، لكن حدث خطأ أثناء إكمال العملية: " +
+              error.message +
+              " — رقم الإعلان: " +
+              property.id +
+              ". لا تعِد إنشاء الإعلان قبل التحقق من البيانات المحفوظة.",
+              "warning"
+            );
+          } else {
+            showMessage(
+              "تعذر حفظ الإعلان: " + error.message,
+              "error"
+            );
+
+            submitButton.disabled = false;
+            submitButton.textContent =
+              "حفظ الإعلان وإرساله للمراجعة";
+          }
+        }
+      });
+
+      /*
+       * لا نسمح بإرسال ملفات قبل التأكد من وجود جلسة دخول.
+       */
+      if (!getSession()) {
+        showMessage(
+          "يجب تسجيل الدخول بحسابك قبل إضافة عقار.",
+          "warning"
+        );
+
+        const loginLink = document.createElement("a");
+        loginLink.href = "login.html";
+        loginLink.textContent = " تسجيل الدخول";
+
+        messageBox.appendChild(document.createElement("br"));
+        messageBox.appendChild(loginLink);
+      }
+    })();
   </script>
 
 </body>
