@@ -431,4 +431,351 @@
               <div class="details-specs">
 
                 <div class="details-spec">
-                  <span class="details
+                  <span class="details-spec-label">المساحة</span>
+                  <span class="details-spec-value" id="propertyArea">غير محددة</span>
+                </div>
+
+                <div class="details-spec">
+                  <span class="details-spec-label">عدد الغرف</span>
+                  <span class="details-spec-value" id="propertyBedrooms">غير محدد</span>
+                </div>
+
+                <div class="details-spec">
+                  <span class="details-spec-label">عدد الحمامات</span>
+                  <span class="details-spec-value" id="propertyBathrooms">غير محدد</span>
+                </div>
+
+                <div class="details-spec">
+                  <span class="details-spec-label">تاريخ النشر</span>
+                  <span class="details-spec-value" id="propertyDate">غير محدد</span>
+                </div>
+
+              </div>
+
+              <h2 class="details-section-title">وصف العقار</h2>
+
+              <div class="details-description" id="propertyDescription">
+                لا يوجد وصف إضافي.
+              </div>
+
+            </div>
+          </article>
+
+        </div>
+
+        <aside class="details-sidebar">
+
+          <section class="sidebar-box">
+            <h2>التواصل مع البائع</h2>
+
+            <p>
+              نحافظ على خصوصية رقم هاتف البائع، ولا نعرضه ضمن تفاصيل
+              الإعلان العامة.
+            </p>
+
+            <div class="contact-privacy">
+              🔒 رقم الهاتف غير معروض للعامة.
+              سيظهر وفق نظام الوصول والدفع المعتمد في المنصة بعد تفعيله.
+            </div>
+
+            <div class="details-actions">
+              <a href="login.html" class="btn btn-primary">
+                تسجيل الدخول
+              </a>
+
+              <a href="register.html" class="btn btn-outline">
+                إنشاء حساب
+              </a>
+            </div>
+          </section>
+
+          <section class="sidebar-box">
+            <h2>تصفح بثقة</h2>
+
+            <ul class="trust-list">
+              <li>✓ تصفح الإعلانات المنشورة مجانًا.</li>
+              <li>✓ لا نفرض عمولة على قيمة الصفقة العقارية.</li>
+              <li>✓ تحقق من العقار ومعلوماته قبل الاتفاق.</li>
+              <li>✓ لا ترسل أموالًا قبل التحقق من الطرف الآخر.</li>
+            </ul>
+          </section>
+
+        </aside>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+
+    <div class="footer-content">
+
+      <div>
+        <h3>مملكة العقار المباشر DZ</h3>
+        <p>
+          منصة للبحث عن العقارات المنشورة للبيع والكراء في الجزائر،
+          بتجربة بسيطة وواضحة.
+        </p>
+      </div>
+
+      <div>
+        <h3>روابط سريعة</h3>
+        <div class="footer-links">
+          <a href="index.html">الرئيسية</a>
+          <a href="add-property.html">إضافة عقار</a>
+          <a href="login.html">تسجيل الدخول</a>
+          <a href="register.html">إنشاء حساب</a>
+        </div>
+      </div>
+
+      <div>
+        <h3>معلومات المنصة</h3>
+        <p>
+          التصفح مجاني. لا نفرض عمولة على قيمة البيع أو الكراء.
+        </p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © <span id="currentYear"></span>
+      مملكة العقار المباشر DZ — جميع الحقوق محفوظة.
+    </div>
+
+  </div>
+</footer>
+
+<script src="script.js?v=4"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  const SUPABASE_URL =
+    "https://fppzejxdggnlscjcqmgk.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+
+  const message = document.getElementById("detailsMessage");
+  const details = document.getElementById("propertyDetails");
+
+  function setText(id, value) {
+    const element = document.getElementById(id);
+
+    if (element) {
+      element.textContent = value;
+    }
+  }
+
+  function formatPrice(value) {
+    const number = Number(value);
+
+    if (!Number.isFinite(number)) {
+      return "السعر غير محدد";
+    }
+
+    return new Intl.NumberFormat("fr-DZ", {
+      maximumFractionDigits: 2
+    }).format(number) + " دج";
+  }
+
+  function formatDate(value) {
+    if (!value) return "غير محدد";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "غير محدد";
+    }
+
+    return new Intl.DateTimeFormat("ar-DZ", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }).format(date);
+  }
+
+  function showError(text) {
+    message.hidden = false;
+    message.replaceChildren();
+
+    const title = document.createElement("h2");
+    title.textContent = "تعذر عرض العقار";
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+
+    const link = document.createElement("a");
+    link.href = "index.html";
+    link.className = "btn btn-primary";
+    link.textContent = "العودة إلى الصفحة الرئيسية";
+
+    message.append(title, paragraph, link);
+    details.hidden = true;
+  }
+
+  async function loadProperty() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+      showError("رابط العقار غير مكتمل. ارجع إلى قائمة العقارات واختر إعلانًا.");
+      return;
+    }
+
+    /*
+      Validate UUID format before querying Supabase.
+    */
+    const uuidPattern =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+    if (!uuidPattern.test(id)) {
+      showError("معرّف العقار غير صالح.");
+      return;
+    }
+
+    try {
+      const query = new URLSearchParams();
+
+      query.set(
+        "select",
+        [
+          "id",
+          "title",
+          "description",
+          "category",
+          "operation",
+          "wilaya",
+          "commune",
+          "price",
+          "area_m2",
+          "bedrooms",
+          "bathrooms",
+          "created_at"
+        ].join(",")
+      );
+
+      query.set("id", "eq." + id);
+      query.set("status", "eq.published");
+      query.set("limit", "1");
+
+      const response = await fetch(
+        SUPABASE_URL +
+          "/rest/v1/properties?" +
+          query.toString(),
+        {
+          method: "GET",
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + SUPABASE_KEY
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("تعذر الاتصال بقاعدة بيانات العقارات.");
+      }
+
+      const results = await response.json();
+
+      if (!Array.isArray(results) || results.length === 0) {
+        showError(
+          "هذا العقار غير موجود أو لم تتم الموافقة على نشره بعد."
+        );
+        return;
+      }
+
+      const property = results[0];
+
+      setText("propertyTitle", property.title || "عقار بدون عنوان");
+
+      setText(
+        "propertyOperation",
+        property.operation === "rent" ? "للكراء" : "للبيع"
+      );
+
+      const categoryLabels = {
+        apartment: "شقة",
+        house: "منزل",
+        land: "أرض للبناء",
+        farm: "أرض فلاحية",
+        commercial: "محل تجاري"
+      };
+
+      setText(
+        "propertyCategory",
+        categoryLabels[property.category] || "عقار"
+      );
+
+      setText(
+        "propertyLocation",
+        [property.commune, property.wilaya]
+          .filter(Boolean)
+          .join("، ") || "الموقع غير محدد"
+      );
+
+      setText("propertyPrice", formatPrice(property.price));
+
+      setText(
+        "propertyArea",
+        property.area_m2
+          ? Number(property.area_m2).toLocaleString("ar-DZ") + " م²"
+          : "غير محددة"
+      );
+
+      setText(
+        "propertyBedrooms",
+        property.bedrooms !== null &&
+        property.bedrooms !== undefined
+          ? String(property.bedrooms)
+          : "غير محدد"
+      );
+
+      setText(
+        "propertyBathrooms",
+        property.bathrooms !== null &&
+        property.bathrooms !== undefined
+          ? String(property.bathrooms)
+          : "غير محدد"
+      );
+
+      setText("propertyDate", formatDate(property.created_at));
+
+      setText(
+        "propertyDescription",
+        property.description || "لم يضف البائع وصفًا إضافيًا لهذا العقار."
+      );
+
+      document.title =
+        (property.title || "تفاصيل العقار") +
+        " | مملكة العقار المباشر DZ";
+
+      message.hidden = true;
+      details.hidden = false;
+
+    } catch (error) {
+      console.error("Property details error:", error);
+
+      showError(
+        "حدث خطأ أثناء تحميل تفاصيل العقار. تحقق من اتصال الإنترنت وحاول مجددًا."
+      );
+    }
+  }
+
+  const year = document.getElementById("currentYear");
+
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  loadProperty();
+})();
+</script>
+
+</body>
+</html>
