@@ -1,7 +1,7 @@
 /* ==========================================
    مملكة العقار المباشر DZ
    Main JavaScript
-   Supabase + Property Search
+   Supabase + Property Search + Navigation
    ========================================== */
 
 "use strict";
@@ -10,7 +10,8 @@
    SUPABASE CONFIGURATION
    ========================================== */
 
-const SUPABASE_URL = "https://fppzejxdggnlscjcqmgk.supabase.co";
+const SUPABASE_URL =
+  "https://fppzejxdggnlscjcqmgk.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
@@ -159,12 +160,16 @@ function formatDate(value) {
 }
 
 function getCategoryLabel(category) {
-  return CATEGORY_LABELS[category] || "عقار";
+  return CATEGORY_LABELS[normalizeCategory(category)] || "عقار";
 }
 
 function getOperationLabel(operation) {
   return OPERATION_LABELS[operation] || "عقار";
 }
+
+/* ==========================================
+   SESSION MANAGEMENT
+   ========================================== */
 
 function getSession() {
   try {
@@ -174,7 +179,11 @@ function getSession() {
 
     const session = JSON.parse(raw);
 
-    if (!session || !session.access_token) {
+    if (!session || typeof session !== "object") {
+      return null;
+    }
+
+    if (!session.access_token) {
       return null;
     }
 
@@ -182,6 +191,17 @@ function getSession() {
       session.expires_at &&
       Number(session.expires_at) * 1000 <= Date.now()
     ) {
+      return null;
+    }
+
+    if (
+      session.expires_at &&
+      !Number.isFinite(Number(session.expires_at))
+    ) {
+      return null;
+    }
+
+    if (!session.user || !session.user.id) {
       return null;
     }
 
@@ -200,6 +220,23 @@ function getCurrentUserId() {
 
 function isLoggedIn() {
   return Boolean(getCurrentUserId());
+}
+
+function getCurrentUserName() {
+  const session = getSession();
+  const user = session?.user;
+
+  if (!user) return "";
+
+  const metadata = user.user_metadata || {};
+
+  return (
+    metadata.full_name ||
+    metadata.name ||
+    metadata.fullName ||
+    user.email ||
+    ""
+  );
 }
 
 /* ==========================================
@@ -258,12 +295,17 @@ async function supabaseRequest(path, options = {}) {
    NOTIFICATIONS
    ========================================== */
 
-function showMessage(message, type = "info", containerId = null) {
+function showMessage(
+  message,
+  type = "info",
+  containerId = null
+) {
   const container = containerId
     ? document.getElementById(containerId)
     : null;
 
-  const target = container || document.getElementById("globalMessage");
+  const target =
+    container || document.getElementById("globalMessage");
 
   if (!target) {
     console.log(message);
@@ -307,12 +349,13 @@ function populateWilayaSelects() {
 
   selects.forEach(function (select) {
     const currentValue = select.value;
-
     const existingOptions = Array.from(select.options);
 
-    const hasDefaultOption = existingOptions.some(function (option) {
-      return option.value === "";
-    });
+    const hasDefaultOption = existingOptions.some(
+      function (option) {
+        return option.value === "";
+      }
+    );
 
     select.innerHTML = "";
 
@@ -363,7 +406,10 @@ async function fetchPublishedProperties(filters = {}) {
   }
 
   if (filters.category) {
-    params.set("category", "eq." + filters.category);
+    params.set(
+      "category",
+      "eq." + normalizeCategory(filters.category)
+    );
   }
 
   if (filters.wilaya) {
@@ -415,12 +461,14 @@ function createPropertyCard(property) {
     ? escapeHTML(property.area_m2) + " م²"
     : "";
 
-  const bedrooms = property.bedrooms !== null &&
+  const bedrooms =
+    property.bedrooms !== null &&
     property.bedrooms !== undefined
       ? escapeHTML(property.bedrooms) + " غرف"
       : "";
 
-  const bathrooms = property.bathrooms !== null &&
+  const bathrooms =
+    property.bathrooms !== null &&
     property.bathrooms !== undefined
       ? escapeHTML(property.bathrooms) + " حمامات"
       : "";
@@ -432,9 +480,10 @@ function createPropertyCard(property) {
 
   const description = String(property.description || "");
 
-  const shortDescription = description.length > 115
-    ? description.slice(0, 115) + "…"
-    : description;
+  const shortDescription =
+    description.length > 115
+      ? description.slice(0, 115) + "…"
+      : description;
 
   card.innerHTML = `
     <div class="property-image">
@@ -521,10 +570,13 @@ function showEmptyProperties(container, message) {
   empty.style.gridColumn = "1 / -1";
 
   const title = document.createElement("h3");
+
   title.textContent = "لا توجد إعلانات لعرضها";
 
   const paragraph = document.createElement("p");
-  paragraph.textContent = message ||
+
+  paragraph.textContent =
+    message ||
     "لم نعثر على عقارات مطابقة للبحث. جرّب تغيير خيارات البحث.";
 
   empty.appendChild(title);
@@ -596,7 +648,11 @@ function setupSearchForm() {
     document.getElementById("searchForm") ||
     document.querySelector(".search-form");
 
-  if (!form) return;
+  if (!form || form.dataset.searchInitialized === "true") {
+    return;
+  }
+
+  form.dataset.searchInitialized = "true";
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -643,6 +699,12 @@ function setupCategoryCards() {
   );
 
   categoryCards.forEach(function (card) {
+    if (card.dataset.categoryInitialized === "true") {
+      return;
+    }
+
+    card.dataset.categoryInitialized = "true";
+
     card.addEventListener("click", function () {
       const category =
         card.dataset.category ||
@@ -652,7 +714,7 @@ function setupCategoryCards() {
       if (!category) return;
 
       renderProperties({
-        category
+        category: normalizeCategory(category)
       });
 
       const propertiesSection =
@@ -684,9 +746,14 @@ function setupMobileNavigation() {
 
   if (!toggle || !nav) return;
 
+  if (toggle.dataset.navigationInitialized === "true") {
+    return;
+  }
+
+  toggle.dataset.navigationInitialized = "true";
+
   toggle.addEventListener("click", function () {
-    const isOpen =
-      nav.classList.toggle("active");
+    const isOpen = nav.classList.toggle("active");
 
     nav.classList.toggle("open", isOpen);
 
@@ -696,7 +763,41 @@ function setupMobileNavigation() {
   nav.querySelectorAll("a").forEach(function (link) {
     link.addEventListener("click", function () {
       nav.classList.remove("active", "open");
+
       toggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+/* ==========================================
+   PROPERTY LINKS
+   ========================================== */
+
+function setupPropertyLinks() {
+  const propertyLinks = document.querySelectorAll(
+    "#addPropertyLink, " +
+    "#ownerAddPropertyLink, " +
+    "[data-property-link], " +
+    'a[href="add-property.html"], ' +
+    'a[href="./add-property.html"]'
+  );
+
+  propertyLinks.forEach(function (link) {
+    if (link.dataset.propertyNavigationInitialized === "true") {
+      return;
+    }
+
+    link.dataset.propertyNavigationInitialized = "true";
+
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      if (isLoggedIn()) {
+        window.location.href = "add-property.html";
+        return;
+      }
+
+      window.location.href = "register.html";
     });
   });
 }
@@ -707,38 +808,69 @@ function setupMobileNavigation() {
 
 function setupAuthenticationLinks() {
   const session = getSession();
+  const loggedIn = Boolean(session);
+  const userName = getCurrentUserName();
 
-  document.querySelectorAll("[data-auth-link]").forEach(function (link) {
-    const type = link.dataset.authLink;
+  document.querySelectorAll("[data-auth-link]").forEach(
+    function (link) {
+      const type = link.dataset.authLink;
 
-    if (type === "login" && session) {
-      link.textContent = "حسابي";
-      link.href = "my-properties.html";
+      if (type === "login" && loggedIn) {
+        link.textContent = "حسابي";
+        link.href = "my-properties.html";
+      }
+
+      if (type === "register" && loggedIn) {
+        link.textContent = "إعلاناتي";
+        link.href = "my-properties.html";
+      }
+
+      if (type === "my-properties") {
+        link.hidden = !loggedIn;
+      }
+
+      if (type === "logout") {
+        link.hidden = !loggedIn;
+      }
     }
+  );
 
-    if (type === "register" && session) {
-      link.textContent = "إعلاناتي";
-      link.href = "my-properties.html";
+  const loginLink = document.getElementById("loginLink");
+
+  if (loginLink && loggedIn) {
+    loginLink.textContent = "حسابي";
+    loginLink.href = "my-properties.html";
+  }
+
+  const accountName = document.getElementById("accountName");
+
+  if (accountName) {
+    if (loggedIn && userName) {
+      accountName.textContent = userName;
+      accountName.hidden = false;
+    } else {
+      accountName.textContent = "";
+      accountName.hidden = true;
     }
+  }
 
-    if (type === "my-properties") {
-      link.hidden = !session;
+  document.querySelectorAll("[data-logout]").forEach(
+    function (button) {
+      if (button.dataset.logoutInitialized === "true") {
+        return;
+      }
+
+      button.dataset.logoutInitialized = "true";
+
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        localStorage.removeItem("supabaseSession");
+
+        window.location.href = "index.html";
+      });
     }
-
-    if (type === "logout") {
-      link.hidden = !session;
-    }
-  });
-
-  document.querySelectorAll("[data-logout]").forEach(function (button) {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      localStorage.removeItem("supabaseSession");
-
-      window.location.href = "index.html";
-    });
-  });
+  );
 }
 
 /* ==========================================
@@ -758,7 +890,7 @@ function normalizeCategory(category) {
    INITIALIZATION
    ========================================== */
 
-document.addEventListener("DOMContentLoaded", function () {
+function initializeRealEstateSite() {
   populateWilayaSelects();
 
   setupSearchForm();
@@ -769,8 +901,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   setupAuthenticationLinks();
 
+  setupPropertyLinks();
+
   renderProperties();
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeRealEstateSite,
+    { once: true }
+  );
+} else {
+  initializeRealEstateSite();
+}
 
 /* ==========================================
    GLOBAL HELPERS
@@ -786,9 +930,11 @@ window.DZRealEstate = {
   escapeHTML,
   getSession,
   getCurrentUserId,
+  getCurrentUserName,
   isLoggedIn,
   supabaseRequest,
   showMessage,
+  clearMessage,
   normalizeCategory,
   WILAYAS
 };
