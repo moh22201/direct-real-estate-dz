@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول | مملكة العقار المباشر DZ</title>
+  <link rel="stylesheet" href="style.css?v=3">
+
+  <style>
+    .auth-container {
+      max-width: 460px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 24px rgba(0,0,0,.08);
+    }
+
+    .auth-container h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .auth-description {
+      text-align: center;
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.8;
+    }
+
+    .auth-form label {
+      display: block;
+      margin: 16px 0 8px;
+      font-weight: bold;
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .auth-button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #176b45;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .auth-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .auth-message {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      line-height: 1.8;
+      display: none;
+      overflow-wrap: anywhere;
+    }
+
+    .auth-links {
+      text-align: center;
+      margin-top: 20px;
+      line-height: 2;
+    }
+
+    .auth-links a {
+      color: #176b45;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="auth-container">
+    <h1>تسجيل الدخول</h1>
+
+    <p class="auth-description">
+      مرحباً بك في مملكة العقار المباشر DZ.
+      سجّل الدخول للوصول إلى حسابك ومتابعة إعلاناتك العقارية.
+    </p>
+
+    <form id="loginForm" class="auth-form">
+      <label for="email">البريد الإلكتروني</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="example@email.com"
+        autocomplete="email"
+        required
+      >
+
+      <label for="password">كلمة المرور</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="أدخل كلمة المرور"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit" id="loginButton" class="auth-button">
+        تسجيل الدخول
+      </button>
+    </form>
+
+    <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+
+    <div class="auth-links">
+      ليس لديك حساب؟
+      <a href="register.html">إنشاء حساب جديد</a>
+      <br>
+      <a href="index.html">العودة إلى الصفحة الرئيسية</a>
+    </div>
+  </main>
+
+  <script>
+    const SUPABASE_URL = "https://fppzejxdggnlscjcqmgk.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+
+    const form = document.getElementById("loginForm");
+    const button = document.getElementById("loginButton");
+    const message = document.getElementById("authMessage");
+
+    function showMessage(text, success = false) {
+      message.style.display = "block";
+      message.style.background = success ? "#e8f7ee" : "#fff0f0";
+      message.style.color = success ? "#176b45" : "#a12626";
+      message.textContent = text;
+    }
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      button.disabled = true;
+      button.textContent = "جارٍ تسجيل الدخول...";
+      message.style.display = "none";
+
+      try {
+        const response = await fetch(
+          SUPABASE_URL + "/auth/v1/token?grant_type=password",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": SUPABASE_KEY
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password
+            })
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          const errorCode = result.error_code || result.code || "";
+          const errorText = result.msg || result.message || "";
+
+          if (
+            errorCode === "email_not_confirmed" ||
+            errorText.toLowerCase().includes("email not confirmed")
+          ) {
+            showMessage("يجب تأكيد بريدك الإلكتروني أولاً. تحقق من صندوق الوارد والبريد غير المرغوب فيه.");
+          } else if (
+            response.status === 400 ||
+            response.status === 401
+          ) {
+            showMessage("تعذر تسجيل الدخول. تحقق من البريد الإلكتروني وكلمة المرور، وتأكد من تفعيل الحساب.");
+          } else {
+            showMessage("حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى لاحقاً.");
+          }
+
+          return;
+        }
+
+        if (!result.access_token || !result.user) {
+          showMessage("لم تكتمل عملية تسجيل الدخول. حاول مرة أخرى.");
+          return;
+        }
+
+        const session = {
+          access_token: result.access_token,
+          refresh_token: result.refresh_token,
+          expires_at: result.expires_at,
+          user: result.user
+        };
+
+        localStorage.setItem("supabaseSession", JSON.stringify(session));
+
+        showMessage("تم تسجيل الدخول بنجاح! يمكنك الآن العودة إلى الصفحة الرئيسية.", true);
+
+        button.textContent = "تم تسجيل الدخول";
+
+      } catch (error) {
+        showMessage("تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت وحاول مجدداً.");
+      } finally {
+        button.disabled = false;
+
+        if (button.textContent === "جارٍ تسجيل الدخول...") {
+          button.textContent = "تسجيل الدخول";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
