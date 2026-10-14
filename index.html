@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101d45">
+  <meta name="description" content="مملكة العقار المباشر DZ: منصة جزائرية للبحث عن عقارات للبيع والشراء والكراء والتواصل مباشرة مع أصحابها.">
+  <title>مملكة العقار المباشر DZ | عقارك أقرب إلى صاحبه</title>
+  <link rel="stylesheet" href="style.css?v=4">
+  <script src="script.js?v=6" defer></script>
+  <style>
+    :root{--home-blue:#087fa3;--home-blue-dark:#07566f;--home-gold:#d4ad57;--home-sky:#eaf7fc;--home-light:#f2f9fc;--home-text:#153b4a;--home-muted:#647e89;--home-border:#dcebf1;--home-shadow:0 8px 25px rgba(7,86,111,.07);--home-radius:16px}
+    html{scroll-behavior:smooth;scroll-padding-top:95px}body{margin:0;overflow-x:hidden;background:var(--home-sky);color:var(--home-text)}a,button,select{-webkit-tap-highlight-color:transparent}.container{width:min(1180px,calc(100% - 36px));margin-inline:auto}
+    .site-header{position:sticky;top:0;z-index:1000;background:rgba(246,252,255,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--home-border);box-shadow:0 3px 16px rgba(7,86,111,.05)}.header-content{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:76px}.brand{display:inline-flex;align-items:center;gap:10px;flex-shrink:0;text-decoration:none}.brand-icon{display:flex;align-items:center;justify-content:center;width:45px;height:45px;flex-shrink:0;border-radius:14px;background:linear-gradient(135deg,#07566f,#087fa3);color:#fff;border:1px solid rgba(212,173,87,.9);font-size:28px;box-shadow:0 4px 12px rgba(7,86,111,.14)}.brand-text{display:flex;flex-direction:column;line-height:1.5}.brand-text strong{color:var(--home-blue-dark);font-size:16px}.brand-text small{color:#98772e;font-size:12px}
+    .main-nav{display:flex;align-items:center;justify-content:center;gap:16px}.main-nav a{color:#405e6b;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;padding:8px 4px;transition:color .2s,background .2s}.main-nav a:hover{color:var(--home-blue)}.main-nav .nav-logout{color:#b42318}.main-nav .nav-admin{color:#176b45;font-weight:900}.header-actions{display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-shrink:0}.login-link{color:var(--home-blue-dark);font-weight:800;text-decoration:none;font-size:13px;padding:10px 11px;border-radius:9px;white-space:nowrap}.login-link:hover{background:#e5f4fa}.header-add-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(120deg,#07566f,#087fa3);color:#fff!important;border:1px solid var(--home-gold);border-radius:10px;padding:11px 13px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap;box-shadow:0 4px 12px rgba(7,86,111,.12);transition:transform .2s,box-shadow .2s}.header-add-button:hover{transform:translateY(-1px);box-shadow:0 7px 17px rgba(7,86,111,.18)}.menu-toggle{display:none;align-items:center;justify-content:center;background:#e8f6fb;border:1px solid #d4e9f1;color:var(--home-blue-dark);border-radius:10px;width:42px;height:42px;font-size:22px;cursor:pointer}
+    .hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 85% 10%,rgba(212,173,87,.17),transparent 35%),radial-gradient(ellipse at 5% 90%,rgba(8,127,163,.1),transparent 36%),linear-gradient(135deg,#e4f5fc 0%,#f2faff 60%,#f9f7ef 100%);padding:52px 0 43px;border-bottom:1px solid #d9ebf2}.hero-content{position:relative;z-index:1}.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid #d1e7ef;border-radius:30px;background:rgba(255,255,255,.78);color:var(--home-blue-dark);font-size:12px;font-weight:800}.hero-badge:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--home-gold)}.hero h1{color:#153b4a;font-size:clamp(34px,4.5vw,52px);line-height:1.3;margin:17px 0 10px;letter-spacing:-.7px}.hero h1 span{color:var(--home-blue)}.hero-description{max-width:650px;color:#5e7884;line-height:1.9;font-size:15px;margin:0 0 22px}.search-box{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;align-items:end;gap:12px;padding:16px;background:rgba(255,255,255,.95);border:1px solid #dbeaf0;border-radius:16px;box-shadow:0 10px 30px rgba(7,86,111,.09)}.search-field{min-width:0}.search-field label{display:block;margin-bottom:7px;color:#385762;font-size:12px;font-weight:800}.search-field select{width:100%;min-width:0;height:45px;padding:0 11px;border:1px solid #d6e5eb;border-radius:9px;background:#f8fcfe;color:#284651;font:inherit;font-size:13px}.search-field select:focus{outline:2px solid rgba(8,127,163,.15);border-color:var(--home-blue)}.btn-search{min-height:45px;padding:0 18px;border:1px solid var(--home-gold);border-radius:9px;background:linear-gradient(120deg,#07566f,#087fa3);color:#fff;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap}.hero-notes{display:flex;flex-wrap:wrap;gap:10px 19px;margin-top:16px;color:#56717c;font-size:12px}
+    .section{padding:48px 0}.section-heading{margin-bottom:23px}.section-kicker{display:inline-block;color:#95752d;font-size:12px;font-weight:900}.section-heading h2,.owner-content h2{color:#153b4a;font-size:clamp(23px,3vw,30px);line-height:1.5;margin:5px 0}.section-heading p,.owner-content p{color:var(--home-muted);line-height:1.8;margin:0;font-size:13px}.categories-section{background:#edf8fc}.categories-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.category-card{position:relative;display:flex;flex-direction:column;min-width:0;padding:19px;border:1px solid #dcebf1;border-radius:var(--home-radius);background:linear-gradient(145deg,#fff,#f8fcfe);text-decoration:none;box-shadow:0 4px 13px rgba(7,86,111,.035);transition:transform .2s,border-color .2s,box-shadow .2s}.category-card:hover{transform:translateY(-3px);border-color:#a9d4e2;box-shadow:0 10px 23px rgba(7,86,111,.09)}.category-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:13px;background:#e9f6fb;border:1px solid #d5eaf2;font-size:24px}.category-card h3{color:#174454;margin:12px 0 5px;font-size:16px;line-height:1.6}.category-card p{color:#73868e;font-size:12px;line-height:1.8;margin:0 0 10px}.category-arrow{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;margin-top:auto;border-radius:8px;background:#f8f2e4;color:#95752d;font-size:18px;font-weight:900}
+    .latest-section{background:#f4faff}.properties-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.empty-state{text-align:center;background:rgba(255,255,255,.9);border:1px dashed #cbdfe8;border-radius:16px;padding:32px 18px}.empty-icon{font-size:40px}.empty-state h3{color:#174454;margin:10px 0 6px;font-size:18px}.empty-state p{max-width:520px;margin:auto;color:#71858d;line-height:1.9;font-size:13px}.how-section{background:#eaf6fb}.steps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.step-card{padding:21px;border:1px solid #d7e8ef;border-radius:var(--home-radius);background:rgba(255,255,255,.9);box-shadow:0 4px 13px rgba(7,86,111,.035)}.step-number{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:#e8f5fa;border:1px solid #d1e7ef;color:var(--home-blue-dark);font-size:15px;font-weight:900}.step-card h3{color:#174454;margin:12px 0 6px;font-size:16px}.step-card p{color:#71858d;line-height:1.9;font-size:13px;margin:0}
+    .owner-section{padding:36px 0;background:radial-gradient(ellipse at 15% 50%,rgba(212,173,87,.18),transparent 40%),linear-gradient(125deg,#06485e,#087fa3);border-top:3px solid var(--home-gold)}.owner-content{display:flex;align-items:center;justify-content:space-between;gap:25px}.owner-content .section-kicker{color:#f0d99f}.owner-content h2{color:#fff;font-size:clamp(22px,3vw,28px)}.owner-content p{color:#d9edf2;max-width:650px}.btn-light{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border:1px solid var(--home-gold);border-radius:10px;background:#fff;color:var(--home-blue-dark);font-weight:900;font-size:13px;text-decoration:none;white-space:nowrap}.site-footer{background:#eaf5fa;border-top:1px solid #d8e8ef;padding:29px 0 17px}.footer-brand{display:inline-block;color:#07566f;font-size:17px;font-weight:900;text-decoration:none}.footer-content>p{color:#71858d;font-size:12px;line-height:1.9}.footer-links{display:flex;flex-wrap:wrap;gap:10px 18px;margin:16px 0}.footer-links a{color:#45636e;font-size:12px;font-weight:700;text-decoration:none}.footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:13px;border-top:1px solid #d8e8ef;color:#71858d;font-size:11px}.footer-bottom p{margin:0}
+    @media(max-width:1050px){.header-content{flex-wrap:wrap;padding:10px 0}.main-nav{order:3;width:100%;justify-content:center;flex-wrap:wrap;gap:8px 16px;padding:5px 0 2px}.search-box{grid-template-columns:repeat(2,minmax(0,1fr))}.btn-search{width:100%}.hero{padding-top:43px;padding-bottom:36px}}
+    @media(min-width:701px) and (max-width:900px){.categories-grid,.properties-grid,.steps-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.header-content{gap:12px}}
+    @media(max-width:700px){.container{width:calc(100% - 28px)}.header-content{display:flex;flex-wrap:wrap;gap:9px;min-height:auto;padding:10px 0}.brand{margin-left:auto}.brand-icon{width:41px;height:41px;border-radius:12px;font-size:25px}.brand-text strong{font-size:15px}.brand-text small{font-size:11px}.menu-toggle{display:inline-flex;order:2}.header-actions{order:3;width:100%;justify-content:flex-start;gap:7px;padding-top:4px}.header-add-button{flex:1;max-width:220px;padding:10px 9px;font-size:12px}.main-nav{display:none;order:4;width:100%;align-items:stretch;flex-direction:column;gap:0;padding:7px 0;border-top:1px solid #dcebf1}.main-nav.open{display:flex}.main-nav a{display:block;padding:11px 9px;border-radius:8px;font-size:13px}.main-nav a:hover{background:#e8f6fb}.hero{padding:32px 0 27px}.hero h1{font-size:clamp(31px,8vw,38px);margin-top:14px}.hero-description{font-size:13px;line-height:1.9;margin-bottom:17px}.hero-badge{font-size:11px;padding:7px 11px}.search-box{grid-template-columns:minmax(0,1fr);padding:13px;gap:11px;border-radius:13px}.search-field select,.btn-search{height:45px;min-height:45px}.hero-notes{gap:8px 13px;font-size:11px;line-height:1.7}.section{padding:30px 0}.section-heading{margin-bottom:17px}.section-heading h2{font-size:23px}.section-heading p{font-size:12px}.categories-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category-card{padding:13px 12px;border-radius:13px}.category-icon{width:41px;height:41px;border-radius:11px;font-size:21px}.category-card h3{font-size:13px;line-height:1.6;margin:9px 0 4px}.category-card p{font-size:11px;line-height:1.7;margin-bottom:8px}.category-arrow{width:25px;height:25px;font-size:16px}.properties-grid{grid-template-columns:minmax(0,1fr);gap:13px}.empty-state{padding:25px 13px;border-radius:13px}.empty-icon{font-size:35px}.empty-state h3{font-size:16px}.empty-state p{font-size:12px}.steps-grid{grid-template-columns:minmax(0,1fr);gap:10px}.step-card{padding:16px;border-radius:13px}.step-number{width:37px;height:37px;border-radius:10px;font-size:13px}.step-card h3{margin:9px 0 5px;font-size:15px}.step-card p{font-size:12px}.owner-section{padding:27px 0}.owner-content{align-items:stretch;flex-direction:column;gap:15px}.owner-content h2{font-size:22px;line-height:1.5}.owner-content p{font-size:12px}.btn-light{width:100%;box-sizing:border-box;padding:12px 15px}.site-footer{padding-top:23px}.footer-brand{font-size:15px}.footer-content>p{font-size:11px}.footer-links{gap:10px 14px;margin:13px 0}.footer-links a{font-size:11px}.footer-bottom{align-items:flex-start;flex-direction:column;gap:6px;font-size:10px}}
+    @media(max-width:360px){.container{width:calc(100% - 22px)}.brand{gap:7px}.brand-text strong{font-size:13px}.brand-icon{width:37px;height:37px;font-size:22px}.categories-grid{gap:8px}.category-card{padding:11px 9px}.category-card h3{font-size:12px}.category-card p{font-size:10px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+    /* ROYAL BLUE + GOLD BRAND REFRESH */
+    :root{--home-blue:#287fb5;--home-blue-dark:#101d45;--home-gold:#d9b45d;--home-sky:#e7f5fc;--home-light:#f2f9fd;--home-text:#101d45;--home-muted:#526b82;--home-border:#c9e3f1;--home-shadow:0 12px 30px rgba(16,29,69,.08);--home-radius:18px}
+    body{background:#e7f5fc;color:#101d45}
+    .site-header{background:rgba(16,29,69,.98);border-bottom:2px solid #d9b45d;box-shadow:0 8px 24px rgba(16,29,69,.16)}
+    .brand-icon{background:linear-gradient(145deg,#d9b45d,#f2d98f);color:#101d45;border:1px solid #fff0be;box-shadow:0 4px 14px rgba(217,180,93,.22)}
+    .brand-text strong{color:#fff}.brand-text small{color:#e8c96f}
+    .main-nav a{color:#f4f7ff}.main-nav a:hover{color:#f1cf72;background:rgba(255,255,255,.06)}.main-nav .nav-logout{color:#ffaaa5}.main-nav .nav-admin{color:#f1cf72}
+    .login-link{color:#fff}.login-link:hover{background:rgba(255,255,255,.1);color:#f4d47e}
+    .header-add-button{background:linear-gradient(130deg,#d9b45d,#f1d98d);color:#101d45!important;border-color:#fff0be;box-shadow:0 5px 16px rgba(217,180,93,.18)}
+    .menu-toggle{background:rgba(255,255,255,.08);border-color:rgba(217,180,93,.65);color:#f4d47e}
+    .hero{background:radial-gradient(ellipse at 88% 8%,rgba(217,180,93,.18),transparent 30%),radial-gradient(ellipse at 8% 95%,rgba(40,127,181,.12),transparent 35%),linear-gradient(135deg,#e3f3fc 0%,#f1f9fe 58%,#e4f3fb 100%);border-bottom:1px solid #c9e3f1;padding-top:54px;padding-bottom:46px}
+    .hero-badge{background:#fff;border-color:#d8e9f4;color:#101d45;box-shadow:0 4px 12px rgba(16,29,69,.04)}.hero-badge:before{background:#d9b45d}
+    .hero h1{color:#101d45;max-width:900px}.hero h1 span{color:#287fb5}
+    .hero-description{color:#4e6880;max-width:760px;font-size:16px}
+    .hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin:23px 0 19px}
+    .hero-actions a{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:48px;padding:0 20px;border-radius:12px;font-size:14px;font-weight:900;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+    .hero-actions a:hover{transform:translateY(-2px)}
+    .hero-register{background:linear-gradient(125deg,#d9b45d,#f1d98d);color:#101d45;border:1px solid #c7a14b;box-shadow:0 8px 18px rgba(185,143,49,.18)}
+    .hero-register span{font-size:19px}.hero-login{background:#101d45;color:#fff;border:1px solid #101d45;box-shadow:0 7px 16px rgba(16,29,69,.12)}
+    .hero-browse{background:rgba(255,255,255,.6);color:#101d45;border:1px solid #b8d9eb}
+    .commission-notice{display:flex;align-items:flex-start;gap:13px;max-width:830px;margin:0 0 23px;padding:17px 19px;background:rgba(255,255,255,.82);border:1px solid #d8e9f3;border-right:4px solid #d9b45d;border-radius:14px;box-shadow:0 8px 22px rgba(16,29,69,.045)}
+    .notice-icon{display:flex;align-items:center;justify-content:center;flex:0 0 35px;width:35px;height:35px;border-radius:11px;background:#fff4d6;color:#9b7626;font-size:20px;font-weight:900}
+    .commission-notice p{margin:0;color:#526b82;font-size:13px;line-height:1.9}.commission-notice strong{color:#101d45;font-size:14px}
+    .search-box{border-color:#c8e2f0;box-shadow:0 12px 30px rgba(16,29,69,.08)}.search-field label{color:#101d45}.search-field select{border-color:#d2e4ef;background:#f9fdff;color:#243b5c}.btn-search{background:linear-gradient(130deg,#101d45,#244f84);border-color:#d9b45d;color:#fff;box-shadow:0 5px 12px rgba(16,29,69,.12)}
+    .hero-notes{color:#435f79}.section{background:#eaf6fc}.categories-section,.how-section{background:#e5f3fb}.latest-section{background:#eff8fd}
+    .section-heading h2,.owner-content h2{color:#101d45}.section-kicker{color:#a17a25}.category-card,.step-card{border-color:#cde4f0;box-shadow:0 7px 20px rgba(16,29,69,.045)}.category-card h3,.step-card h3,.empty-state h3{color:#101d45}.category-icon,.step-number{background:#e6f4fc;border-color:#cbe3f1;color:#101d45}.category-arrow{background:#fff2cf;color:#9a7524}
+    .report-section{padding:25px 0;background:#e2f1fa}.report-content{display:flex;align-items:center;gap:15px;padding:19px 21px;background:#fff;border:1px solid #f0c6c4;border-right:5px solid #c83737;border-radius:15px;box-shadow:0 8px 22px rgba(16,29,69,.045)}.report-symbol{display:flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;border-radius:12px;background:#fff0ef;color:#b42318;font-size:23px;font-weight:900}.report-content h2{margin:0 0 5px;color:#101d45;font-size:17px}.report-content p{margin:0;color:#526b82;font-size:13px;line-height:1.9}
+    .owner-section{background:linear-gradient(135deg,#dceefa,#eaf6fc);border-top:2px solid #d9b45d}.owner-content .section-kicker{color:#a17a25}.owner-content h2{color:#101d45}.owner-content p{color:#526b82}.btn-light{background:linear-gradient(130deg,#d9b45d,#f1d98d);color:#101d45;border-color:#c7a14b;box-shadow:0 6px 16px rgba(185,143,49,.12)}
+    .site-footer{background:#dceefa;border-top:1px solid #c4dfef}.footer-brand{color:#101d45}.footer-links a{color:#344f70}.footer-bottom{border-color:#c4dfef;color:#526b82}
+    @media(max-width:700px){.hero{padding-top:33px;padding-bottom:29px}.hero-description{font-size:13px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0 15px}.hero-actions a{min-height:45px;padding:0 10px;font-size:12px}.hero-browse{grid-column:1/-1}.commission-notice{padding:13px;gap:10px;margin-bottom:17px}.commission-notice p{font-size:12px}.commission-notice strong{font-size:13px}.report-section{padding:19px 0}.report-content{align-items:flex-start;padding:14px;gap:11px}.report-symbol{flex-basis:34px;width:34px;height:34px}.report-content h2{font-size:15px}.report-content p{font-size:12px}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <a href="index.html" class="brand" aria-label="الصفحة الرئيسية"><span class="brand-icon">⌂</span><span class="brand-text"><strong>مملكة العقار</strong><small>المباشر DZ</small></span></a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mainNav">☰</button>
+      <nav class="main-nav" id="mainNav" aria-label="القائمة الرئيسية">
+        <a href="#home">الرئيسية</a>
+        <a href="#categories">تصنيفات العقارات</a>
+        <a href="#latest">أحدث الإعلانات</a>
+        <a href="#how-it-works">كيف يعمل الموقع؟</a>
+        <a href="admin.html" id="adminDashboardLink" class="nav-admin" hidden>لوحة التحكم</a>
+        <a href="index.html" id="siteLogoutLink" class="nav-logout" data-logout hidden>تسجيل الخروج</a>
+      </nav>
+      <div class="header-actions" id="headerActions">
+        <a href="login.html" class="login-link" id="loginLink">تسجيل الدخول</a>
+        <a href="register.html" class="header-add-button" id="addPropertyLink">＋ أضف عقارك</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home"><div class="container hero-content">
+      <span class="hero-badge">منصتك العقارية في الجزائر</span>
+      <h1>عقارك أقرب إلى صاحبه<br><span>بلا عمولة 1%!</span></h1>
+      <p class="hero-description">مملكة العقار المباشر DZ منصة جزائرية تجمع أصحاب العقارات والباحثين عنها، لتسهيل اكتشاف عروض البيع والشراء والكراء والتواصل المباشر مع المالك.</p>
+      <div class="hero-actions" aria-label="خيارات الحساب">
+        <a href="register.html" class="hero-register">إنشاء حساب جديد <span aria-hidden="true">←</span></a>
+        <a href="login.html" class="hero-login">تسجيل الدخول</a>
+        <a href="#latest" class="hero-browse">تصفّح أحدث العقارات</a>
+      </div>
+      <div class="commission-notice"><span class="notice-icon" aria-hidden="true">✦</span><p><strong>تواصل مباشر بتكلفة رمزية</strong><br>تكلفة رمزية للتواصل مباشرة مع مالك العقار، دون دفع عمولة بنسبة 1% عند إتمام صفقة البيع أو الشراء أو الكراء.</p></div>
+      <form class="search-box" id="searchForm">
+        <div class="search-field"><label for="operation">نوع العملية</label><select id="operation" name="operation"><option value="">بيع أو كراء</option><option value="sale">للبيع</option><option value="rent">للكراء</option></select></div>
+        <div class="search-field"><label for="propertyType">نوع العقار</label><select id="propertyType" name="category"><option value="">جميع العقارات</option><option value="apartment">شقة</option><option value="house">منزل</option><option value="land">أرض للبناء</option><option value="farm">أرض فلاحية</option><option value="commercial">عقار تجاري</option></select></div>
+        <div class="search-field"><label for="wilaya">الولاية</label><select id="wilaya" name="wilaya"><option value="">جميع الولايات</option></select></div>
+        <button type="submit" class="btn-search">ابحث عن عقار</button>
+      </form>
+      <div class="hero-notes"><span>✓ عروض بيع وشراء وكراء</span><span>✓ ابحث حسب الولاية ونوع العقار</span><span>✓ معلومات الخدمات واضحة قبل الدفع</span></div>
+    </div></section>
+
+    <section class="section categories-section" id="categories"><div class="container">
+      <div class="section-heading"><span class="section-kicker">اكتشف خياراتك</span><h2>ابحث حسب نوع العقار</h2><p>اختر التصنيف المناسب لتبدأ البحث عن عقارك.</p></div>
+      <div class="categories-grid">
+        <a href="#latest" class="category-card" data-category="apartment" data-operation="sale"><span class="category-icon">🏢</span><h3>شقق للبيع</h3><p>اكتشف الشقق المعروضة للبيع.</p><span class="category-arrow">←</span></a>
+        <a href="#latest" class="category-card" data-category="apartment" data-operation="rent"><span class="category-icon">🏠</span><h3>شقق للكراء</h3><p>ابحث عن سكن يناسب احتياجاتك.</p><span class="category-arrow">←</span></a>
+        <a href="#latest" class="category-card" data-category="house"><span class="category-icon">🏡</span><h3>منازل وفلل</h3><p>منازل وفلل للبيع أو الكراء.</p><span class="category-arrow">←</span></a>
+        <a href="#latest" class="category-card" data-category="land"><span class="category-icon">📐</span><h3>أراضٍ للبناء</h3><p>ابحث عن قطعة الأرض المناسبة.</p><span class="category-arrow">←</span></a>
+        <a href="#latest" class="category-card" data-category="farm"><span class="category-icon">🌱</span><h3>أراضٍ فلاحية</h3><p>خيارات للأراضي ذات الاستخدام الفلاحي.</p><span class="category-arrow">←</span></a>
+        <a href="#latest" class="category-card" data-category="commercial"><span class="category-icon">🏬</span><h3>عقارات تجارية</h3><p>محلات ومكاتب ومستودعات.</p><span class="category-arrow">←</span></a>
+      </div>
+    </div></section>
+
+    <section class="section latest-section" id="latest"><div class="container">
+      <div class="section-heading"><span class="section-kicker">فرص عقارية</span><h2>أحدث العقارات</h2><p>اكتشف الإعلانات المنشورة على المنصة.</p></div>
+      <div class="properties-grid" id="propertiesGrid"><div class="empty-state"><span class="empty-icon">🏘️</span><h3>جارٍ البحث عن العقارات</h3><p>نعرض هنا الإعلانات المنشورة بعد تحميلها من قاعدة البيانات.</p></div></div>
+    </div></section>
+
+    <section class="section how-section" id="how-it-works"><div class="container">
+      <div class="section-heading"><span class="section-kicker">خطوات بسيطة</span><h2>كيف تعمل المنصة؟</h2><p>تجربة واضحة للبائع والباحث عن عقار.</p></div>
+      <div class="steps-grid">
+        <article class="step-card"><span class="step-number">01</span><h3>أنشئ حسابك أو ابحث</h3><p>سجّل حسابًا إذا أردت نشر عقارك، أو تصفّح الإعلانات وابحث حسب الولاية ونوع العقار.</p></article>
+        <article class="step-card"><span class="step-number">02</span><h3>راجع معلومات الإعلان</h3><p>اقرأ تفاصيل العقار بعناية، وتحقق من المعلومات قبل اتخاذ قرار التواصل مع صاحبه.</p></article>
+        <article class="step-card"><span class="step-number">03</span><h3>تواصل مباشرة مع المالك</h3><p>تعرّف على تكلفة خدمة التواصل بوضوح قبل الدفع، دون عمولة بنسبة 1% عند إتمام الصفقة.</p></article>
+      </div>
+    </div></section>
+
+    <section class="report-section" aria-labelledby="reportTitle"><div class="container report-content"><span class="report-symbol" aria-hidden="true">!</span><div><h2 id="reportTitle">معًا من أجل إعلانات أكثر موثوقية</h2><p>إذا صادفت إعلانًا يُشتبه في أن ناشره ليس المالك الحقيقي للعقار، أبلغ عنه حتى تتم مراجعته والمساعدة في حماية المستخدمين.</p></div></div></section>
+
+    <section class="owner-section"><div class="container owner-content"><div><span class="section-kicker">هل تملك عقارًا؟</span><h2>اعرض عقارك على مملكتك العقارية</h2><p>أنشئ حسابًا، وأضف تفاصيل عقارك وصوره، وتابع إعلانك من مكان واحد.</p></div><a href="register.html" class="btn-light" id="ownerAddPropertyLink">＋ ابدأ بإضافة عقارك</a></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-content">
+    <a href="index.html" class="footer-brand">مملكة العقار المباشر DZ</a>
+    <p>منصة عقارية جزائرية تهدف إلى تسهيل البحث عن العقارات وربط أصحابها بالمهتمين بها.</p>
+    <div class="footer-links"><a href="#home">الرئيسية</a><a href="#categories">التصنيفات</a><a href="#latest">أحدث الإعلانات</a><a href="#how-it-works">كيف يعمل الموقع؟</a></div>
+    <div class="footer-bottom"><p>© <span id="currentYear">2026</span> مملكة العقار المباشر DZ</p><p>جميع الحقوق محفوظة.</p></div>
+  </div></footer>
+</body>
+</html>
