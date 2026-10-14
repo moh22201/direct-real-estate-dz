@@ -815,9 +815,9 @@ function setupAuthenticationLinks() {
     function (link) {
       const type = link.dataset.authLink;
 
-      if (type === "login" && loggedIn) {
-        link.textContent = "حسابي";
-        link.href = "add-property.html";
+      if (type === "login") {
+        link.textContent = loggedIn ? "حسابي" : "تسجيل الدخول";
+        link.href = loggedIn ? "add-property.html" : "login.html";
       }
 
       if (type === "register" && loggedIn) {
@@ -835,27 +835,24 @@ function setupAuthenticationLinks() {
     }
   );
 
-    const loginLink = document.getElementById("loginLink");
+  const loginLink = document.getElementById("loginLink");
 
   if (loginLink) {
-    if (loggedIn) {
-      loginLink.textContent = "حسابي";
-      loginLink.href = "add-property.html";
-    } else {
-      loginLink.textContent = "تسجيل الدخول";
-      loginLink.href = "login.html";
-    }
+    loginLink.textContent = loggedIn ? "حسابي" : "تسجيل الدخول";
+    loginLink.href = loggedIn ? "add-property.html" : "login.html";
   }
 
   const accountName = document.getElementById("accountName");
 
   if (accountName) {
     if (loggedIn && userName) {
-      accountName.textContent = userName;
+      accountName.textContent = "👤 " + userName;
       accountName.hidden = false;
+      accountName.style.display = "inline-block";
     } else {
       accountName.textContent = "";
       accountName.hidden = true;
+      accountName.style.display = "none";
     }
   }
 
@@ -871,75 +868,8 @@ function setupAuthenticationLinks() {
         event.preventDefault();
 
         localStorage.removeItem("supabaseSession");
-
         window.location.href = "index.html";
       });
     }
   );
 }
-
-/* ==========================================
-   CATEGORY VALUE NORMALIZATION
-   ========================================== */
-
-function normalizeCategory(category) {
-  const aliases = {
-    building_land: "land",
-    agricultural_land: "farm"
-  };
-
-  return aliases[category] || category;
-}
-
-/* ==========================================
-   INITIALIZATION
-   ========================================== */
-
-function initializeRealEstateSite() {
-  populateWilayaSelects();
-
-  setupSearchForm();
-
-  setupCategoryCards();
-
-  setupMobileNavigation();
-
-  setupAuthenticationLinks();
-
-  setupPropertyLinks();
-
-  renderProperties();
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener(
-    "DOMContentLoaded",
-    initializeRealEstateSite,
-    { once: true }
-  );
-} else {
-  initializeRealEstateSite();
-}
-
-/* ==========================================
-   GLOBAL HELPERS
-   ========================================== */
-
-window.DZRealEstate = {
-  fetchPublishedProperties,
-  renderProperties,
-  formatPrice,
-  formatDate,
-  getCategoryLabel,
-  getOperationLabel,
-  escapeHTML,
-  getSession,
-  getCurrentUserId,
-  getCurrentUserName,
-  isLoggedIn,
-  supabaseRequest,
-  showMessage,
-  clearMessage,
-  normalizeCategory,
-  WILAYAS
-};
