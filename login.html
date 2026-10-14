@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تسجيل الدخول | مملكة العقار المباشر DZ</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 
   <style>
     .auth-container {
@@ -118,7 +118,12 @@
       </button>
     </form>
 
-    <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+    <div
+      id="authMessage"
+      class="auth-message"
+      role="status"
+      aria-live="polite"
+    ></div>
 
     <div class="auth-links">
       ليس لديك حساب؟
@@ -129,8 +134,13 @@
   </main>
 
   <script>
-    const SUPABASE_URL = "https://fppzejxdggnlscjcqmgk.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
+    "use strict";
+
+    const SUPABASE_URL =
+      "https://fppzejxdggnlscjcqmgk.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_qhAVIMpyEcE_Y_7L_9irrQ_Naru1RBC";
 
     const form = document.getElementById("loginForm");
     const button = document.getElementById("loginButton");
@@ -146,8 +156,11 @@
     form.addEventListener("submit", async function(event) {
       event.preventDefault();
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
 
       button.disabled = true;
       button.textContent = "جارٍ تسجيل الدخول...";
@@ -172,48 +185,78 @@
         const result = await response.json();
 
         if (!response.ok) {
-          const errorCode = result.error_code || result.code || "";
-          const errorText = result.msg || result.message || "";
+          const errorCode =
+            result.error_code || result.code || "";
+
+          const errorText =
+            result.msg || result.message || "";
 
           if (
             errorCode === "email_not_confirmed" ||
             errorText.toLowerCase().includes("email not confirmed")
           ) {
-            showMessage("يجب تأكيد بريدك الإلكتروني أولاً. تحقق من صندوق الوارد والبريد غير المرغوب فيه.");
+            showMessage(
+              "يجب تأكيد بريدك الإلكتروني أولاً. تحقق من صندوق الوارد والبريد غير المرغوب فيه."
+            );
           } else if (
             response.status === 400 ||
             response.status === 401
           ) {
-            showMessage("تعذر تسجيل الدخول. تحقق من البريد الإلكتروني وكلمة المرور، وتأكد من تفعيل الحساب.");
+            showMessage(
+              "تعذر تسجيل الدخول. تحقق من البريد الإلكتروني وكلمة المرور، وتأكد من تفعيل الحساب."
+            );
           } else {
-            showMessage("حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى لاحقاً.");
+            showMessage(
+              "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى لاحقاً."
+            );
           }
 
           return;
         }
 
         if (!result.access_token || !result.user) {
-          showMessage("لم تكتمل عملية تسجيل الدخول. حاول مرة أخرى.");
+          showMessage(
+            "لم تكتمل عملية تسجيل الدخول. حاول مرة أخرى."
+          );
           return;
         }
 
+        const expiresAt = result.expires_at
+          ? Number(result.expires_at)
+          : Math.floor(Date.now() / 1000) +
+            Number(result.expires_in || 3600);
+
         const session = {
           access_token: result.access_token,
-          refresh_token: result.refresh_token,
-          expires_at: result.expires_at,
+          refresh_token: result.refresh_token || "",
+          expires_at: expiresAt,
+          token_type: result.token_type || "bearer",
           user: result.user
         };
 
-        localStorage.setItem("supabaseSession", JSON.stringify(session));
+        // حفظ الجلسة بالمفتاح الذي يستخدمه script.js
+        localStorage.setItem(
+          "supabaseSession",
+          JSON.stringify(session)
+        );
 
-        showMessage("تم تسجيل الدخول بنجاح! يمكنك الآن العودة إلى الصفحة الرئيسية.", true);
+        showMessage(
+          "تم تسجيل الدخول بنجاح! جارٍ فتح الصفحة الرئيسية...",
+          true
+        );
 
         button.textContent = "تم تسجيل الدخول";
-setTimeout(() => {
-  window.location.href = "index.html";
-}, 1000);
+
+        setTimeout(function() {
+          window.location.replace("index.html");
+        }, 700);
+
       } catch (error) {
-        showMessage("تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت وحاول مجدداً.");
+        console.error("Login error:", error);
+
+        showMessage(
+          "تعذر الاتصال بالخادم. تحقق من اتصال الإنترنت وحاول مجدداً."
+        );
       } finally {
         button.disabled = false;
 
