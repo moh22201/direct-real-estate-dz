@@ -1012,7 +1012,107 @@ if (document.readyState === "loading") {
     { once: true }
   );
 } else {
+  /* ==========================================
+   ADMIN DASHBOARD BUTTON
+   التحقق من جدول admin_users
+   ========================================== */
+
+async function setupAdminDashboardButton() {
+  const session = getSession();
+
+  if (!session || !session.access_token || !session.user?.id) {
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({
+      select: "user_id",
+      user_id: "eq." + session.user.id,
+      limit: "1"
+    });
+
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/admin_users?" + params.toString(),
+      {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + session.access_token
+        }
+      }
+    );
+
+    if (!response.ok) {
+      console.warn(
+        "تعذر التحقق من صلاحيات المسؤول:",
+        response.status
+      );
+      return;
+    }
+
+    const admins = await response.json();
+
+    // لا يظهر الزر إلا إذا كان الحساب مسجلاً ضمن المسؤولين
+    if (
+      !Array.isArray(admins) ||
+      !admins.some(function (admin) {
+        return String(admin.user_id) === String(session.user.id);
+      })
+    ) {
+      return;
+    }
+
+    // منع تكرار الزر
+    if (document.getElementById("adminDashboardLink")) {
+      return;
+    }
+
+    const loginLink = document.getElementById("loginLink");
+
+    if (!loginLink || !loginLink.parentElement) {
+      console.warn("لم يتم العثور على مكان وضع زر لوحة التحكم.");
+      return;
+    }
+
+    const adminLink = document.createElement("a");
+
+    adminLink.id = "adminDashboardLink";
+    adminLink.href = "admin.html";
+    adminLink.textContent = "لوحة التحكم";
+    adminLink.setAttribute("aria-label", "لوحة تحكم المسؤول");
+
+    adminLink.style.cssText = [
+      "display:inline-block",
+      "padding:8px 12px",
+      "margin:4px",
+      "border-radius:8px",
+      "background:#176b45",
+      "color:#ffffff",
+      "font-size:13px",
+      "font-weight:bold",
+      "text-decoration:none",
+      "white-space:nowrap"
+    ].join(";");
+
+    loginLink.parentElement.insertBefore(adminLink, loginLink);
+
+  } catch (error) {
+    console.error(
+      "حدث خطأ أثناء التحقق من المسؤول:",
+      error
+    );
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    setupAdminDashboardButton,
+    { once: true }
+  );
+} else {
   setupAdminDashboardButton();
+}
 }
   initializeRealEstateSite();
 }
