@@ -806,10 +806,18 @@ function setupPropertyLinks() {
    AUTHENTICATION NAVIGATION
    ========================================== */
 
-function setupAuthenticationLinks() {
-  const session = getSession();
-  const loggedIn = Boolean(session);
-  const userName = getCurrentUserName();
+const session = getSession();
+const loggedIn = Boolean(session);
+const user = session && session.user ? session.user : {};
+const metadata = user.user_metadata || {};
+
+const userName =
+  metadata.full_name ||
+  metadata.name ||
+  metadata.fullName ||
+  user.email ||
+  getCurrentUserName() ||
+  "";
 
   document.querySelectorAll("[data-auth-link]").forEach(
     function (link) {
