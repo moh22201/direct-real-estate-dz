@@ -1058,11 +1058,55 @@ async function setupAdminDashboardButton() {
       !admins.some(function (admin) {
         return String(admin.user_id) === String(session.user.id);
       })
+/* ==========================================
+   ADMIN DASHBOARD BUTTON
+   التحقق من جدول admin_users
+   ========================================== */
+
+async function setupAdminDashboardButton() {
+  const session = getSession();
+
+  if (!session || !session.access_token || !session.user?.id) {
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({
+      select: "user_id",
+      user_id: "eq." + session.user.id,
+      limit: "1"
+    });
+
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/admin_users?" + params.toString(),
+      {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + session.access_token
+        }
+      }
+    );
+
+    if (!response.ok) {
+      console.warn(
+        "تعذر التحقق من صلاحيات المسؤول:",
+        response.status
+      );
+      return;
+    }
+
+    const admins = await response.json();
+
+    if (
+      !Array.isArray(admins) ||
+      !admins.some(function (admin) {
+        return String(admin.user_id) === String(session.user.id);
+      })
     ) {
       return;
     }
 
-    // منع تكرار الزر
     if (document.getElementById("adminDashboardLink")) {
       return;
     }
@@ -1070,7 +1114,6 @@ async function setupAdminDashboardButton() {
     const loginLink = document.getElementById("loginLink");
 
     if (!loginLink || !loginLink.parentElement) {
-      console.warn("لم يتم العثور على مكان وضع زر لوحة التحكم.");
       return;
     }
 
@@ -1104,15 +1147,97 @@ async function setupAdminDashboardButton() {
   }
 }
 
+
+/* ==========================================
+   LOGOUT BUTTON
+   زر تسجيل الخروج
+   ========================================== */
+
+function setupLogoutButton() {
+  const session = getSession();
+  const loginLink = document.getElementById("loginLink");
+
+  let logoutButton = document.getElementById("siteLogoutButton");
+
+  if (!session) {
+    if (logoutButton) {
+      logoutButton.remove();
+    }
+
+    return;
+  }
+
+  if (!loginLink || !loginLink.parentElement) {
+    return;
+  }
+
+  if (logoutButton) {
+    return;
+  }
+
+  logoutButton = document.createElement("button");
+
+  logoutButton.id = "siteLogoutButton";
+  logoutButton.type = "button";
+  logoutButton.textContent = "تسجيل الخروج";
+  logoutButton.setAttribute("aria-label", "تسجيل الخروج من الحساب");
+
+  logoutButton.style.cssText = [
+    "display:inline-block",
+    "padding:8px 12px",
+    "margin:4px",
+    "border:1px solid #ddd",
+    "border-radius:8px",
+    "background:#ffffff",
+    "color:#b42318",
+    "font-size:13px",
+    "font-weight:bold",
+    "cursor:pointer",
+    "white-space:nowrap"
+  ].join(";");
+
+  logoutButton.addEventListener("click", function () {
+    localStorage.removeItem("supabaseSession");
+
+    window.location.replace("index.html");
+  });
+
+  loginLink.insertAdjacentElement("afterend", logoutButton);
+}
+
+
+/* ==========================================
+   SITE INITIALIZATION
+   تهيئة الموقع
+   ========================================== */
+
+function initializeRealEstateSite() {
+  setupAuthenticationLinks();
+  setupPropertyLinks();
+  setupSearchForm();
+  setupCategoryCards();
+  setupMobileNavigation();
+  populateWilayaSelects();
+
+  setupLogoutButton();
+  setupAdminDashboardButton();
+
+  if (document.getElementById("propertiesGrid")) {
+    renderProperties();
+  }
+}
+
+
+/* ==========================================
+   START APPLICATION
+   ========================================== */
+
 if (document.readyState === "loading") {
   document.addEventListener(
     "DOMContentLoaded",
-    setupAdminDashboardButton,
+    initializeRealEstateSite,
     { once: true }
   );
 } else {
-  setupAdminDashboardButton();
-}
-}
   initializeRealEstateSite();
 }
