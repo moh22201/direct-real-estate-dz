@@ -835,11 +835,16 @@ function setupAuthenticationLinks() {
     }
   );
 
-  const loginLink = document.getElementById("loginLink");
+    const loginLink = document.getElementById("loginLink");
 
-  if (loginLink && loggedIn) {
-    loginLink.textContent = "حسابي";
-    loginLink.href = "add-property.html";
+  if (loginLink) {
+    if (loggedIn) {
+      loginLink.textContent = "حسابي";
+      loginLink.href = "add-property.html";
+    } else {
+      loginLink.textContent = "تسجيل الدخول";
+      loginLink.href = "login.html";
+    }
   }
 
   const accountName = document.getElementById("accountName");
