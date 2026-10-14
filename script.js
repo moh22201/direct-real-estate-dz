@@ -314,6 +314,12 @@ function setupAuthenticationLinks() {
   const adminLink = document.getElementById("adminDashboardLink");
   const userName = loggedIn ? getHeaderUserName(session) : "";
 
+  // Hide the hero sign-up/sign-in buttons after authentication; restore them for guests.
+  document.querySelectorAll(".hero-register, .hero-login, [data-guest-only='auth']").forEach(link => {
+    link.hidden = loggedIn;
+    link.style.display = loggedIn ? "none" : "";
+  });
+
   // Support either markup style: a dedicated account-name element or the existing login link.
   if (accountName) {
     accountName.textContent = userName;
