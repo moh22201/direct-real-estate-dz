@@ -806,31 +806,39 @@ function setupPropertyLinks() {
    AUTHENTICATION NAVIGATION
    ========================================== */
 
-const session = getSession();
-const loggedIn = Boolean(session);
-const user = session && session.user ? session.user : {};
-const metadata = user.user_metadata || {};
+function setupAuthenticationLinks() {
+  const session = getSession();
+  const loggedIn = Boolean(session);
+  const user = session?.user || {};
+  const metadata = user.user_metadata || {};
 
-const userName =
-  metadata.full_name ||
-  metadata.name ||
-  metadata.fullName ||
-  user.email ||
-  getCurrentUserName() ||
-  "";
+  const userName =
+    metadata.full_name ||
+    metadata.name ||
+    metadata.fullName ||
+    user.email ||
+    getCurrentUserName() ||
+    "";
 
   document.querySelectorAll("[data-auth-link]").forEach(
     function (link) {
       const type = link.dataset.authLink;
 
       if (type === "login") {
-        link.textContent = loggedIn ? "حسابي" : "تسجيل الدخول";
-        link.href = loggedIn ? "add-property.html" : "login.html";
+        link.textContent = loggedIn
+          ? "حسابي"
+          : "تسجيل الدخول";
+
+        link.href = loggedIn
+          ? "add-property.html"
+          : "login.html";
       }
 
-      if (type === "register" && loggedIn) {
-        link.textContent = "إعلاناتي";
-        link.href = "add-property.html";
+      if (type === "register") {
+        if (loggedIn) {
+          link.textContent = "إعلاناتي";
+          link.href = "add-property.html";
+        }
       }
 
       if (type === "my-properties") {
@@ -846,8 +854,13 @@ const userName =
   const loginLink = document.getElementById("loginLink");
 
   if (loginLink) {
-    loginLink.textContent = loggedIn ? "حسابي" : "تسجيل الدخول";
-    loginLink.href = loggedIn ? "add-property.html" : "login.html";
+    loginLink.textContent = loggedIn
+      ? "حسابي"
+      : "تسجيل الدخول";
+
+    loginLink.href = loggedIn
+      ? "add-property.html"
+      : "login.html";
   }
 
   const accountName = document.getElementById("accountName");
@@ -876,8 +889,36 @@ const userName =
         event.preventDefault();
 
         localStorage.removeItem("supabaseSession");
+
         window.location.href = "index.html";
       });
     }
   );
+}
+
+/* ==========================================
+   SITE INITIALIZATION
+   ========================================== */
+
+function initializeRealEstateSite() {
+  setupAuthenticationLinks();
+  setupPropertyLinks();
+  setupSearchForm();
+  setupCategoryCards();
+  setupMobileNavigation();
+  populateWilayaSelects();
+
+  if (document.getElementById("propertiesGrid")) {
+    renderProperties();
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeRealEstateSite,
+    { once: true }
+  );
+} else {
+  initializeRealEstateSite();
 }
