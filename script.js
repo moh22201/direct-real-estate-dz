@@ -305,6 +305,39 @@ function getHeaderUserName(session) {
   return name ? name.trim() : "حسابي";
 }
 
+function setupStarsBalanceButton() {
+  const starsLink = document.getElementById("starsBalanceLink");
+  if (!starsLink) return;
+
+  const loggedIn = Boolean(getSession());
+  starsLink.hidden = !loggedIn;
+  starsLink.style.display = loggedIn ? "inline-flex" : "none";
+
+  const botUrl = String(starsLink.dataset.botUrl || "").trim();
+  if (botUrl) {
+    starsLink.href = botUrl;
+    starsLink.target = "_blank";
+    starsLink.rel = "noopener noreferrer";
+  } else {
+    starsLink.href = "#buy-stars";
+    starsLink.removeAttribute("target");
+    starsLink.removeAttribute("rel");
+  }
+
+  if (starsLink.dataset.clickInitialized === "true") return;
+  starsLink.dataset.clickInitialized = "true";
+  starsLink.addEventListener("click", event => {
+    const currentBotUrl = String(starsLink.dataset.botUrl || "").trim();
+    if (!currentBotUrl) {
+      event.preventDefault();
+      alert("زر رصيد النجوم جاهز، بقي إضافة رابط بوت شراء النجوم.");
+      return;
+    }
+    event.preventDefault();
+    window.open(currentBotUrl, "_blank", "noopener,noreferrer");
+  });
+}
+
 function setupAuthenticationLinks() {
   const session = getSession();
   const loggedIn = Boolean(session);
@@ -414,6 +447,7 @@ async function setupAdminDashboardButton() {
 /* ONE INITIALIZATION PATH */
 function initializeRealEstateSite() {
   setupAuthenticationLinks();
+  setupStarsBalanceButton();
   setupPropertyLinks();
   setupSearchForm();
   setupCategoryCards();
