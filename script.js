@@ -920,5 +920,99 @@ if (document.readyState === "loading") {
     { once: true }
   );
 } else {
+   /* ==========================================
+   ADMIN DASHBOARD BUTTON
+   يظهر للمسؤول المعتمد فقط
+   ========================================== */
+
+async function setupAdminDashboardButton() {
+  const session = getSession();
+
+  // لا تعرض الزر إذا لم توجد جلسة دخول
+  if (!session || !session.access_token) {
+    return;
+  }
+
+  try {
+    // التحقق من صلاحية المسؤول من قاعدة البيانات
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/rpc/is_admin",
+      {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": "Bearer " + session.access_token,
+          "Content-Type": "application/json"
+        },
+        body: "{}"
+      }
+    );
+
+    if (!response.ok) {
+      console.warn("تعذر التحقق من صلاحية المسؤول.");
+      return;
+    }
+
+    const isAdmin = await response.json();
+
+    // لا تنشئ الزر إلا إذا أكد الخادم صلاحية المسؤول
+    if (isAdmin !== true) {
+      return;
+    }
+
+    // منع إنشاء الزر أكثر من مرة
+    if (document.getElementById("adminDashboardLink")) {
+      return;
+    }
+
+    const loginLink = document.getElementById("loginLink");
+
+    if (!loginLink || !loginLink.parentElement) {
+      return;
+    }
+
+    const adminLink = document.createElement("a");
+
+    adminLink.id = "adminDashboardLink";
+    adminLink.href = "admin.html";
+    adminLink.textContent = "لوحة التحكم";
+    adminLink.setAttribute("aria-label", "فتح لوحة تحكم المسؤول");
+
+    adminLink.style.cssText = [
+      "display:inline-block",
+      "padding:8px 12px",
+      "margin:4px",
+      "border-radius:8px",
+      "background:#176b45",
+      "color:#ffffff",
+      "font-size:13px",
+      "font-weight:bold",
+      "text-decoration:none",
+      "white-space:nowrap"
+    ].join(";");
+
+    loginLink.parentElement.insertBefore(
+      adminLink,
+      loginLink
+    );
+
+  } catch (error) {
+    console.error(
+      "تعذر التحقق من صلاحية المسؤول:",
+      error
+    );
+  }
+}
+
+// تشغيل التحقق بعد تجهيز الصفحة
+if (document.readyState === "loading") {
+  document.addEventListener(
+    "DOMContentLoaded",
+    setupAdminDashboardButton,
+    { once: true }
+  );
+} else {
+  setupAdminDashboardButton();
+}
   initializeRealEstateSite();
 }
