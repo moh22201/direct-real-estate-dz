@@ -1155,7 +1155,27 @@ async function setupAdminDashboardButton() {
 
 function setupLogoutButton() {
   const session = getSession();
-  const loginLink = document.getElementById("loginLink");
+  const const loginLink = document.getElementById("loginLink");
+
+if (loginLink) {
+  if (loggedIn) {
+    loginLink.hidden = true;
+    loginLink.style.display = "none";
+  } else {
+    loginLink.hidden = false;
+    loginLink.style.display = "";
+    loginLink.textContent = "تسجيل الدخول";
+    loginLink.href = "login.html";
+  }
+}
+
+const accountName = document.getElementById("accountName");
+
+if (accountName) {
+  accountName.textContent = "";
+  accountName.hidden = true;
+  accountName.style.display = "none";
+};
 
   let logoutButton = document.getElementById("siteLogoutButton");
 
